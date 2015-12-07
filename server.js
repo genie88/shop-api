@@ -22,7 +22,11 @@ var knex = require('knex')({
     express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    cookieSession = require('cookie-session'),
+
+    mysql = require('mysql'),
+    session = require('express-session'),
+    SessionStore = require('express-mysql-session'),
+    
     serveStatic = require('serve-static'),
     expressValidator = require('express-validator'),
     flash = require('connect-flash'),
@@ -37,8 +41,14 @@ var app = express();
 Bookshelf.mysqlAuth = Bookshelf(knex);
 
 app.use(cookieParser('halsisiHHh445JjO0'));
-app.use(cookieSession({
-    keys: ['key1', 'key2']
+
+var sessionStore = new SessionStore(dbConfig);
+app.use(session({
+    key: 'session_cookie_name',
+    secret: 'session_cookie_secret',
+    store: sessionStore,
+    resave: true,
+    saveUninitialized: true
 }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
