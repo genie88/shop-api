@@ -1,6 +1,6 @@
 var crypto = require('crypto'),
     LocalStrategy = require('passport-local').Strategy,
-    data = require('../models/auth')();
+    User = require('../models/auth')();
 
 module.exports = function(passport) {
 
@@ -10,7 +10,7 @@ module.exports = function(passport) {
 
 
     passport.deserializeUser(function(user_id, done) {
-        new data.ApiUser({id: user_id}).fetch().then(function(user) {
+        new User({id: user_id}).fetch().then(function(user) {
             return done(null, user);
         }, function(error) {
             return done(error);
@@ -22,7 +22,7 @@ module.exports = function(passport) {
         usernameField: 'un',
         passwordField: 'pw'
     },function(email, password, done) {
-        new data.ApiUser({email: email}).fetch({require: true}).then(function(user) {
+        new User({email: email}).fetch({require: true}).then(function(user) {
             var sa = user.get('salt');
             var pw = user.get('password');
             var upw = crypto.createHmac('sha1', sa).update(password).digest('hex');

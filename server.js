@@ -44,7 +44,7 @@ app.use(cookieParser('halsisiHHh445JjO0'));
 
 var sessionStore = new SessionStore(dbConfig);
 app.use(session({
-    key: 'session_cookie_name',
+    key: 'session_sid',
     secret: 'session_cookie_secret',
     store: sessionStore,
     resave: true,

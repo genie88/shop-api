@@ -1,6 +1,6 @@
 var crypto = require('crypto'),
     passport = require('passport'),
-    data = require('../models/auth')();
+    User = require('../models/auth')();
 
 
 exports.registerPage = function(req, res) {
@@ -34,7 +34,7 @@ exports.registerPost = function(req, res) {
     var pw = crypto.createHmac('sha1', new_salt).update(pwu).digest('hex');
     var created = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    new data.ApiUser({email: un, password: pw, salt: new_salt, created: created}).save().then(function(model) {
+    new User({email: un, password: pw, salt: new_salt, created: created}).save().then(function(model) {
         passport.authenticate('local')(req, res, function () {
             res.redirect('/home');
         })

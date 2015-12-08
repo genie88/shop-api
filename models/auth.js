@@ -1,11 +1,9 @@
 var Bookshelf = require('bookshelf').mysqlAuth;
 
 module.exports = function() {
-    var bookshelf = {};
-
-    bookshelf.ApiUser = Bookshelf.Model.extend({
+    var User = Bookshelf.Model.extend({
         tableName: 'users'
     });
 
-    return bookshelf;
+    return User;
 }
