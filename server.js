@@ -70,16 +70,15 @@ app.set('views', __dirname + '/views');
 require('./util/auth')(passport);
 require('./routes')(app, passport);
 
+//API入口需要进行oauth2认证
 app.oauth = oauthserver({
   model: {}, // See below for specification 
   grants: ['password'],
   debug: true
 });
-//API入口需要进行oauth2认证
 app.all('/oauth/token', app.oauth.grant());
-app.all('/api', app.oauth.authorise(), function (req, res) {
-  res.send('Secret area');
-});
+var apiRouter = require('./controllers/api');
+app.use('/api', app.oauth.authorise(), apiRouter);
 app.use(app.oauth.errorHandler());
 
 app.listen(process.env.PORT || 3000);

@@ -1,10 +1,25 @@
 var Bookshelf = require('bookshelf').mysqlAuth;
 
-module.exports = function() {
-    var User = Bookshelf.Model.extend({
-        tableName: 'users',
-        
-    });
+var User = Bookshelf.Model.extend({
+    tableName: 'users',
+    cart: function() {
+        return this.hasOne('Cart');
+    },
+    coupons: function(){
+        return this.hasMany('Coupon');
+    },
+    orders: function(){
+        return this.hasMany('Order');
+    },
+    goods: function(){
+        return this.hasMany('Good');
+    },
+    stores: function(){
+        return this.hasMany('Store');
+    }, 
+    addresses: function() {
+        return this.hasMany('Address');
+    }
+});
 
-    return User;
-}
+module.exports = Bookshelf.model('User', User);
