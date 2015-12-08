@@ -21,7 +21,7 @@ exports.registerPost = function(req, res) {
         return;
     }
 
-    req.checkBody('un', 'Please enter a valid email.').notEmpty().isEmail();
+    req.checkBody('un', 'Please enter a valid phone number.').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
         var msg = errors[0].msg;
@@ -34,7 +34,7 @@ exports.registerPost = function(req, res) {
     var pw = crypto.createHmac('sha1', new_salt).update(pwu).digest('hex');
     var created = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    new User({email: un, password: pw, salt: new_salt, created: created}).save().then(function(model) {
+    new User({username: un, phone: un, password: pw, salt: new_salt, created: created}).save().then(function(model) {
         passport.authenticate('local')(req, res, function () {
             res.redirect('/home');
         })

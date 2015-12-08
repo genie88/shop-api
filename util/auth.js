@@ -21,8 +21,8 @@ module.exports = function(passport) {
     passport.use(new LocalStrategy({
         usernameField: 'un',
         passwordField: 'pw'
-    },function(email, password, done) {
-        new User({email: email}).fetch({require: true}).then(function(user) {
+    },function(username, password, done) {
+        new User({username: username}).fetch({require: true}).then(function(user) {
             var sa = user.get('salt');
             var pw = user.get('password');
             var upw = crypto.createHmac('sha1', sa).update(password).digest('hex');
