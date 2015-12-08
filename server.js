@@ -22,6 +22,7 @@ var knex = require('knex')({
     express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
+    oauthserver = require('oauth2-server'),
 
     mysql = require('mysql'),
     session = require('express-session'),
@@ -68,6 +69,18 @@ app.set('views', __dirname + '/views');
 
 require('./util/auth')(passport);
 require('./routes')(app, passport);
+
+app.oauth = oauthserver({
+  model: {}, // See below for specification 
+  grants: ['password'],
+  debug: true
+});
+//API入口需要进行oauth2认证
+app.all('/oauth/token', app.oauth.grant());
+app.all('/api', app.oauth.authorise(), function (req, res) {
+  res.send('Secret area');
+});
+app.use(app.oauth.errorHandler());
 
 app.listen(process.env.PORT || 3000);
 
