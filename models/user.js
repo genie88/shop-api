@@ -2,7 +2,8 @@ var Bookshelf = require('bookshelf').mysqlAuth;
 
 module.exports = function() {
     var User = Bookshelf.Model.extend({
-        tableName: 'users'
+        tableName: 'users',
+        
     });
 
     return User;
