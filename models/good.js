@@ -10,7 +10,7 @@ var Good = Bookshelf.Model.extend({
     },
     supplier: function(){
         return this.belongsTo('User');
-    }
+    },
     tags: function(){
         return this.hasMany('Tag');
     }

@@ -40,6 +40,8 @@ var knex = require('knex')({
 var app = express();
 
 Bookshelf.mysqlAuth = Bookshelf(knex);
+Bookshelf.mysqlAuth.plugin('registry');
+
 
 app.use(cookieParser('halsisiHHh445JjO0'));
 
@@ -77,8 +79,9 @@ app.oauth = oauthserver({
   debug: true
 });
 app.all('/oauth/token', app.oauth.grant());
-var apiRouter = require('./controllers/api');
-app.use('/api', app.oauth.authorise(), apiRouter);
+var apiRouter = require('./routers/api');
+app.use('/api', apiRouter);
+//app.use('/api', app.oauth.authorise(), apiRouter);
 app.use(app.oauth.errorHandler());
 
 app.listen(process.env.PORT || 3000);

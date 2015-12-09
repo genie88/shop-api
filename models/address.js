@@ -1,5 +1,6 @@
 var Bookshelf = require('bookshelf').mysqlAuth;
 
+
 var Address = Bookshelf.Model.extend({
     tableName: 'address',
     owner: function(){
