@@ -62,6 +62,8 @@ exports.checkLogin = function(req, res, next) {
                 req.flash('error', info.message);
                 return res.redirect('/login');
             }
+            //console.log(req.session.user);
+            req.session.user = user.attributes;
             req.flash('success', 'Welcome!');
             return res.redirect('/home');
         });

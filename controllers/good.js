@@ -1,5 +1,6 @@
 
 var Good = require('../models/good.js');
+var util = require('../util/util.js');
 
 module.exports = {
     /**
@@ -11,19 +12,38 @@ module.exports = {
      * page=1
      * limit=30,
      * sort=sales,recomended
-     * inlne-relation-depeth=1 
+     * inlne-relation-depth=1 
      * q=supplier_id:8805,cat_id:758
      *
      */
-    queryAll: function(){
+    queryAll: function(req, res, next){
+        var filter = util.param(req);
 
+        if (filter.good_id) {
+            filter.id  = filter.good_id;
+            delete filter.good_id;
+        }
+        Good.forge(filter)
+            .fetch()
+            .then(function (goods) {
+                if (!goods) {
+                    util.res(null, res, [])
+                }
+                else {
+                    util.res(null, res, goods)
+                }
+            })
+            .catch(function (err) {
+                var error = { code: 500, msg: err.message};
+                util.res(error, res);
+            });
     },
 
     /**
      * 查询参数
-     * GET /goods/:id
-     * GET /suppliers/:supplier_id/goods/:id
-     * inlne-relation-depeth:1 
+     * GET /goods/:good_id
+     * GET /suppliers/:supplier_id/goods/:good_id
+     * inlne-relation-depth:1 
      * 
      */
     findOne: function(){

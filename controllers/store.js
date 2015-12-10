@@ -31,7 +31,7 @@ module.exports = {
     /**
      * 更新商店数据
      * PUT /stores/:id
-     * PUT /users/:user_id/stores/:id
+     * PUT /users/:user_id/stores/:store_id
      * 
      */
     update: function(){
@@ -50,7 +50,7 @@ module.exports = {
     /**
      * 删除商店数据
      * DELETE /stores/:id
-     * DELETE /users/:user_id/stores/:id
+     * DELETE /users/:user_id/stores/:store_id
      */
     del: function(){
 

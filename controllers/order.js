@@ -31,7 +31,7 @@ module.exports = {
 
     /**
      * 更新订单数据
-     * PUT /users/:user_id/orders/:id  {order_detail: [{good_id:10085, amount:2}], status: 0}
+     * PUT /users/:user_id/orders/:order_id  {order_detail: [{good_id:10085, amount:2}], status: 0}
      * 
      */
     update: function(){
@@ -50,7 +50,7 @@ module.exports = {
     /**
      * 删除订单数据
      * DELETE /orders/:id
-     * DELETE /users/:user_id/orders/:id
+     * DELETE /users/:user_id/orders/:order_id
      */
     del: function(){
 
