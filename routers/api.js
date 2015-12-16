@@ -4,8 +4,12 @@ var apiRouter = express.Router();
 var goodController = require('../controllers/good.js');
 var orderController = require('../controllers/order.js');
 
-
+//goods
+apiRouter.get('cats/cat_id/goods', goodController.queryAll);
+apiRouter.get('specs/spec_id/goods', goodController.queryAll);
+apiRouter.get('suppliers/supplier_id/goods', goodController.queryAll);
 apiRouter.get('/goods', goodController.queryAll)
+
 apiRouter.get('/goods/:goodId', goodController.findOne)
 apiRouter.put('/goods/:goodId', goodController.update)
 apiRouter.post('/goods', goodController.add)

@@ -31,6 +31,12 @@ module.exports = {
                 data: data
             })
         }
+    },
+    camelize: function(attrs) {
+      return _.reduce(attrs, function(memo, val, key) {
+        memo[_.str.camelize(key)] = val;
+        return memo;
+      }, {});
     }
 
 }

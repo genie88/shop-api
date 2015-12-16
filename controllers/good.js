@@ -1,5 +1,7 @@
+var models = require('../models');
+var Good = models.Good;
 
-var Good = require('../models/good.js');
+
 var util = require('../util/util.js');
 
 module.exports = {
@@ -18,13 +20,19 @@ module.exports = {
      */
     queryAll: function(req, res, next){
         var filter = util.param(req);
+        var relations = [];
+        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        if(!isNaN(inline_relation) && inline_relation >= 1){
+            relations = ['cat', 'spec', 'supplier', 'tags']
+        }
 
         if (filter.good_id) {
             filter.id  = filter.good_id;
             delete filter.good_id;
         }
         Good.forge(filter)
-            .fetch()
+            .fetchAll({withRelated: relations})
+            //.fetchAll()
             .then(function (goods) {
                 if (!goods) {
                     util.res(null, res, [])
@@ -42,12 +50,38 @@ module.exports = {
     /**
      * 查询参数
      * GET /goods/:good_id
-     * GET /suppliers/:supplier_id/goods/:good_id
      * inlne-relation-depth:1 
      * 
      */
-    findOne: function(){
+    findOne: function(req, res, next){
+        var filter = util.param(req);
 
+        var relations = [];
+        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        if(!isNaN(inline_relation) && inline_relation >= 1){
+            relations = ['cat', 'spec', 'supplier', 'tags']
+        }
+
+        if (filter.good_id) {
+            filter.id  = filter.good_id;
+            delete filter.good_id;
+        }
+
+        Good.forge(filter)
+            .fetch({withRelated: inline_relation})
+            .then(function (good) {
+                if (!good) {
+                    var error = { code: 404, msg: 'not found'};
+                    util.res(error, res)
+                }
+                else {
+                    util.res(null, res, good)
+                }
+            })
+            .catch(function (err) {
+                var error = { code: 500, msg: err.message};
+                util.res(error, res);
+            });
     },
 
     /**
@@ -65,16 +99,52 @@ module.exports = {
      * POST /goods/
      * POST /suppliers/:supplier_id/goods/:id
      */
-    add: function(){
+    add: function(req, res, next){
+        //鉴权(供应商或者管理员)
+        if(req.session && req.session.user && req.session.user.role==1){
+
+        }
+
+        //参数过滤
+        var good = req.body.good
+
+        Good.forge(good)
+            .save()
+            .then(function (good) {
+                util.res(null, res, {id: good.get('id')});
+            })
+            .catch(function (err) {
+                var error = { code: 500, msg: err.message};
+                util.res(error, res);
+            }); 
 
     },
 
     /**
      * 删除商品数据
-     * DELETE /goods/:id
-     * DELETE /suppliers/:supplier_id/goods/:id
+     * DELETE /goods/:good_id
+     * DELETE /suppliers/:supplier_id/goods/:good_id
      */
-    del: function(){
+    del: function(req, res, next){
+        Good.forge({id: req.params.good_id})
+            .fetch({require: true})
+            .then(function (good) {
+                //鉴权
 
+
+                
+                good.destroy()
+                    .then(function () {
+                        util.res(null, res, {});
+                    })
+                    .catch(function (err) {
+                        var error = { code: 500, msg: err.message};
+                        util.res(error, res);
+                    });
+            })
+            .catch(function (err) {
+                var error = { code: 500, msg: err.message};
+                util.res(error, res);
+            });
     }
 }
