@@ -14,7 +14,7 @@ module.exports = {
      * q=owner:8805,cat_id:758
      *
      */
-    queryAll: function(){
+    queryAll: function(req, res, next){
 
     },
 
@@ -25,7 +25,7 @@ module.exports = {
      * inlne-relation-depeth:1 
      * 
      */
-    findOne: function(){
+    findOne: function(req, res, next){
 
     },
 
@@ -34,7 +34,7 @@ module.exports = {
      * PUT /users/:user_id/orders/:order_id  {order_detail: [{good_id:10085, amount:2}], status: 0}
      * 
      */
-    update: function(){
+    update: function(req, res, next){
 
     },
 
@@ -43,7 +43,7 @@ module.exports = {
      * POST /orders/
      * POST /users/:user_id/orders/
      */
-    add: function(){
+    add: function(req, res, next){
 
     },
 
@@ -52,7 +52,7 @@ module.exports = {
      * DELETE /orders/:id
      * DELETE /users/:user_id/orders/:order_id
      */
-    del: function(){
+    del: function(req, res, next){
 
     }
 }

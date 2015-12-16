@@ -1,9 +1,10 @@
 module.exports = {
     param: function(req){
-        var params={}, queries=[], query;
+        var params={}, queries=[], query, key;
         var possibles = ["user_id", "supplier_id", "owner_id", "good_id", "cat_id", 
                 "spec_id", "tag_id", "order_id", "store_id", "address_id", "coupon_id"];
-        for (var key in possibles) {
+        for (var i in possibles) {
+            key = possibles[i];
             req.params[key] && (params[key] = req.params[key]);
         }
         if (req.query && req.query.q) {

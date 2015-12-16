@@ -58,6 +58,10 @@ CREATE TABLE `carts` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+INSERT INTO carts(id, user_id, good_id, amount) VALUES(1, 1, 1, 2);
+INSERT INTO carts(id, user_id, good_id, amount) VALUES(2, 1, 2, 1);
+INSERT INTO carts(id, user_id, good_id, amount) VALUES(3, 1, 3, 1);
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
