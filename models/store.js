@@ -4,6 +4,9 @@ var Store = Bookshelf.Model.extend({
     tableName: 'stores',
     owner: function(){
         return this.belongsTo('User');
+    },
+    goods: function(){
+        return this.hasMany('Good');
     }
 });
 

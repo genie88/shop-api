@@ -9,7 +9,7 @@ var Good = Bookshelf.Model.extend({
         return this.belongsTo('Spec');
     },
     supplier: function(){
-        return this.belongsTo('User');
+        return this.belongsTo('Store');
     },
     tags: function(){
         //return this.belongsToMany('Tag', 'goods_tags', 'good_id', 'tag_id');

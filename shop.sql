@@ -139,7 +139,7 @@ CREATE TABLE `goods` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `cat_id` int(11) unsigned NOT NULL DEFAULT '0',
   `spec_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `supplier_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `store_id` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(30) NOT NULL DEFAULT '',
   `brand_name` varchar(30) NOT NULL DEFAULT '',
   `tags` varchar(60) NOT NULL DEFAULT '',
@@ -167,7 +167,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (1,1,0,5,'南京高级佳品香烟','南京','南京 香烟','http://img.bqmart.cn/data/files/store/355bfd662c3d156e4f7c490ef80a1415.jpg','南京高级佳品香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(2,1,0,5,'七匹狼（蓝）','七匹狼','七匹狼 香烟','http://img.bqmart.cn/data/files/store/0d2537f5f86ff49cf90f2ed6344e1b0a.jpg','七匹狼高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(3,1,0,5,'泰山（心悦）','泰山','泰山 香烟','http://img.bqmart.cn/data/files/store/09d81349144a84f6269024e34e9ff0b1.jpg','泰山（心悦）高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(5,13,0,6,'立白新金桔洗洁精500g','立白','立白 新金桔 洗洁精','http://img.bqmart.cn/data/files/store/5281f9c2b9994927b9178425cb34585c.jpg','立白新金桔洗洁精500g',10,17,0,99999,'瓶','',0,0,0,1,'2015-12-08 07:44:44','2015-12-08 07:44:44');
+INSERT INTO `goods` VALUES (1,1,0,1,'南京高级佳品香烟','南京','南京 香烟','http://img.bqmart.cn/data/files/store/355bfd662c3d156e4f7c490ef80a1415.jpg','南京高级佳品香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(2,1,0,1,'七匹狼（蓝）','七匹狼','七匹狼 香烟','http://img.bqmart.cn/data/files/store/0d2537f5f86ff49cf90f2ed6344e1b0a.jpg','七匹狼高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(3,1,0,1,'泰山（心悦）','泰山','泰山 香烟','http://img.bqmart.cn/data/files/store/09d81349144a84f6269024e34e9ff0b1.jpg','泰山（心悦）高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(5,13,0,2,'立白新金桔洗洁精500g','立白','立白 新金桔 洗洁精','http://img.bqmart.cn/data/files/store/5281f9c2b9994927b9178425cb34585c.jpg','立白新金桔洗洁精500g',10,17,0,99999,'瓶','',0,0,0,1,'2015-12-08 07:44:44','2015-12-08 07:44:44');
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -295,7 +295,7 @@ CREATE TABLE `stores` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `name` varchar(60) NOT NULL DEFAULT '',
-  `phone` int(11) unsigned NOT NULL DEFAULT '0',
+  `phone` varchar(11) NOT NULL DEFAULT '0',
   `scale` varchar(255) NOT NULL DEFAULT '',
   `business_scope` varchar(255) NOT NULL DEFAULT '',
   `location` varchar(255) NOT NULL DEFAULT '',
@@ -304,7 +304,9 @@ CREATE TABLE `stores` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
+INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(1, 2, 2, "长沙市湘华香烟批发商行", 15824121675, '长沙市开福区高桥大市场');
+INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(2, 3, 2, "长沙景和食品贸易有限公司", 18974861169, '湖南省长沙市雨花区韶山南路红星糖酒城10栋173号');
+INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(3, 3, 2, "长沙翔盛商贸有限公司", 13667329234, '湖南省长沙市芙蓉区农科服装市场');
 --
 -- Dumping data for table `stores`
 --
