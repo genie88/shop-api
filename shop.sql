@@ -54,6 +54,7 @@ CREATE TABLE `carts` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `good_id` int(11) unsigned NOT NULL DEFAULT '0',
   `amount` int(11) unsigned NOT NULL DEFAULT '0',
+  `invalid` tinyint(3) unsigned NOT NULL DEFAULT '0', /**是否已经失效( 例如商品下架1， 价格变动2， 优惠活动结束3)*/
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
