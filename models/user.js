@@ -11,9 +11,6 @@ var User = Bookshelf.Model.extend({
     orders: function(){
         return this.hasMany('Order');
     },
-    goods: function(){
-        return this.hasMany('Good');
-    },
     stores: function(){
         return this.hasMany('Store');
     }, 

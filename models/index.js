@@ -6,6 +6,7 @@ var Cart = require('../models/cart.js');
 var Coupon = require('../models/coupon.js');
 var Good = require('../models/good.js');
 var Order = require('../models/order.js');
+var User = require('../models/user.js');
 var OrderDetail = require('../models/order_detail.js');
 var Store = require('../models/store.js');
 var Tag = require('../models/tag.js');
@@ -18,6 +19,7 @@ module.exports = {
 	Coupon: Coupon,
 	Good: Good,
 	Order: Order,
+	User: User,
 	OrderDetail: OrderDetail,
 	Spec: Spec,
 	Store: Store,
