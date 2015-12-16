@@ -12,7 +12,8 @@ var Good = Bookshelf.Model.extend({
         return this.belongsTo('User');
     },
     tags: function(){
-        return this.hasMany('Tag');
+        //return this.belongsToMany('Tag', 'goods_tags', 'good_id', 'tag_id');
+        return this.belongsToMany('Tag').through('GoodTag');
     }
 });
 

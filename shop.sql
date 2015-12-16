@@ -354,13 +354,24 @@ UNLOCK TABLES;
 
 CREATE TABLE `tags` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `good_id` int(11) unsigned NOT NULL DEFAULT '0',
   `name` varchar(60) NOT NULL DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+INSERT INTO tags(id, name) VALUES(1, "香烟");
+INSERT INTO tags(id, name) VALUES(2, "烟标");
 
+CREATE TABLE `goods_tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `good_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `tag_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+INSERT INTO goods_tags(id, good_id, tag_id) VALUES(1, 1, 1);
+INSERT INTO goods_tags(id, good_id, tag_id) VALUES(2, 1, 2);
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

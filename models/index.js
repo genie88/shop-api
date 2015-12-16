@@ -9,6 +9,7 @@ var Order = require('../models/order.js');
 var OrderDetail = require('../models/order_detail.js');
 var Store = require('../models/store.js');
 var Tag = require('../models/tag.js');
+var GoodTag = require('../models/good_tag.js');
 
 module.exports = {
 	Address: Address,
@@ -20,5 +21,6 @@ module.exports = {
 	OrderDetail: OrderDetail,
 	Spec: Spec,
 	Store: Store,
-	Tag: Tag
+	Tag: Tag,
+	GoodTag: GoodTag
 }
