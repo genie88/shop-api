@@ -22,7 +22,7 @@ module.exports = {
     queryAll: function(req, res, next){
         var filter = util.param(req);
         var relations = [];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation == 1){
             relations = ['details.good']
         }
@@ -63,7 +63,7 @@ module.exports = {
             delete filter.order_id;
         }
 
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation == 1){
             relations = ['details.good']
         }
@@ -90,24 +90,89 @@ module.exports = {
 
     /**
      * 更新订单数据
-     * PUT /users/:user_id/orders/:order_id  {order_detail: [{good_id:10085, amount:2}], status: 0}
+     * PUT /users/:user_id/orders/:order_id  {order_detail: [{good_id:10085, amount:2}]}
      * 
      */
     update: function(req, res, next){
+        var filter = util.param(req);
+        var orderDetails = req.body.order_details;
 
+        if( !orderDetails || !orderDetails.length){
+            var error = { code: 400, msg: 'bad request'};
+            util.res(error, res);
+            return;
+        }
+
+        Bookshelf.transaction(function(t) {
+            Order.forge({id: filter.order_id}).fetch({
+                withRelated:['details']
+            }).then(function (order) {
+                if(order){
+                    //鉴权
+                    //console.log(order.get('user_id'))
+                    //if(order.get('user_id') == req.session.user.id){}
+
+                    return Promise.map(orderDetails, function(orderDetail) {
+                        var exist = false;
+                        var details = order.related('details');
+                        //console.dir(orderDetail);
+                        //console.log(details);
+                        for(var i=0 ; i< details.length; i++){
+                            if(orderDetail.good_id == details[i].good_id){
+                                exist = true;
+                                break;
+                            }
+                        }
+                        //console.dir(exist);
+                        if(!exist){
+                            return new OrderDetail(orderDetail).save({'amount': orderDetail.amount}, {transacting: t});
+                        } else {
+                            OrderDetail.where({id: orderDetail.id}).fetch().then(function(detail){
+                                return  detail.save({amount: orderDetail.amount}, {patch: true, transacting: t})
+                            })
+                        }
+                        
+                    });
+                } else {
+                    var error = { code: 500, msg: 'not found'};
+                    util.res(error, res);
+                }
+            });
+
+        }).then(function(order) {
+            util.res(null, res, {id: order.get('id')});    
+        }).catch(function(err) {
+            var error = { code: 500, msg: err.message};
+            util.res(error, res);
+        });
     },
 
     /**
      * 新增订单数据
-     * POST /orders/
+     * POST /orders?q=from:ios
      * POST /users/:user_id/orders/ {order_details: [{good_id:10085, amount:2}], status: 0}
      */
     add: function(req, res, next){
         var filter = util.param(req);
         var orderDetails = req.body.order_details;
+        var sn = '';
+
+        if( !orderDetails || !orderDetails.length){
+            var error = { code: 400, msg: 'bad request'};
+            util.res(error, res);
+            return;
+        }
+
+        //订单号 = 日期前缀 + 随机流水号
+        sn = util.formatTime(new Date(), 'yyyyMMddhhmmssS') + Math.floor( Math.random() * 100000 )
 
         Bookshelf.transaction(function(t) {
-          return new Order({user_id: filter.user_id})
+          return new Order({
+                user_id: filter.user_id,
+                sn: sn,
+                status: 0,
+                from: filter.from || 'unknown'
+            })
             .save(null, {transacting: t})
             .tap(function(order) {
                 return Promise.map(orderDetails, function(orderDetail) {

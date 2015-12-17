@@ -13,7 +13,7 @@ module.exports = {
      * q=owner:8805,cat_id:758
      *
      */
-    queryAll: function(){
+    queryAll: function(req, res, next){
 
     },
 
@@ -23,7 +23,7 @@ module.exports = {
      * inlne-relation-depeth:1 
      * 
      */
-    findOne: function(){
+    findOne: function(req, res, next){
 
     },
 
@@ -32,7 +32,7 @@ module.exports = {
      * PUT /tag/:tag_id
      * 
      */
-    update: function(){
+    update: function(req, res, next){
 
     },
 
@@ -40,7 +40,7 @@ module.exports = {
      * 新增标签信息
      * POST /tags/
      */
-    add: function(){
+    add: function(req, res, next){
 
     },
 
@@ -48,7 +48,7 @@ module.exports = {
      * 删除标签信息
      * DELETE /tags/:id
      */
-    del: function(){
+    del: function(req, res, next){
 
     }
 }
