@@ -6,7 +6,7 @@ var OrderDetail = Bookshelf.Model.extend({
         return this.belongsTo('Order');
     },
     good: function(){
-        return this.hasOne('Good');
+        return this.belongsTo('Good');
     }
 });
 

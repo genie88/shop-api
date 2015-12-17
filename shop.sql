@@ -193,7 +193,9 @@ CREATE TABLE `order_details` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
+INSERT INTO order_details(id, order_id, good_id, amount) VALUES(1, 1, 1, 2);
+INSERT INTO order_details(id, order_id, good_id, amount) VALUES(2, 1, 2, 1);
+INSERT INTO order_details(id, order_id, good_id, amount) VALUES(3, 1, 3, 5);
 --
 -- Dumping data for table `order_details`
 --
@@ -222,6 +224,8 @@ CREATE TABLE `orders` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+INSERT INTO orders(id, user_id, sn, amount, status, payment) VALUES(1, 1, '2015121708581115000', 20000, 1, 1);
+INSERT INTO orders(id, user_id, sn, amount, status, payment) VALUES(2, 1, '2015121615301115000', 15000, 5, 1);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

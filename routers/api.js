@@ -25,6 +25,7 @@ apiRouter.put('/users/:user_id/cart', cartController.update) //将商品添加�
 apiRouter.delete('/users/:user_id/cart', cartController.del) //清空购物车
 
 //order
+apiRouter.get('/users/:user_id/orders', orderController.queryAll)
 apiRouter.get('/orders', orderController.queryAll)
 apiRouter.get('/orders/:order_id', orderController.findOne)
 apiRouter.put('/orders/:order_id', orderController.update)
