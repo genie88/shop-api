@@ -30,7 +30,7 @@ CREATE TABLE `address` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,15 +54,11 @@ CREATE TABLE `carts` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `good_id` int(11) unsigned NOT NULL DEFAULT '0',
   `amount` int(11) unsigned NOT NULL DEFAULT '0',
-  `invalid` tinyint(3) unsigned NOT NULL DEFAULT '0', /**是否已经失效( 例如商品下架1， 价格变动2， 优惠活动结束3)*/
+  `invalid` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-INSERT INTO carts(id, user_id, good_id, amount) VALUES(1, 1, 1, 2);
-INSERT INTO carts(id, user_id, good_id, amount) VALUES(2, 1, 2, 1);
-INSERT INTO carts(id, user_id, good_id, amount) VALUES(3, 1, 3, 1);
-
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +117,7 @@ CREATE TABLE `coupons` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,8 +168,35 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (1,1,0,1,'南京高级佳品香烟','南京','南京 香烟','http://img.bqmart.cn/data/files/store/355bfd662c3d156e4f7c490ef80a1415.jpg','南京高级佳品香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(2,1,0,1,'七匹狼（蓝）','七匹狼','七匹狼 香烟','http://img.bqmart.cn/data/files/store/0d2537f5f86ff49cf90f2ed6344e1b0a.jpg','七匹狼高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(3,1,0,1,'泰山（心悦）','泰山','泰山 香烟','http://img.bqmart.cn/data/files/store/09d81349144a84f6269024e34e9ff0b1.jpg','泰山（心悦）高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-08 07:44:17','2015-12-08 07:44:17'),(5,13,0,2,'立白新金桔洗洁精500g','立白','立白 新金桔 洗洁精','http://img.bqmart.cn/data/files/store/5281f9c2b9994927b9178425cb34585c.jpg','立白新金桔洗洁精500g',10,17,0,99999,'瓶','',0,0,0,1,'2015-12-08 07:44:44','2015-12-08 07:44:44');
+INSERT INTO `goods` VALUES (1,1,0,1,'南京高级佳品香烟','南京','南京 香烟','http://img.bqmart.cn/data/files/store/355bfd662c3d156e4f7c490ef80a1415.jpg','南京高级佳品香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-07 23:44:17','2015-12-07 23:44:17'),(2,1,0,1,'七匹狼（蓝）','七匹狼','七匹狼 香烟','http://img.bqmart.cn/data/files/store/0d2537f5f86ff49cf90f2ed6344e1b0a.jpg','七匹狼高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-07 23:44:17','2015-12-07 23:44:17'),(3,1,0,1,'泰山（心悦）','泰山','泰山 香烟','http://img.bqmart.cn/data/files/store/09d81349144a84f6269024e34e9ff0b1.jpg','泰山（心悦）高级佳香烟',10,17,0,99999,'条','',0,0,0,1,'2015-12-07 23:44:17','2015-12-07 23:44:17'),(5,13,0,2,'立白新金桔洗洁精500g','立白','立白 新金桔 洗洁精','http://img.bqmart.cn/data/files/store/5281f9c2b9994927b9178425cb34585c.jpg','立白新金桔洗洁精500g',10,17,0,99999,'瓶','',0,0,0,1,'2015-12-07 23:44:44','2015-12-07 23:44:44');
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `goods_tags`
+--
+
+DROP TABLE IF EXISTS `goods_tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `goods_tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `good_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `tag_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `goods_tags`
+--
+
+LOCK TABLES `goods_tags` WRITE;
+/*!40000 ALTER TABLE `goods_tags` DISABLE KEYS */;
+INSERT INTO `goods_tags` VALUES (1,1,1,'2015-12-16 01:13:11','2015-12-16 01:13:11'),(2,1,2,'2015-12-16 01:13:13','2015-12-16 01:13:13');
+/*!40000 ALTER TABLE `goods_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -191,19 +214,16 @@ CREATE TABLE `order_details` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO order_details(id, order_id, good_id, amount) VALUES(1, 1, 1, 2);
-INSERT INTO order_details(id, order_id, good_id, amount) VALUES(2, 1, 2, 1);
-INSERT INTO order_details(id, order_id, good_id, amount) VALUES(3, 1, 3, 5);
-INSERT INTO order_details(id, order_id, good_id, amount) VALUES(4, 2, 1, 2);
-INSERT INTO order_details(id, order_id, good_id, amount) VALUES(5, 2, 2, 1);
+
 --
 -- Dumping data for table `order_details`
 --
 
 LOCK TABLES `order_details` WRITE;
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+INSERT INTO `order_details` VALUES (1,1,1,2,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(2,1,2,1,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(3,1,3,5,'2015-12-17 01:00:31','2015-12-17 01:00:31'),(4,2,1,2,'2015-12-17 02:56:33','2015-12-17 02:56:33'),(5,2,2,1,'2015-12-17 02:56:40','2015-12-17 02:56:40');
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,9 +245,7 @@ CREATE TABLE `orders` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-INSERT INTO orders(id, user_id, sn, amount, status, payment) VALUES(1, 1, '2015121708581115000', 20000, 1, 1);
-INSERT INTO orders(id, user_id, sn, amount, status, payment) VALUES(2, 1, '2015121615301115000', 15000, 5, 1);
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,6 +254,7 @@ INSERT INTO orders(id, user_id, sn, amount, status, payment) VALUES(2, 1, '20151
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,1,'2015121708581115000',20000,1,'',1,'2015-12-17 01:00:36','2015-12-17 01:00:36'),(2,1,'2015121615301115000',15000,5,'',1,'2015-12-17 02:56:45','2015-12-17 02:56:45');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,7 +279,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('2vyVR7-Yycb1oX8-fhwwD3twPUcieJD9',1449624682,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":19},\"flash\":{\"username\":[\"jackchoon@163.com\"]}}'),('8zCkpV1oaMEKN0qC3ijh5_JGMaqqmRE6',1449645220,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":19},\"flash\":{\"username\":[\"15824121675\"]}}'),('u71uWjFsCANeIgEtMr-Dvf0wPzJlISze',1449582018,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":18},\"flash\":{}}'),('wEy4ln09fUwIoCRyirGk9N6sI_up2AzQ',1449582031,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}');
+INSERT INTO `sessions` VALUES ('9DT3a2SflQ609vLKY2aIu2Mgi_lmogBf',1450407163,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}'),('BhkU0gi9lUGpl_tIB7J0TfIK_Oonjrzc',1450332977,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +300,7 @@ CREATE TABLE `specs` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,16 +334,41 @@ CREATE TABLE `stores` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(1, 2, 2, "长沙市湘华香烟批发商行", 15824121675, '长沙市开福区高桥大市场');
-INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(2, 3, 2, "长沙景和食品贸易有限公司", 18974861169, '湖南省长沙市雨花区韶山南路红星糖酒城10栋173号');
-INSERT INTO stores(id, user_id, type, name, phone, location) VALUES(3, 3, 2, "长沙翔盛商贸有限公司", 13667329234, '湖南省长沙市芙蓉区农科服装市场');
+
 --
 -- Dumping data for table `stores`
 --
 
 LOCK TABLES `stores` WRITE;
 /*!40000 ALTER TABLE `stores` DISABLE KEYS */;
+INSERT INTO `stores` VALUES (1,2,2,'长沙市湘华香烟批发商行','15824121675','','','长沙市开福区高桥大市场','2015-12-16 02:23:53','2015-12-16 02:23:53'),(2,3,2,'长沙景和食品贸易有限公司','18974861169','','','湖南省长沙市雨花区韶山南路红星糖酒城10栋173号','2015-12-16 02:23:53','2015-12-16 02:23:53'),(3,3,2,'长沙翔盛商贸有限公司','13667329234','','','湖南省长沙市芙蓉区农科服装市场','2015-12-16 02:23:55','2015-12-16 02:23:55');
 /*!40000 ALTER TABLE `stores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tags`
+--
+
+DROP TABLE IF EXISTS `tags`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL DEFAULT '0',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tags`
+--
+
+LOCK TABLES `tags` WRITE;
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
+INSERT INTO `tags` VALUES (1,'香烟','2015-12-16 01:49:07','2015-12-16 01:49:07'),(2,'烟标','2015-12-16 01:49:08','2015-12-16 01:49:08');
+/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -350,7 +394,7 @@ CREATE TABLE `users` (
   `salt` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,27 +408,6 @@ INSERT INTO `users` VALUES (1,'18073181682','65f1a8a409859720c666ab17e1ff3355ebe
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-
-CREATE TABLE `tags` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-INSERT INTO tags(id, name) VALUES(1, "香烟");
-INSERT INTO tags(id, name) VALUES(2, "烟标");
-
-CREATE TABLE `goods_tags` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `good_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `tag_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-INSERT INTO goods_tags(id, good_id, tag_id) VALUES(1, 1, 1);
-INSERT INTO goods_tags(id, good_id, tag_id) VALUES(2, 1, 2);
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -393,4 +416,4 @@ INSERT INTO goods_tags(id, good_id, tag_id) VALUES(2, 1, 2);
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-08 15:50:15
+-- Dump completed on 2015-12-17 10:59:37
