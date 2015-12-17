@@ -196,6 +196,8 @@ CREATE TABLE `order_details` (
 INSERT INTO order_details(id, order_id, good_id, amount) VALUES(1, 1, 1, 2);
 INSERT INTO order_details(id, order_id, good_id, amount) VALUES(2, 1, 2, 1);
 INSERT INTO order_details(id, order_id, good_id, amount) VALUES(3, 1, 3, 5);
+INSERT INTO order_details(id, order_id, good_id, amount) VALUES(4, 2, 1, 2);
+INSERT INTO order_details(id, order_id, good_id, amount) VALUES(5, 2, 2, 1);
 --
 -- Dumping data for table `order_details`
 --
