@@ -11,6 +11,8 @@ var OrderDetail = require('../models/order_detail.js');
 var Store = require('../models/store.js');
 var Tag = require('../models/tag.js');
 var GoodTag = require('../models/good_tag.js');
+var CmsFragment = require('../models/cms_fragment.js');
+var CmsModule = require('../models/cms_module.js');
 
 module.exports = {
 	Address: Address,
@@ -24,5 +26,7 @@ module.exports = {
 	Spec: Spec,
 	Store: Store,
 	Tag: Tag,
-	GoodTag: GoodTag
+	GoodTag: GoodTag,
+	CmsFragment: CmsFragment,
+	CmsModule: CmsModule
 }

@@ -80,7 +80,9 @@ app.oauth = oauthserver({
 });
 app.all('/oauth/token', app.oauth.grant());
 var apiRouter = require('./routers/api');
+var cmsRouter = require('./routers/cms');
 app.use('/api', apiRouter);
+app.use('/cms', cmsRouter);
 //app.use('/api', app.oauth.authorise(), apiRouter);
 app.use(app.oauth.errorHandler());
 
