@@ -7,6 +7,7 @@ var orderController = require('../controllers/order.js');
 var cartController = require('../controllers/cart.js');
 var catController = require('../controllers/cat.js');
 var specController = require('../controllers/spec.js');
+var storeController = require('../controllers/store.js');
 
 //cats 类别
 apiRouter.get('/cats', catController.queryAll)
@@ -21,6 +22,15 @@ apiRouter.get('/specs/:spec_id', specController.findOne)
 apiRouter.put('/specs/:spec_id', specController.update) //admin
 apiRouter.post('/specs', specController.add) //admin
 apiRouter.delete('/specs/:spec_id', specController.del) //admin
+
+//store
+apiRouter.get('/stores', storeController.queryAll)
+apiRouter.get('/users/:user_id/stores/', storeController.queryAll)
+apiRouter.get('/users/:user_id/stores/:store_id', storeController.findOne)
+apiRouter.get('/stores/:store_id', storeController.findOne)
+apiRouter.put('/stores/:store_id', storeController.update) //admin
+apiRouter.post('/stores', storeController.add) //admin
+apiRouter.delete('/stores/:store_id', storeController.del) //admin
 
 //goods
 apiRouter.get('cats/cat_id/goods', goodController.queryAll);
