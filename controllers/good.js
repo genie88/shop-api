@@ -21,7 +21,7 @@ module.exports = {
     queryAll: function(req, res, next){
         var filter = util.param(req);
         var relations = [];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation >= 1){
             relations = ['cat', 'spec', 'supplier', 'tags']
         }
@@ -57,7 +57,7 @@ module.exports = {
         var filter = util.param(req);
 
         var relations = [];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation >= 1){
             relations = ['cat', 'spec', 'supplier', 'tags']
         }
@@ -68,7 +68,7 @@ module.exports = {
         }
 
         Good.forge(filter)
-            .fetch({withRelated: inline_relation})
+            .fetch({withRelated: relations})
             .then(function (good) {
                 if (!good) {
                     var error = { code: 404, msg: 'not found'};

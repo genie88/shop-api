@@ -21,14 +21,14 @@ module.exports = {
     /**
      * 查询购物车商品数据
      * GET /users/:user_id/cart
-     * inlne-relation-depeth:1 
+     * inline-relation-depeth:1 
      * 
      */
     findOne: function(req, res, next){
         var filter = util.param(req);
 
         var relations = [];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation >= 1){
             relations = ['good']
         }

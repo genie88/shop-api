@@ -5,6 +5,22 @@ var goodController = require('../controllers/good.js');
 var userController = require('../controllers/user.js');
 var orderController = require('../controllers/order.js');
 var cartController = require('../controllers/cart.js');
+var catController = require('../controllers/cat.js');
+var specController = require('../controllers/spec.js');
+
+//cats 类别
+apiRouter.get('/cats', catController.queryAll)
+apiRouter.get('/cats/:cat_id', catController.findOne)
+apiRouter.put('/cats/:cat_id', catController.update) //admin
+apiRouter.post('/cats', catController.add) //admin
+apiRouter.delete('/cats/:cat_id', catController.del) //admin
+
+//specs 种类
+apiRouter.get('/specs', specController.queryAll)
+apiRouter.get('/specs/:spec_id', specController.findOne)
+apiRouter.put('/specs/:spec_id', specController.update) //admin
+apiRouter.post('/specs', specController.add) //admin
+apiRouter.delete('/specs/:spec_id', specController.del) //admin
 
 //goods
 apiRouter.get('cats/cat_id/goods', goodController.queryAll);

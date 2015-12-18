@@ -80,10 +80,10 @@ module.exports = {
         if(req.session && req.session.user && req.session.user.role==1){
             //参数过滤
             var coupon = req.body.coupon
-            Coupon.forge(coupon)
-                .save()
+            Coupon.where({id: req.params.coupon_id})
+                .save(coupon, {patch: true})
                 .then(function (coupon) {
-                    util.res(null, res, {id: coupon.get('id')});
+                    util.res(null, res, {});
                 })
                 .catch(function (err) {
                     var error = { code: 500, msg: err.message};
@@ -104,15 +104,16 @@ module.exports = {
         if(req.session && req.session.user && req.session.user.role==1){
             //参数过滤
             var coupon = req.body.coupon
-            Coupon.where({id: req.params.coupon_id})
-                .save(coupon, {patch: true})
+            delete coupon.id
+            Coupon.forge(coupon)
+                .save()
                 .then(function (coupon) {
-                    util.res(null, res, {});
+                    util.res(null, res, {id: coupon.get('id')});
                 })
                 .catch(function (err) {
                     var error = { code: 500, msg: err.message};
                     util.res(error, res);
-                }); 
+                });
         } else {
             var error = { code: 401, msg: 'not authorized'};
             util.res(error, res);

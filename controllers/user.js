@@ -20,7 +20,7 @@ module.exports = {
         var filter = util.param(req);
         var relations = [];
         var columns = ['username', 'nickname', 'email', 'phone', 'avatar', 'role', 'last_login_time', 'id'];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation >= 1){
             relations = ['cart', 'coupons', 'orders', 'stores']
         }
@@ -56,7 +56,7 @@ module.exports = {
         var filter = util.param(req);
         var relations = [];
         var columns = ['username', 'nickname', 'email', 'phone', 'avatar', 'role', 'last_login_time', 'id'];
-        var inline_relation = parseInt(req.param('inlne-relation-depth'));
+        var inline_relation = parseInt(req.param('inline-relation-depth'));
         if(!isNaN(inline_relation) && inline_relation >= 1){
             relations = ['cart', 'coupons', 'orders', 'stores']
         }
