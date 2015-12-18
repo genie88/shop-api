@@ -101,6 +101,81 @@ INSERT INTO `cats` VALUES (1,'代购香烟 烟标','',0,0,0,'2015-12-08 07:35:37
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cms_fragments`
+--
+
+DROP TABLE IF EXISTS `cms_fragments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cms_fragments` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cms_module_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `subtitle` varchar(255) NOT NULL DEFAULT '',
+  `abstract` mediumtext,
+  `content` mediumtext,
+  `sort` int(11) unsigned NOT NULL DEFAULT '0',
+  `is_show` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `ext1` varchar(255) NOT NULL DEFAULT '',
+  `ext2` varchar(255) NOT NULL DEFAULT '',
+  `ext3` varchar(255) NOT NULL DEFAULT '',
+  `ext4` varchar(255) NOT NULL DEFAULT '',
+  `ext5` varchar(255) NOT NULL DEFAULT '',
+  `ext6` varchar(255) NOT NULL DEFAULT '',
+  `ext7` varchar(255) NOT NULL DEFAULT '',
+  `ext8` varchar(255) NOT NULL DEFAULT '',
+  `ext9` varchar(255) NOT NULL DEFAULT '',
+  `ext10` varchar(255) NOT NULL DEFAULT '',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cms_fragments`
+--
+
+LOCK TABLES `cms_fragments` WRITE;
+/*!40000 ALTER TABLE `cms_fragments` DISABLE KEYS */;
+INSERT INTO `cms_fragments` VALUES (1,1,'绿色出行从我做起','',NULL,NULL,0,0,'http://img.jindianhuo8.com/test.png','','','','','','','','','','2015-12-18 06:04:26','2015-12-18 06:04:26'),(2,1,'绿色出行从我做起','',NULL,NULL,0,0,'http://img.jindianhuo8.com/test.png','','','','','','','','','','2015-12-18 06:04:26','2015-12-18 06:04:26'),(3,1,'绿色出行从我做起','',NULL,NULL,0,0,'http://img.jindianhuo8.com/test.png','','','','','','','','','','2015-12-18 06:04:26','2015-12-18 06:04:26'),(4,2,'百度','',NULL,NULL,0,0,'http://www.baidu.com','','','','','','','','','','2015-12-18 06:04:26','2015-12-18 06:04:26'),(5,2,'腾讯','',NULL,NULL,0,0,'http://www.qq.com','','','','','','','','','','2015-12-18 06:04:27','2015-12-18 06:04:27');
+/*!40000 ALTER TABLE `cms_fragments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cms_modules`
+--
+
+DROP TABLE IF EXISTS `cms_modules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cms_modules` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(30) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `sort` int(11) unsigned NOT NULL DEFAULT '0',
+  `is_show` tinyint(11) unsigned NOT NULL DEFAULT '0',
+  `link` varchar(255) NOT NULL DEFAULT '',
+  `ext1` varchar(255) NOT NULL DEFAULT '',
+  `ext2` varchar(255) NOT NULL DEFAULT '',
+  `ext3` varchar(255) NOT NULL DEFAULT '',
+  `ext4` varchar(255) NOT NULL DEFAULT '',
+  `ext5` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cms_modules`
+--
+
+LOCK TABLES `cms_modules` WRITE;
+/*!40000 ALTER TABLE `cms_modules` DISABLE KEYS */;
+INSERT INTO `cms_modules` VALUES (1,'banner','banner闪图模块',0,0,'','','','','',''),(2,'friend_links','友情链接',0,0,'','','','','',''),(3,'home_ads','首页广告',0,0,'','','','','',''),(4,'hr','招聘信息',0,0,'','','','','',''),(5,'kefu','在线客服',0,0,'','','','','',''),(6,'activity','活动信息',0,0,'','','','','',''),(7,'system_msg','公告消息',0,0,'','','','','',''),(8,'news','公司新闻',0,0,'','','','','',''),(9,'products','产品介绍',0,0,'','','','','',''),(10,'services','服务',0,0,'','','','','','');
+/*!40000 ALTER TABLE `cms_modules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `coupons`
 --
 
@@ -214,7 +289,7 @@ CREATE TABLE `order_details` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +298,7 @@ CREATE TABLE `order_details` (
 
 LOCK TABLES `order_details` WRITE;
 /*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
-INSERT INTO `order_details` VALUES (1,1,1,2,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(2,1,2,1,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(3,1,3,5,'2015-12-17 01:00:31','2015-12-17 01:00:31'),(4,2,1,2,'2015-12-17 02:56:33','2015-12-17 02:56:33'),(5,2,2,1,'2015-12-17 02:56:40','2015-12-17 02:56:40');
+INSERT INTO `order_details` VALUES (1,1,1,2,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(2,1,2,1,'2015-12-17 01:00:30','2015-12-17 01:00:30'),(3,1,3,5,'2015-12-17 01:00:31','2015-12-17 01:00:31'),(4,2,1,2,'2015-12-17 02:56:33','2015-12-17 02:56:33'),(5,2,2,1,'2015-12-17 02:56:40','2015-12-17 02:56:40'),(6,5,2,2,'2015-12-17 04:26:52','2015-12-17 04:26:52'),(7,5,1,2,'2015-12-17 04:26:52','2015-12-17 04:26:52');
 /*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +320,7 @@ CREATE TABLE `orders` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +329,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'2015121708581115000',20000,1,'',1,'2015-12-17 01:00:36','2015-12-17 01:00:36'),(2,1,'2015121615301115000',15000,5,'',1,'2015-12-17 02:56:45','2015-12-17 02:56:45');
+INSERT INTO `orders` VALUES (1,1,'2015121708581115000',20000,1,'',1,'2015-12-17 01:00:36','2015-12-17 01:00:36'),(2,1,'2015121615301115000',15000,5,'',1,'2015-12-17 02:56:45','2015-12-17 02:56:45'),(5,1,'201512171226524323527',0,0,'unknown',0,'2015-12-17 04:26:52','2015-12-17 04:26:52');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,7 +354,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('9DT3a2SflQ609vLKY2aIu2Mgi_lmogBf',1450407163,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}'),('BhkU0gi9lUGpl_tIB7J0TfIK_Oonjrzc',1450332977,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}');
+INSERT INTO `sessions` VALUES ('9DT3a2SflQ609vLKY2aIu2Mgi_lmogBf',1450409850,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}'),('pIClYwBi4d1U2ON3mkXQeL3VRhpv4oZD',1450414363,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}'),('wIDrkrB54fbqNK_u8Jze4DUvOa0WzxbP',1450513329,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{},\"flash\":{}}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,71 +491,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-17 10:59:37
-DROP TABLE IF EXISTS `cms_modules`;
-CREATE TABLE `cms_modules` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` varchar(30) NOT NULL DEFAULT '',
-  `name` varchar(30) NOT NULL DEFAULT '',
-  `sort` int(11) unsigned NOT NULL DEFAULT '0',
-  `is_show` tinyint(11) unsigned NOT NULL DEFAULT '0',
-  `link` varchar(255) NOT NULL DEFAULT '',
-  `ext1` varchar(255) NOT NULL DEFAULT '',
-  `ext2` varchar(255) NOT NULL DEFAULT '',
-  `ext3` varchar(255) NOT NULL DEFAULT '',
-  `ext4` varchar(255) NOT NULL DEFAULT '',
-  `ext5` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-INSERT INTO cms_modules(id, type, name) VALUES(1, 'banner', 'banner闪图模块');
-INSERT INTO cms_modules(id, type, name) VALUES(2, 'friend_links', '友情链接');
-INSERT INTO cms_modules(id, type, name) VALUES(3, 'home_ads', '首页广告');
-INSERT INTO cms_modules(id, type, name) VALUES(4, 'hr', '招聘信息');
-INSERT INTO cms_modules(id, type, name) VALUES(5, 'kefu', '在线客服');
-INSERT INTO cms_modules(id, type, name) VALUES(6, 'activity', '活动信息');
-INSERT INTO cms_modules(id, type, name) VALUES(7, 'system_msg', '公告消息');
-INSERT INTO cms_modules(id, type, name) VALUES(8, 'news', '公司新闻');
-INSERT INTO cms_modules(id, type, name) VALUES(9, 'products', '产品介绍');
-INSERT INTO cms_modules(id, type, name) VALUES(10, 'services', '服务');
-
-DROP TABLE IF EXISTS `cms_fragments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cms_fragments` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `cms_module_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `subtitle` varchar(255) NOT NULL DEFAULT '',
-  `abstract` mediumtext,
-  `content`  mediumtext,
-  `sort` int(11) unsigned NOT NULL DEFAULT '0',
-  `is_show` tinyint(11) unsigned NOT NULL DEFAULT '0',
-  `ext1` varchar(255) NOT NULL DEFAULT '',
-  `ext2` varchar(255) NOT NULL DEFAULT '',
-  `ext3` varchar(255) NOT NULL DEFAULT '',
-  `ext4` varchar(255) NOT NULL DEFAULT '',
-  `ext5` varchar(255) NOT NULL DEFAULT '',
-  `ext6` varchar(255) NOT NULL DEFAULT '',
-  `ext7` varchar(255) NOT NULL DEFAULT '',
-  `ext8` varchar(255) NOT NULL DEFAULT '',
-  `ext9` varchar(255) NOT NULL DEFAULT '',
-  `ext10` varchar(255) NOT NULL DEFAULT '',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-INSERT INTO cms_fragments(id, cms_module_id, title, ext1) VALUES(1, 1, '绿色出行从我做起', 'http://img.jindianhuo8.com/test.png');
-INSERT INTO cms_fragments(id, cms_module_id, title, ext1) VALUES(2, 1, '绿色出行从我做起', 'http://img.jindianhuo8.com/test.png');
-INSERT INTO cms_fragments(id, cms_module_id, title, ext1) VALUES(3, 1, '绿色出行从我做起', 'http://img.jindianhuo8.com/test.png');
-INSERT INTO cms_fragments(id, cms_module_id, title, ext1) VALUES(4, 2, '百度', 'http://www.baidu.com');
-INSERT INTO cms_fragments(id, cms_module_id, title, ext1) VALUES(5, 2, '腾讯', 'http://www.qq.com');
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `cms_fragments` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
+-- Dump completed on 2015-12-18 17:15:43
