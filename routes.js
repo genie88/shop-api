@@ -10,7 +10,27 @@ module.exports = function (app, passport) {
     app.get('/home', ensureAuthenticated, indexController.home);
 
     //users
-    app.get('/home', ensureAuthenticated, indexController.home);
+    app.get('/users', ensureAuthenticated, indexController.users);
+    app.get('/users/:id', ensureAuthenticated, indexController.userDetail);
+
+    //goods
+    app.get('/goods', ensureAuthenticated, indexController.goods);
+    app.get('/goods/:id', ensureAuthenticated, indexController.goodDetail);
+
+    app.get('/suppliers', ensureAuthenticated, indexController.suppliers);
+    app.get('/suppliers/:id', ensureAuthenticated, indexController.supplierDetail);
+
+
+    app.get('/orders', ensureAuthenticated, indexController.orders);
+    app.get('/orders/:id', ensureAuthenticated, indexController.orderDetail);
+
+    app.get('/modules', ensureAuthenticated, indexController.modules);
+    app.get('/modules/:id', ensureAuthenticated, indexController.moduleDetail);
+    app.get('/modules/new', ensureAuthenticated, indexController.moduleNew);
+
+    app.get('/modules/:module_id/fragments', ensureAuthenticated, indexController.fragments);
+    app.get('/modules/:module_id/fragments/:id', ensureAuthenticated, indexController.fragmentDetail);
+    app.get('/modules/:module_id/fragments/new', ensureAuthenticated, indexController.fragmentNew);
 
     // Auth
     app.get('/register', loginController.registerPage);
