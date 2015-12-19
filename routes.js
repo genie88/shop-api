@@ -1,7 +1,7 @@
 
 var rendering = require('./util/rendering'),
-    indexController = require('./controllers/index'),
-    loginController = require('./controllers/login');
+    indexController = require('./controllers/cms/index'),
+    loginController = require('./controllers/cms/login');
 
 module.exports = function (app, passport) {
 
@@ -9,6 +9,8 @@ module.exports = function (app, passport) {
     app.get('/', ensureAuthenticated, indexController.home);
     app.get('/home', ensureAuthenticated, indexController.home);
 
+    //users
+    app.get('/home', ensureAuthenticated, indexController.home);
 
     // Auth
     app.get('/register', loginController.registerPage);

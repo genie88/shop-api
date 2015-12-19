@@ -1,4 +1,4 @@
-var rendering = require('../util/rendering');
+var rendering = require('../../util/rendering');
 
 
 exports.home = function(req, res) {
