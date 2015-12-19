@@ -1,26 +1,33 @@
-{% extends '../layouts/default.html' %}
+{% extends '../layouts/single.html' %}
 
 {% block content %}
-    <h1>Register</h1>
+<form class="form-signin" action="/register" method="post">
+    <div class="form-signin-heading text-center">
+        <h1 class="sign-title">注册新账号</h1>
+        <img src="images/login-logo.png" alt=""/>
+    </div>
 
-    <form action="/register" method="post">
-        <ul>
-            <li>
-                <label for="username">Email</label>
-                <input id="username" type="text" name="un" value="{{ username }}" >
-            </li>
-            <li>
-                <label for="password">Password</label>
-                <input id="password" type="password" name="pw" >
-            </li>
-            <li>
-                <label for="validate_password">Validate Password</label>
-                <input id="validate_password" type="password" name="vpw" >
-            </li>
-           
-            <li>
-                <button type="submit">Go</button>
-            </li>
-        </ul>
-    </form>
+
+    <div class="login-wrap">
+        <p>请填写账户信息</p>
+        <input type="text" name="un" value="{{ username }}"  autofocus="" placeholder="用户名" class="form-control">
+        <input type="password" name="pw" placeholder="输入密码" class="form-control">
+        <input type="password" name="vpw" placeholder="再次输入密码" class="form-control">
+        <label class="checkbox">
+            <input type="checkbox" value="agree this condition"> 隐私条款
+        </label>
+        <button type="submit" class="btn btn-lg btn-login btn-block">
+            <i class="fa fa-check"></i>
+        </button>
+
+        <div class="registration">
+            已有账户?
+            <a href="/login" class="">
+                登录
+            </a>
+        </div>
+
+    </div>
+
+</form>
 {% endblock %}
