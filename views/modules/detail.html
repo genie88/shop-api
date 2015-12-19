@@ -10,7 +10,7 @@
             <li>
                 <a href="#">版块详情</a>
             </li>
-            <li class="active"> 活动 </li>
+            <li class="active"> 友情链接 </li>
         </ul>
     </div>
     <!-- page heading end-->
@@ -18,10 +18,70 @@
     <!--body wrapper start-->
     <div class="wrapper">
         <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            友情链接
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <table class="table  table-hover general-table">
+                                <thead>
+                                <tr>
+                                    <th> 名称</th>
+                                    <th> 链接</th>
+                                    <th> 排序</th>
+                                    <th> 显示/隐藏</th>
+                                    <th> 操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td>
+                                        <a href="/modules/1/fragments/1">
+                                            百度
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">http://www.baidu.com</td>
+                                    <td>1 </td>
+                                    <td><span class="label label-success label-mini">显示</span></td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-eye"></i></a>
+                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                        <a href="#"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">
+                                            腾讯网
+                                        </a>
+                                    </td>
+                                    <td class="hidden-phone">http://www.qq.com</td>
+                                    <td>2 </td>
+                                    <td><span class="label label-success label-mini">显示</span></td>
+                                    <td>
+                                        <a href="#"><i class="fa fa-eye"></i></a>
+                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                        <a href="#"><i class="fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+        </div>
+
+        <div class="row">
             <div class="col-lg-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        内容
+                        字段定义
                         <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                             <a class="fa fa-times" href="javascript:;"></a>
@@ -29,11 +89,38 @@
                     </header>
                     <div class="panel-body">
                         <div class="form">
-                            <form action="#" class="form-horizontal">
+                            <form action="#">
                                 <div class="form-group">
+                                    <label for="fragment-title">名称</label>
+                                    <input type="text" class="form-control" id="fragment-title" placeholder="标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-subtitle">链接</label>
+                                    <input type="text" class="form-control" id="fragment-subtitle" placeholder="副标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-abstract">排序</label>
                                     <div class="col-sm-12">
                                         <textarea class="form-control ckeditor" name="editor1" rows="6"></textarea>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-content">显示隐藏</label>
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control ckeditor" name="editor2" rows="6"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext1">ext1</label>
+                                    <input type="text" class="form-control" id="fragment-ext1" placeholder="ext1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext2">ext2</label>
+                                    <input type="text" class="form-control" id="fragment-ext2" placeholder="ext2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext3">ext3</label>
+                                    <input type="text" class="form-control" id="fragment-ext3" placeholder="ext3">
                                 </div>
                             </form>
                         </div>

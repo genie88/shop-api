@@ -25,8 +25,9 @@ module.exports = function (app, passport) {
     app.get('/orders/:id', ensureAuthenticated, indexController.orderDetail);
 
     app.get('/modules', ensureAuthenticated, indexController.modules);
-    app.get('/modules/:id', ensureAuthenticated, indexController.moduleDetail);
     app.get('/modules/new', ensureAuthenticated, indexController.moduleNew);
+    app.get('/modules/:id', ensureAuthenticated, indexController.moduleDetail);
+
 
     app.get('/modules/:module_id/fragments', ensureAuthenticated, indexController.fragments);
     app.get('/modules/:module_id/fragments/:id', ensureAuthenticated, indexController.fragmentDetail);

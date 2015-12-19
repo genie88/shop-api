@@ -1,0 +1,77 @@
+{% extends '../layouts/default.html' %}
+
+{% block content %}
+    <!-- page heading start-->
+    <div class="page-heading">
+        <h3>
+            活动版块
+        </h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">项目管理</a>
+            </li>
+            <li class="active"> 编辑项目 </li>
+        </ul>
+    </div>
+    <!-- page heading end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        内容
+                        <span class="tools pull-right">
+                            <a class="fa fa-chevron-down" href="javascript:;"></a>
+                            <a class="fa fa-times" href="javascript:;"></a>
+                         </span>
+                    </header>
+                    <div class="panel-body">
+                        <div class="form">
+                            <form action="#">
+                                <div class="form-group">
+                                    <label for="fragment-title">标题</label>
+                                    <input type="text" class="form-control" id="fragment-title" placeholder="标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-subtitle">副标题</label>
+                                    <input type="text" class="form-control" id="fragment-subtitle" placeholder="副标题">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-abstract">摘要</label>
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control ckeditor" name="editor1" rows="6"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-content">内容</label>
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control ckeditor" name="editor1" rows="6"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext1">ext1</label>
+                                    <input type="text" class="form-control" id="fragment-ext1" placeholder="ext1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext2">ext2</label>
+                                    <input type="text" class="form-control" id="fragment-ext2" placeholder="ext2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fragment-ext3">ext3</label>
+                                    <input type="text" class="form-control" id="fragment-ext3" placeholder="ext3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!--body wrapper end-->
+
+    <!--footer section start-->
+
+{% endblock %}
+<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>

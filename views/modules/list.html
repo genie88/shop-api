@@ -1,140 +1,147 @@
 {% extends '../layouts/default.html' %}
-
 {% block content %}
-
-
-
-    <!-- page heading start-->
-    <div class="page-heading">
-        <h3>
-            内容管理
-        </h3>
-        <ul class="breadcrumb">
-            <li>
-                <a href="#">内容管理</a>
-            </li>
-            <li class="active"> 版块列表 </li>
-        </ul>
-    </div>
-    <!-- page heading end-->
-
-    <!--body wrapper start-->
-    <div class="wrapper">
-        <div class="row">
-                <div class="col-sm-12">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            版块列表
-                        <span class="tools pull-right">
-                            <a href="javascript:;" class="fa fa-chevron-down"></a>
-                            <a href="javascript:;" class="fa fa-times"></a>
-                         </span>
-                        </header>
-                        <div class="panel-body">
-                            <table class="table  table-hover general-table">
-                                <thead>
-                                <tr>
-                                    <th> 名称</th>
-                                    <th> 类型</th>
-                                    <th> 排序</th>
-                                    <th> 显示/隐藏</th>
-                                    <th> 操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr>
-                                    <td>
-                                        <a href="/modules/1">
-                                            ThemeBucket
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                    <td>556.00$ </td>
-                                    <td><span class="label label-warning label-mini">Due</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#">
-                                            XYZ
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                    <td>13240.00$ </td>
-                                    <td><span class="label label-success label-mini">Paid</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Graphics</a></td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
-                                    <td>1320.00$ </td>
-                                    <td><span class="label label-info label-mini">Due</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#">
-                                            BCSE
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                    <td>3455.50$ </td>
-                                    <td><span class="label label-danger label-mini">Paid</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">AVC Ltd</a></td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
-                                    <td>110.00$ </td>
-                                    <td><span class="label label-primary label-mini">Due</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#">
-                                            Themeforest
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                    <td>456.00$ </td>
-                                    <td><span class="label label-warning label-mini">Due</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>
+    内容管理
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">内容管理</a>
+        </li>
+        <li class="active"> 版块列表 </li>
+    </ul>
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    版块列表
+                    <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="clearfix">
+                        <div class="btn-group">
+                            <button id="editable-sample_new" class="btn btn-primary">
+                            添加版块 <i class="fa fa-plus"></i>
+                            </button>
                         </div>
-                    </section>
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#"> 打印 </a></li>
+                                <li><a href="#"> 另存为PDF </a></li>
+                                <li><a href="#"> 导出到Excel </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table class="table  table-hover general-table">
+                        <thead>
+                            <tr>
+                                <th> 名称</th>
+                                <th> 类型</th>
+                                <th> 排序</th>
+                                <th> 显示/隐藏</th>
+                                <th> 操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="/modules/1">
+                                    ThemeBucket
+                                    </a>
+                                </td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
+                                <td>556.00$ </td>
+                                <td><span class="label label-warning label-mini">Due</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                    XYZ
+                                    </a>
+                                </td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
+                                <td>13240.00$ </td>
+                                <td><span class="label label-success label-mini">Paid</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Graphics</a></td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
+                                <td>1320.00$ </td>
+                                <td><span class="label label-info label-mini">Due</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                    BCSE
+                                    </a>
+                                </td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
+                                <td>3455.50$ </td>
+                                <td><span class="label label-danger label-mini">Paid</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">AVC Ltd</a></td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
+                                <td>110.00$ </td>
+                                <td><span class="label label-primary label-mini">Due</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                    Themeforest
+                                    </a>
+                                </td>
+                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
+                                <td>456.00$ </td>
+                                <td><span class="label label-warning label-mini">Due</span></td>
+                                <td>
+                                    <a href="#"><i class="fa fa-eye"></i></a>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="#"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </section>
         </div>
     </div>
-    <!--body wrapper end-->
-
-    <!--footer section start-->
-
+</div>
+<!--body wrapper end-->
+<!--footer section start-->
 {% endblock %}
