@@ -14,6 +14,7 @@ module.exports = function (app, passport) {
     app.get('/users/:id', ensureAuthenticated, indexController.userDetail);
 
     //goods
+    app.get('/category', ensureAuthenticated, indexController.category);
     app.get('/goods', ensureAuthenticated, indexController.goods);
     app.get('/goods/:id', ensureAuthenticated, indexController.goodDetail);
 

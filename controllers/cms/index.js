@@ -14,6 +14,12 @@ exports.userDetail = function(req, res) {
 }
 
 //goods
+exports.category = function(req, res) {
+    res.render('goods/category');
+}
+exports.tags = function(req, res) {
+    res.render('goods/tags');
+}
 exports.goods = function(req, res) {
     res.render('goods/list');
 }

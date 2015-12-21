@@ -1,0 +1,73 @@
+{% extends '../layouts/default.html' %}
+{% block content %}
+
+<!--external css-->
+<link rel="stylesheet" type="text/css" href="js/fuelux/css/tree-style.css" />
+
+
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>
+    商品管理
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">商品类目</a>
+        </li>
+        <li class="active"> 类目管理 </li>
+    </ul>
+</div>
+<!-- page heading end-->
+<!--body wrapper start-->
+<div class="wrapper">
+    <div class="row">
+        <div class="col-md-6">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Tree Style #4
+                          <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </div>
+                        <div class="panel-body">
+                            <div id="FlatTree4" class="tree tree-solid-line">
+                                <div class = "tree-folder" style="display:none;">
+                                    <div class="tree-folder-header">
+                                        <i class="fa fa-folder"></i>
+                                        <div class="tree-folder-name"></div>
+                                    </div>
+                                    <div class="tree-folder-content"></div>
+                                    <div class="tree-loader" style="display:none"></div>
+                                </div>
+                                <div class="tree-item" style="display:none;">
+                                    <i class="tree-dot"></i>
+                                    <div class="tree-item-name"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+</div>
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/jquery.nicescroll.js"></script>
+
+<!--tree-->
+<script src="/js/fuelux/js/tree.min.js"></script>
+<script src="/js/tree-init.js"></script>
+
+
+<script>
+    jQuery(document).ready(function() {
+        TreeView.init();
+    });
+</script>
+<!--body wrapper end-->
+<!--footer section start-->
+{% endblock %}
