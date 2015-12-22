@@ -163,6 +163,9 @@ define(function (require) {
 
      $('.tooltips').tooltip();
 
+     //easy piechart
+     $('.chart').easyPieChart({});
+
      // popovers
 
      $('.popovers').popover();
