@@ -1,9 +1,18 @@
 {% extends '../layouts/default.html' %}
+{% block title -%}首页{%- endblock %}
+{% block stylesheets %}
+  <!--icheck-->
+  <link href="/js/lib/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+  <link href="/js/lib/iCheck/skins/square/square.css" rel="stylesheet">
+  <link href="/js/lib/iCheck/skins/square/red.css" rel="stylesheet">
+  <link href="/js/lib/iCheck/skins/square/blue.css" rel="stylesheet">
+  <!--dashboard calendar-->
+  <link href="/css/clndr.css" rel="stylesheet">
+  <!--Morris Chart CSS -->
+  <link rel="stylesheet" href="/js/lib/morris-chart/morris.css">
+{% endblock %}
 
 {% block content %}
-
-
-
     <!-- page heading start-->
     <div class="page-heading">
         <h3>

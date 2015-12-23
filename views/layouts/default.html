@@ -9,31 +9,17 @@
   <meta name="author" content="ThemeBucket">
   <link rel="shortcut icon" href="#" type="image/png">
 
-  <title>天天进货</title>
-
-  <!--icheck-->
-  <link href="/js/lib/iCheck/skins/minimal/minimal.css" rel="stylesheet">
-  <link href="/js/lib/iCheck/skins/square/square.css" rel="stylesheet">
-  <link href="/js/lib/iCheck/skins/square/red.css" rel="stylesheet">
-  <link href="/js/lib/iCheck/skins/square/blue.css" rel="stylesheet">
-
-  <!--dashboard calendar-->
-  <link href="/css/clndr.css" rel="stylesheet">
-
-  <!--Morris Chart CSS -->
-  <link rel="stylesheet" href="/js/lib/morris-chart/morris.css">
+  <title>{% block title -%}{%- endblock %}</title>
+  {% block stylesheets -%}{%- endblock %}
 
   <!--common-->
   <link href="/css/style.css" rel="stylesheet">
   <link href="/css/style-responsive.css" rel="stylesheet">
 
-
-
-
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
-  <script src="js/html5shiv.js"></script>
-  <script src="js/respond.min.js"></script>
+  <script src="js/lib/html5shiv.js"></script>
+  <script src="js/lib/respond.min.js"></script>
   <![endif]-->
 </head>
 

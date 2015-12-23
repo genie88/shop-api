@@ -2,7 +2,8 @@ requirejs.config({
     baseUrl: '/js/lib',
     paths: {
         app: '../app',
-        modernizr: 'modernizr.min',
+        api: '../api',
+        'modernizr': 'modernizr.min',
         'jquery-ui': 'jquery-ui-1.9.2.custom.min',
         'nicescroll': 'jquery.nicescroll',
         'easypiechart': 'easypiechart/jquery.easypiechart',

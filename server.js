@@ -32,6 +32,7 @@ var knex = require('knex')({
     expressValidator = require('express-validator'),
     flash = require('connect-flash'),
     swig = require('swig'),
+    swigRender = require('./config/swig.conf'),
     passport = require('passport'),
     crypto = require('crypto'),
     Bookshelf = require('bookshelf'),
@@ -65,7 +66,7 @@ app.use(serveStatic('./public'));
 //app.use(express.favicon(__dirname + '/public/images/shortcut-icon.png'));
 app.use(messages());
 
-app.engine('html', swig.renderFile);
+app.engine('html', swigRender);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
