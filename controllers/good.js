@@ -128,12 +128,30 @@ module.exports = {
 
     /**
      * 更新商品数据
-     * PUT /goods/:id
-     * PUT /suppliers/:supplier_id/goods/:id
+     * PUT /goods/:good_id
+     * PUT /suppliers/:supplier_id/goods/:good_id
      * 
      */
     update: function(){
+        var filter = util.param(req);
+        var good = req.body.good;
 
+        //鉴权(管理员才有权限使用该接口)
+        if(req.session && req.session.user && req.session.user.role==1){
+            //参数过滤
+            Coupon.where({id: req.params.good_id})
+                .save(good, {patch: true})
+                .then(function (good) {
+                    util.res(null, res, {});
+                })
+                .catch(function (err) {
+                    var error = { code: 500, msg: err.message};
+                    util.res(error, res);
+                }); 
+        } else {
+            var error = { code: 401, msg: 'not authorized'};
+            util.res(error, res);
+        }
     },
 
     /**
