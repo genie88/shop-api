@@ -1,8 +1,65 @@
 var models = require('../models');
 var Good = models.Good;
+var Tag = models.Tag;
+var GoodTag = models.GoodTag;
+var Paginator = require('./paginator');
+var _ = require('underscore');
+var Promise = require('bluebird');
 
 
 var util = require('../util/util.js');
+
+//存储tags
+var saveTags = function(goodId, tags) {
+    // create tag objects
+    var tagObjects = tags.map(function (tag) {
+        return { name: tag };
+    });
+  return Tag.forge()
+  // fetch tags that already exist
+  .query('whereIn', 'name', _.pluck(tagObjects, 'name'))
+  .fetchAll()
+  .then(function (existingTags) {
+
+    var doNotExist = [];
+    existingTags = existingTags ? existingTags.toJSON(): '';
+    // filter out existing tags
+    if (existingTags.length > 0) {
+      var existingSlugs = _.pluck(existingTags, 'name');
+      doNotExist = tagObjects.filter(function (t) {
+        return existingSlugs.indexOf(t.name) < 0;
+      });
+    }
+    else {
+      doNotExist = tagObjects;
+    }
+    // save tags that do not exist
+    return Promise.map(doNotExist, function(model){
+        return  Tag.forge(model).save()
+                .then(function(tag) {
+                    return tag.get('id');
+                });
+    })
+    // return ids of all passed tags
+    .then(function (ids) {
+        var tagIds = existingTags? ids: _.union(ids, _.pluck(existingTags, 'id'));
+        //save good-tag relationships
+        return Promise.map(tagIds, function(tagId){
+            return new GoodTag({
+              good_id: goodId,
+              tag_id: tagId
+            }).fetch().then(function(goodTag){
+                //console.log(goodId, tagId)
+                if(!goodTag){
+                    return  new GoodTag({good_id: goodId, tag_id: tagId}).save();
+                } else {
+                    return '';
+                }
+            })
+        })
+    });
+  });
+}
 
 module.exports = {
     /**
@@ -30,21 +87,62 @@ module.exports = {
             filter.id  = filter.good_id;
             delete filter.good_id;
         }
+
+        var page, pageSize, skip = null, limit = null, paginator = null;
+
+            page = parseInt(filter.page) || 1;
+            pageSize = parseInt(filter.page_size) || 4;
+
+            paginator = new Paginator(page, pageSize);
+
+            limit = paginator.getLimit();
+            skip = paginator.getOffset();
+
         Good.forge(filter)
-            .fetchAll({withRelated: relations})
-            //.fetchAll()
-            .then(function (goods) {
-                if (!goods) {
-                    util.res(null, res, [])
-                }
-                else {
-                    util.res(null, res, goods)
-                }
+            .query(function (qb) {
+                qb.limit(limit).offset(skip);
             })
-            .catch(function (err) {
+            .fetchAll({withRelated: relations})
+            .then(function(goods) {
+                return Good.forge(filter)
+                .query()
+                .count()
+                .then(function (count) {
+                    count = count[0]['count(*)'];
+                    return {
+                        count: count,
+                        data: goods
+                    };
+                });
+            }, function (err) {
                 var error = { code: 500, msg: err.message};
                 util.res(error, res);
+            }).then(function (result) {
+                var count = result.count;
+                var goods = result.data;
+
+                paginator.setCount(count);
+                paginator.setData(goods);
+
+                var ret = paginator.getPaginator();
+                //console.log(ret);
+                return  util.res(null, res, ret);
+
+                //return res.json();
             });
+
+            // .then(function (goods) {
+            //     if (!goods) {
+            //         util.res(null, res, [])
+            //     }
+            //     else {
+            //         util.res(null, res, goods)
+            //     }
+            // })
+            // .catch(function (err) {
+            //     var error = { code: 500, msg: err.message};
+            //     util.res(error, res);
+            // });
     },
 
     /**
@@ -86,12 +184,35 @@ module.exports = {
 
     /**
      * 更新商品数据
-     * PUT /goods/:id
-     * PUT /suppliers/:supplier_id/goods/:id
+     * PUT /goods/:good_id
+     * PUT /suppliers/:supplier_id/goods/:good_id
      * 
      */
-    update: function(){
+    update: function(req, res, next){
+        var filter = util.param(req);
+        var good = req.body.good;
+        var tags = req.body.tags;
 
+        //鉴权(管理员才有权限使用该接口)
+        if(true){ //req.session && req.session.user && req.session.user.role==1
+            //参数过滤
+            Good.where({id: req.params.good_id})
+                .save(good, {patch: true})
+                .then(function (good) {
+                    //继续存储tags内容
+                    saveTags(req.params.good_id, tags).then(function(){
+                        util.res(null, res, {});
+                    })
+                    //util.res(null, res, {});
+                })
+                .catch(function (err) {
+                    var error = { code: 500, msg: err.message};
+                    util.res(error, res);
+                }); 
+        } else {
+            var error = { code: 401, msg: 'not authorized'};
+            util.res(error, res);
+        }
     },
 
     /**
@@ -107,11 +228,16 @@ module.exports = {
 
         //参数过滤
         var good = req.body.good
+        var tags = req.body.tags;
 
         Good.forge(good)
             .save()
             .then(function (good) {
-                util.res(null, res, {id: good.get('id')});
+                //继续存储tags内容
+                saveTags(good.get('id'), tags).then(function(){
+                    util.res(null, res, {id: good.get('id')});
+                })
+                
             })
             .catch(function (err) {
                 var error = { code: 500, msg: err.message};
