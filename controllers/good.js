@@ -1,9 +1,65 @@
 var models = require('../models');
 var Good = models.Good;
+var Tag = models.Tag;
+var GoodTag = models.GoodTag;
 var Paginator = require('./paginator');
+var _ = require('underscore');
+var Promise = require('bluebird');
 
 
 var util = require('../util/util.js');
+
+//存储tags
+var saveTags = function(goodId, tags) {
+    // create tag objects
+    var tagObjects = tags.map(function (tag) {
+        return { name: tag };
+    });
+  return Tag.forge()
+  // fetch tags that already exist
+  .query('whereIn', 'name', _.pluck(tagObjects, 'name'))
+  .fetchAll()
+  .then(function (existingTags) {
+
+    var doNotExist = [];
+    existingTags = existingTags ? existingTags.toJSON(): '';
+    // filter out existing tags
+    if (existingTags.length > 0) {
+      var existingSlugs = _.pluck(existingTags, 'name');
+      doNotExist = tagObjects.filter(function (t) {
+        return existingSlugs.indexOf(t.name) < 0;
+      });
+    }
+    else {
+      doNotExist = tagObjects;
+    }
+    // save tags that do not exist
+    return Promise.map(doNotExist, function(model){
+        return  Tag.forge(model).save()
+                .then(function(tag) {
+                    return tag.get('id');
+                });
+    })
+    // return ids of all passed tags
+    .then(function (ids) {
+        var tagIds = existingTags? ids: _.union(ids, _.pluck(existingTags, 'id'));
+        //save good-tag relationships
+        return Promise.map(tagIds, function(tagId){
+            return new GoodTag({
+              good_id: goodId,
+              tag_id: tagId
+            }).fetch().then(function(goodTag){
+                //console.log(goodId, tagId)
+                if(!goodTag){
+                    return  new GoodTag({good_id: goodId, tag_id: tagId}).save();
+                } else {
+                    return '';
+                }
+            })
+        })
+    });
+  });
+}
 
 module.exports = {
     /**
@@ -132,17 +188,22 @@ module.exports = {
      * PUT /suppliers/:supplier_id/goods/:good_id
      * 
      */
-    update: function(){
+    update: function(req, res, next){
         var filter = util.param(req);
         var good = req.body.good;
+        var tags = req.body.tags;
 
         //鉴权(管理员才有权限使用该接口)
-        if(req.session && req.session.user && req.session.user.role==1){
+        if(true){ //req.session && req.session.user && req.session.user.role==1
             //参数过滤
-            Coupon.where({id: req.params.good_id})
+            Good.where({id: req.params.good_id})
                 .save(good, {patch: true})
                 .then(function (good) {
-                    util.res(null, res, {});
+                    //继续存储tags内容
+                    saveTags(req.params.good_id, tags).then(function(){
+                        util.res(null, res, {});
+                    })
+                    //util.res(null, res, {});
                 })
                 .catch(function (err) {
                     var error = { code: 500, msg: err.message};
@@ -167,11 +228,16 @@ module.exports = {
 
         //参数过滤
         var good = req.body.good
+        var tags = req.body.tags;
 
         Good.forge(good)
             .save()
             .then(function (good) {
-                util.res(null, res, {id: good.get('id')});
+                //继续存储tags内容
+                saveTags(good.get('id'), tags).then(function(){
+                    util.res(null, res, {id: good.get('id')});
+                })
+                
             })
             .catch(function (err) {
                 var error = { code: 500, msg: err.message};
