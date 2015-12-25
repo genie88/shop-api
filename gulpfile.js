@@ -5,14 +5,16 @@ var path = require('path');
 var minify_css = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var swig = require('gulp-swig');
 
 /**
  * 监控javascripts/*和less/*.less文件
  */
-gulp.task('watch', ['js', 'css', 'images'], function() {
+gulp.task('watch', ['js', 'css', 'images', 'templates'], function() {
   gulp.watch('public/js/**/*.js', ['js']);
   gulp.watch('public/less/**/*.less', ['css']);
   gulp.watch('public/img/**/*.*', ['images']);
+  gulp.watch('public/views/**/*.html', ['templates']);
 });
 
 /**
@@ -42,6 +44,13 @@ gulp.task('images', function() {
   return gulp.src('./public/images/**/*.+(jp?(e)g|gif|png)')
     .pipe(gulp.dest('./build/public/images/'));
 })
+
+//templates
+gulp.task('templates', function() {
+  gulp.src('./public/views/pages/**/*.html')
+    .pipe(swig({defaults: { cache: false }}))
+    .pipe(gulp.dest('./views/'))
+});
 
 /**
  * 运行服务器程序， 进行调试
