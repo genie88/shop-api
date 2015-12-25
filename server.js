@@ -66,7 +66,7 @@ app.use(serveStatic('./public'));
 //app.use(express.favicon(__dirname + '/public/images/shortcut-icon.png'));
 app.use(messages());
 
-//app.engine('html', swigRender);
+app.engine('html', swigRender);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
