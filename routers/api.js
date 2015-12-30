@@ -8,6 +8,8 @@ var cartController = require('../controllers/cart.js');
 var catController = require('../controllers/cat.js');
 var specController = require('../controllers/spec.js');
 var storeController = require('../controllers/store.js');
+var CmsFragmentController = require('../controllers/cms_fragment.js');
+var CmsModuleController = require('../controllers/cms_module.js');
 
 //cats 类别
 apiRouter.get('/cats', catController.queryAll)
@@ -69,5 +71,19 @@ apiRouter.get('/users/:user_id', userController.findOne)
 apiRouter.put('/users/:user_id', userController.update)
 apiRouter.post('/users', userController.add)
 apiRouter.delete('/users/:user_id', userController.del)
+
+//modules
+apiRouter.get('/modules', CmsModuleController.queryAll)
+apiRouter.get('/modules/:module_id', CmsModuleController.findOne)
+apiRouter.put('/modules/:module_id', CmsModuleController.update)
+apiRouter.post('/modules', CmsModuleController.add)
+apiRouter.delete('/modules/:module_id', CmsModuleController.del)
+
+//fragments
+apiRouter.get('/fragments', CmsFragmentController.queryAll)
+apiRouter.get('/fragments/:fragment_id', CmsFragmentController.findOne)
+apiRouter.put('/fragments/:fragment_id', CmsFragmentController.update)
+apiRouter.post('/fragments', CmsFragmentController.add)
+apiRouter.delete('/fragments/:fragment_id', CmsFragmentController.del)
 
 module.exports = apiRouter;

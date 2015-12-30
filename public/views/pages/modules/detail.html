@@ -132,6 +132,10 @@
     <!--body wrapper end-->
 
     <!--footer section start-->
+    <script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr','bootstrap', 'app/modules/index']);
+    });
+    </script>
 
 {% endblock %}
-<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>

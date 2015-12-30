@@ -515,7 +515,7 @@
         //logic for this page. Do the requirejs calls here instead of
         //a separate file so after a build there are only 2 HTTP
         //requests instead of three.
-        requirejs(['./js/common'], function (common) {
+        requirejs(['/js/common.js'], function (common) {
             //js/common sets the baseUrl to be js/ so
             //can just ask for 'app/main1' here instead
             //of 'js/app/main1'

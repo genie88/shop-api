@@ -1,6 +1,12 @@
-var Fragments = function(api) {
-    this.api = api;
-    this.collection = 'fragments';
-};
+define(['api/collection'], function(Collection){
+    //var Collection = require('api/collection');
 
-Fragments.prototype = new Collection();
+    var Fragments = function(api) {
+        this.api = api;
+        this.collection = 'fragments';
+    };
+
+    Fragments.prototype = new Collection();
+
+    return Fragments;
+})

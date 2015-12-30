@@ -3,6 +3,7 @@ requirejs.config({
     paths: {
         app: '../app',
         api: '../api',
+        comp: '../../views/components',
         'modernizr': 'modernizr.min',
         'jquery-ui': 'jquery-ui-1.9.2.custom.min',
         'nicescroll': 'jquery.nicescroll',
@@ -15,14 +16,15 @@ requirejs.config({
         'morris': 'morris-chart/morris',
         'raphael': 'morris-chart/raphael-min',
         'calendar': 'calendar/clndr',
-        'moment': 'calendar/moment-2.2.1'
-
+        'moment': 'calendar/moment-2.2.1',
+        'ckeditor': 'ckeditor/ckeditor'
     },
     shim: {
         "bootstrap": ["jquery"],
         underscore: {
             exports: '_'
         },
+        'jquery-ui': ["jquery"],
         nicescroll: {
             deps: ['jquery'],
             exports: '$.fn.niceScroll'
@@ -60,6 +62,10 @@ requirejs.config({
         'calendar': {
             deps: ['jquery', 'moment', 'underscore'],
             exports: '$.fn.clndr'
+        },
+        'ckeditor': {
+            deps: ['jquery'],
+            exports: 'window.CKEDITOR'
         }
     }
 });
