@@ -1,13 +1,10 @@
-define(['api/collection', 'api/module', 'api/fragment'], function(Collection, Modules, Fragments){
+define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 'api/order','api/address', 
+        'api/cart', 'api/coupon', 'api/cart', 'api/spec'], 
+    function(Collection, Modules, Fragments, Goods, Users, Orders, Addresses, 
+        Carts, Coupons, Cats, Specs){
 
-    //var Collection = require('api/collection');
-    //var Modules = require('api/module');
-    //var Fragments = require('api/fragment');
-    //var Goods = require('api/good');
-
-
-    var generic_collections = ['good', 'user', 'cart', 'address', 'order', 'fragment', 
-            'modules', 'coupon', 'cat', 'spec', 'store'];
+    var generic_collections = ['goods', 'users', 'carts', 'addresses', 'orders', 'fragments', 
+            'modules', 'coupons', 'cats', 'specs', 'stores'];
 
     var api = function(api_endpoint, options) {
         options = options || {};
@@ -20,16 +17,18 @@ define(['api/collection', 'api/module', 'api/fragment'], function(Collection, Mo
         this.redirect_uri = options.redirect_uri || null;
         this.client_id = options.client_id || 'web';
         this.response_type = options.response_type || 'token';
-        //this.goods = new Goods(this);
-        //this.users = new Users(this);
-        //this.orders = new Orders(this);
-        //this.addresses = new Addresses(this);
-        //this.carts = new Carts(this);
+        this.goods = new Goods(this);
+        this.users = new Users(this);
+        this.orders = new Orders(this);
+        this.addresses = new Addresses(this);
+        this.carts = new Carts(this);
+        this.coupons = new Coupons(this);
+        this.cats = new Cats(this);
+        this.specs = new Specs(this);
+
         this.fragments = new Fragments(this);
         this.modules = new Modules(this);
-        //this.coupons = new Coupons(this);
-        //this.cats = new Cat(this);
-        //this.specs = new Spec(this);
+
         this.initializeGenericCollections();
         this.initialize();
     };
