@@ -10,7 +10,7 @@ define(['jquery','ckeditor','api/index'], function ($, CKEDITOR, API) {
         console.log(json)
     })
 
-    api.goods.list(moduleId, function(json){
+    api.goods.list({'inline-relation-depth': 1}, function(json){
         console.log(json)
     })
 

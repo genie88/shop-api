@@ -15,9 +15,9 @@ define(function(){
                     first_q = false;
                 });
             }
-            if (options.filter) {
+            if (options.filters) {
                 var q = [];
-                _.each(options.queries, function(value, key) {
+                _.each(options.filters, function(value, key) {
                     q.push('key' + ':' + value); 
                 });
                 query = query + ((first_q ? '?' : '&') + 'q=' + q.join(','));
