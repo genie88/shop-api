@@ -40,7 +40,7 @@
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">更多 <i class="fa fa-angle-down"></i>
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li><a href="#"> 打印 </a></li>
@@ -49,8 +49,38 @@
                             </ul>
                         </div>
                     </div>
+                    <table class="table  table-hover general-table" id="userList">
+                        <thead>
+                            <tr>
+                                <th> 名称</th>
+                                <th> 手机</th>
+                                <th> 昵称</th>
+                                <th> 角色</th>
+                                <th> 上次登录时间</th>
+                                <th> 显示/隐藏</th>
+                                <th> 操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
                     <hr>
-                    
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <div class="dataTables_paginate paging_bootstrap pagination">
+                                <ul>
+                                    <li class="prev disabled"><a href="#">← 上一页</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li class="next"><a href="#">下一页 → </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
             </section>
@@ -59,9 +89,11 @@
 </div>
 <!--body wrapper end-->
 <!--footer section start-->
-<!--dynamic table-->
-<!-- <script type="text/javascript" language="javascript" src="/js/lib/advanced-datatable/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="/js/lib/data-tables/DT_bootstrap.js"></script>
-<!--dynamic table initialization -->
-<!-- <script src="/js/lib/dynamic_table_init.js"></script> -->
+<script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr','bootstrap', 'app/users/index'], function(a, b, userController){
+            userController.initList();
+        });
+    });
+</script>
 {% endblock %}
