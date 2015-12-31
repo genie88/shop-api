@@ -10,7 +10,7 @@
             <li>
                 <a href="#">版块详情</a>
             </li>
-            <li class="active"> 友情链接 </li>
+            <li class="active" node-type="moduleName"></li>
         </ul>
     </div>
     <!-- page heading end-->
@@ -21,13 +21,13 @@
                 <div class="col-sm-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            友情链接
+                        <span node-type="moduleName"></span>
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
                             <a href="javascript:;" class="fa fa-times"></a>
                          </span>
                         </header>
-                        <div class="panel-body">
+                        <div class="panel-body" id="fragmentsList">
                             <table class="table  table-hover general-table">
                                 <thead>
                                 <tr>
@@ -39,37 +39,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                <tr>
-                                    <td>
-                                        <a href="/modules/1/fragments/1">
-                                            百度
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">http://www.baidu.com</td>
-                                    <td>1 </td>
-                                    <td><span class="label label-success label-mini">显示</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a href="#">
-                                            腾讯网
-                                        </a>
-                                    </td>
-                                    <td class="hidden-phone">http://www.qq.com</td>
-                                    <td>2 </td>
-                                    <td><span class="label label-success label-mini">显示</span></td>
-                                    <td>
-                                        <a href="#"><i class="fa fa-eye"></i></a>
-                                        <a href="#"><i class="fa fa-edit"></i></a>
-                                        <a href="#"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -134,7 +103,9 @@
     <!--footer section start-->
     <script>
     requirejs(['/js/common.js'], function (common) {
-        requirejs(['modernizr','bootstrap', 'app/modules/index']);
+        requirejs(['modernizr','bootstrap', 'app/modules/index'], function(a, b, moduleController){
+            moduleController.initDetailPage();
+        });
     });
     </script>
 

@@ -28,12 +28,12 @@
                 <div class="panel-body">
                     <div class="clearfix">
                         <div class="btn-group">
-                            <button id="editable-sample_new" class="btn btn-primary">
+                            <button data-act="addModule" class="btn btn-primary">
                             添加版块 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
-                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">工具 <i class="fa fa-angle-down"></i>
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li><a href="#"> 打印 </a></li>
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                     </div>
-                    <table class="table  table-hover general-table">
+                    <table class="table  table-hover general-table" id="modules-list">
                         <thead>
                             <tr>
                                 <th> 名称</th>
@@ -53,88 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <a href="/modules/1">
-                                    ThemeBucket
-                                    </a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                <td>556.00$ </td>
-                                <td><span class="label label-warning label-mini">Due</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                    XYZ
-                                    </a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                <td>13240.00$ </td>
-                                <td><span class="label label-success label-mini">Paid</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Graphics</a></td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
-                                <td>1320.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                    BCSE
-                                    </a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                <td>3455.50$ </td>
-                                <td><span class="label label-danger label-mini">Paid</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">AVC Ltd</a></td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo imit</td>
-                                <td>110.00$ </td>
-                                <td><span class="label label-primary label-mini">Due</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                    Themeforest
-                                    </a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dorolo</td>
-                                <td>456.00$ </td>
-                                <td><span class="label label-warning label-mini">Due</span></td>
-                                <td>
-                                    <a href="#"><i class="fa fa-eye"></i></a>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
-                                    <a href="#"><i class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -144,4 +63,11 @@
 </div>
 <!--body wrapper end-->
 <!--footer section start-->
+<script>
+requirejs(['/js/common.js'], function (common) {
+    requirejs(['modernizr','bootstrap', 'app/modules/index'], function(a, b, moduleController){
+        moduleController.initListPage();
+    });
+});
+</script>
 {% endblock %}
