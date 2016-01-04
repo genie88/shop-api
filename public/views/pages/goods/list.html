@@ -62,8 +62,23 @@
                                 <th> 操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
+                        <tbody tt-repeat="item in goods">
+                        {% raw %}
+                            <tr data-id="{{item.id}}">
+                                <td><a href="/goods/{{item.id}}">{{item.name}}</a></td>
+                                <td>{{item.brand_name}}</td>
+                                <td><span class="label label-success label-mini">{{item.cat.cat_name}}</span></td>
+                                <td>{{item.description}} </td>
+                                <td> <img src="{{item.default_image}}" alt="" height="50" /> </td>
+                                <td>{{item.price}} / {{item.market_price}}</td>
+                                <td>{{item.stock}}</td>
+                                <td>
+                                    <a href="/goods/{{item.id}}"><i class="fa fa-eye"></i></a>
+                                    <a href="/goods/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:;" tt-click="deleteModule"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>  
+                        {% endraw %}
                         </tbody>
                     </table>
                     <hr>

@@ -1,5 +1,6 @@
 {% extends '../layouts/default.html' %}
 {% block content %}
+<div tt-controller="app/goods/index" tt-init="initDetail">
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
@@ -9,7 +10,7 @@
         <li>
             <a href="#">商品详情</a>
         </li>
-        <li class="active"> ［商品名称］ </li>
+        <li class="active" tt-bind="name"></li>
     </ul>
 </div>
 <!-- page heading end-->
@@ -22,7 +23,7 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="profile-pic text-center">
-                                <img alt="" src="/images/photos/user1.png">
+                                <img alt="" src="" tt-img="default_image">
                             </div>
                         </div>
                     </div>
@@ -32,24 +33,28 @@
                         <div class="panel-body">
                             <ul class="p-info">
                                 <li>
-                                    <div class="title">Gender</div>
-                                    <div class="desk">Male</div>
+                                    <div class="title">品牌</div>
+                                    <div class="desk" tt-bind="brand_name"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Founder</div>
-                                    <div class="desk">ABC Inc.</div>
+                                    <div class="title">品类</div>
+                                    <div class="desk" tt-bind="cat.cat_name"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Education</div>
-                                    <div class="desk">BSC. in CSE</div>
+                                    <div class="title">种类</div>
+                                    <div class="desk" tt-bind="spec.spec_name"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Project Done</div>
-                                    <div class="desk">50+</div>
+                                    <div class="title">单位</div>
+                                    <div class="desk" tt-bind="description"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Skills</div>
-                                    <div class="desk">HTML, CSS, JavaScript.</div>
+                                    <div class="title">库存</div>
+                                    <div class="desk" tt-bind="stock"></div>
+                                </li>
+                                <li>
+                                    <div class="title">供应商</div>
+                                    <div class="desk" tt-bind="supplier.name"></div>
                                 </li>
                             </ul>
                         </div>
@@ -99,13 +104,13 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="profile-desk">
-                                <h1>产品名称</h1>
-                                <span class="designation">PRODUCT DESIGNER (UX / UI / Visual Interaction)</span>
-                                <p>
-                                I have 10 years of experience designing for the web, and specialize in the areas of user interface design, interaction design, visual design and prototyping. I’ve worked with notable startups including Pearl Street Software.
+                                <h1 tt-bind="name"></h1>
+                                <span class="designation" ></span>
+                                <p tt-bind="description">
+                               
                                 </p>
                                 <div class="blog-tags">
-                                    TAGS <a href="#">photoshop</a> <a href="#">illustrator</a> <a href="#">adobe</a> <a href="#">theme</a>
+                                    标签 <a href="#">photoshop</a> <a href="#">illustrator</a> <a href="#">adobe</a> <a href="#">theme</a>
                                     <div class="pull-right tag-social">
                                         <a href="#" class="btn btn-share pull-right">Share</a>
                                         <ul class="pull-right">
@@ -137,6 +142,15 @@
     </div>
 
 </div>
+
 <!--body wrapper end-->
 <!--footer section start-->
+<script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr','bootstrap', 'app/goods/index'], function(a, b, goodController){
+            goodController.initDetail();
+        });
+    });
+</script>
+</div>
 {% endblock %}
