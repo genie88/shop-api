@@ -5,17 +5,17 @@ define(['jquery', 'swig'], function($, swig){
      *
      *
      **/
-    var BaseController = function(name, scope) {
+    var BaseController = function(name) {
         this.__name = name;
+        this.$scope = {};
         this.__tplRegistry = [];
-        this.$scope = scope; //双向绑定作用域
         this.__init();
     };
 
     BaseController.prototype = {
         __init: function(){
             //控制器作用范围html容器 tt-controller tt-init
-            this.$scopeHtml = $('.tt-controller');
+            this.$scopeHtml = $('[tt-controller]');
             this._initFun = this.$scopeHtml.attr('tt-init');
             if(this[this._initFun] && typeof this[this._initFun] == 'function') {
                 this[this._initFun]();
@@ -23,7 +23,7 @@ define(['jquery', 'swig'], function($, swig){
         },
         apply: function(){
             var self = this;
-            self._digest();
+            self.__digest();
         },
         __digest: function(){
             var self = this;
@@ -57,7 +57,9 @@ define(['jquery', 'swig'], function($, swig){
                 tpl = self.__tplRegistry[index] ? self.__tplRegistry[index]: 
                     '{% for '+ repeatClause + ' %}' + ele.html() + '{% endfor %}';
                 context = { locals: self.$scope}
+                
                 html = swig.render(tpl, context);
+                console.log(tpl, context);
                 //添加到模版资源注册表中
                 self.__tplRegistry[index] = tpl;
                 ele.html(html);
@@ -65,4 +67,6 @@ define(['jquery', 'swig'], function($, swig){
 
         }
     }
+
+    return BaseController;
 })
