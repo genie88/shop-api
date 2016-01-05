@@ -1,9 +1,9 @@
 requirejs.config({
-    baseUrl: '/js/lib',
+    baseUrl: '/lib',
     paths: {
-        app: '../app',
-        api: '../api',
-        comp: '../../views/components',
+        app: '../js/app',
+        api: '../js/api',
+        comp: '../views/components',
         'modernizr': 'modernizr.min',
         'jquery-ui': 'jquery-ui-1.9.2.custom.min',
         'nicescroll': 'jquery.nicescroll',

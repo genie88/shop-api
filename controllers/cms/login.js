@@ -4,7 +4,8 @@ var crypto = require('crypto'),
 
 
 exports.registerPage = function(req, res) {
-    res.render('login/register', {username: req.flash('username')});
+    //res.render('login/register', {username: req.flash('username')});
+    res.sendfile('build/public/views/login/register.html');
 }
 
 
@@ -46,7 +47,8 @@ exports.registerPost = function(req, res) {
 
 
 exports.loginPage = function(req, res) {
-    res.render('login/index', {username: req.flash('username')});
+    //res.render('login/index', {username: req.flash('username')});
+    res.sendfile('build/public/views/login/index.html');
 }
 
 

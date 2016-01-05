@@ -10,7 +10,7 @@
         <li>
             <a href="#">商品详情</a>
         </li>
-        <li class="active" tt-bind="name"></li>
+        <li class="active" tt-bind="good.name"></li>
     </ul>
 </div>
 <!-- page heading end-->
@@ -23,7 +23,7 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="profile-pic text-center">
-                                <img alt="" src="" tt-img="default_image">
+                                <img alt="" src="" tt-src="good.default_image">
                             </div>
                         </div>
                     </div>
@@ -31,30 +31,52 @@
                 <div class="col-md-12">
                     <div class="panel">
                         <div class="panel-body">
+                            <h3>基本信息</h3>
                             <ul class="p-info">
                                 <li>
                                     <div class="title">品牌</div>
-                                    <div class="desk" tt-bind="brand_name"></div>
+                                    <div class="desk" tt-bind="good.brand_name"></div>
                                 </li>
                                 <li>
                                     <div class="title">品类</div>
-                                    <div class="desk" tt-bind="cat.cat_name"></div>
+                                    <div class="desk" tt-bind="good.cat.cat_name"></div>
                                 </li>
                                 <li>
                                     <div class="title">种类</div>
-                                    <div class="desk" tt-bind="spec.spec_name"></div>
+                                    <div class="desk" tt-bind="good.spec.spec_name"></div>
                                 </li>
                                 <li>
                                     <div class="title">单位</div>
-                                    <div class="desk" tt-bind="description"></div>
+                                    <div class="desk" tt-bind="good.description"></div>
                                 </li>
                                 <li>
                                     <div class="title">库存</div>
-                                    <div class="desk" tt-bind="stock"></div>
+                                    <div class="desk" tt-bind="good.stock"></div>
                                 </li>
                                 <li>
                                     <div class="title">供应商</div>
-                                    <div class="desk" tt-bind="supplier.name"></div>
+                                    <div class="desk" tt-bind="good.supplier.name"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <h3>供应商信息</h3>
+                            <ul class="p-info">
+                                <li>
+                                    <div class="title">供应商名称</div>
+                                    <div class="desk" tt-bind="good.supplier.name"></div>
+                                </li>
+                                <li>
+                                    <div class="title">供应商地址</div>
+                                    <div class="desk" tt-bind="good.supplier.location"></div>
+                                </li>
+                                <li>
+                                    <div class="title">供应商联系方式</div>
+                                    <div class="desk" tt-bind="good.supplier.phone"></div>
                                 </li>
                             </ul>
                         </div>
@@ -104,15 +126,18 @@
                     <div class="panel">
                         <div class="panel-body">
                             <div class="profile-desk">
-                                <h1 tt-bind="name"></h1>
+                                <h1 tt-bind="good.name"></h1>
                                 <span class="designation" ></span>
-                                <p tt-bind="description">
+                                <p tt-bind="good.description">
                                
                                 </p>
                                 <div class="blog-tags">
-                                    标签 <a href="#">photoshop</a> <a href="#">illustrator</a> <a href="#">adobe</a> <a href="#">theme</a>
+                                    标签 
+                                    <span tt-repeat="item in good.tags">
+                                        <a href="#">{{item.name}}</a>
+                                    </span>
                                     <div class="pull-right tag-social">
-                                        <a href="#" class="btn btn-share pull-right">Share</a>
+                                        <a href="#" class="btn btn-share pull-right" tt-click="testClick">Share</a>
                                         <ul class="pull-right">
                                             <li>
                                                 <a href="#">

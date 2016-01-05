@@ -6,9 +6,15 @@ define(['jquery', 'swig', 'ckeditor','app/base','api/index'], function ($, swig,
 
     //初始化模块控制器
     var GoodController = function(){
-        
+
     }
     var _p = GoodController.prototype = new BaseController();
+
+
+
+    _p.testClick = function(e){
+        console.log('share clicked')
+    }
 
 
     //初始化商品详情信息
@@ -16,9 +22,10 @@ define(['jquery', 'swig', 'ckeditor','app/base','api/index'], function ($, swig,
         var self = this;
 
         api.goods.get(goodId, {'inline-relation-depth': 1}, function(json){
-            //console.log(json.data)
+            console.log(json.data)
             if(json && json.code == 200 && json.data && json.data) {
-                self.$scope = json.data.data;
+                self.$scope.good = json.data;
+                self.apply();
                 //var context = { locals: { items: json.data.data }}
                 //var html = swig.render(tpl, context);
                 //console.log(html);
@@ -38,19 +45,12 @@ define(['jquery', 'swig', 'ckeditor','app/base','api/index'], function ($, swig,
             console.log(json.data)
             if(json && json.code == 200 && json.data && json.data.data) {
                 self.$scope.goods = json.data.data;
+                self.$scope.pages = json.data.pages;
                 self.apply();
             }
         })
-        self.bindEvent();
+        //self.bindEvent();
 
-    }
-
-    //绑定事件
-    _p.bindEvent = function(){
-        //删除模块
-        $(document).on('click', 'a[data-act=deleteModule]', function(){
-            alert('确定要删除该用户吗?')
-        })
     }
 
     return (new GoodController());

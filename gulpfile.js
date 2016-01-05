@@ -10,23 +10,42 @@ var swig = require('gulp-swig');
 /**
  * 监控javascripts/*和less/*.less文件
  */
-gulp.task('watch', ['js', 'css', 'images', 'templates'], function() {
+gulp.task('watch', ['js', 'css', 'images','fonts', 'templates', 'components', 'libs'], function() {
   gulp.watch('public/js/**/*.js', ['js']);
-  gulp.watch('public/less/**/*.less', ['css']);
-  gulp.watch('public/img/**/*.*', ['images']);
+  gulp.watch('public/css/**/*.*', ['css']);
+  gulp.watch('public/images/**/*.*', ['images']);
+  gulp.watch('public/fonts/**/*.*', ['fonts']);
   gulp.watch('public/views/**/*.html', ['templates']);
+  gulp.watch('public/views/components/**/*.*', ['components']);
+  gulp.watch('public/lib/**/*.*', ['libs']);
 });
+
+/**
+ * 编译font文件
+ */
+gulp.task('fonts', function() {
+  return gulp.src('./public/fonts/**/*.*')
+    .pipe(gulp.dest('./build/public/fonts/'));
+})
+
+
+gulp.task('libs', function() {
+  return gulp.src('./public/lib/**/*.*')
+    .pipe(gulp.dest('./build/public/lib/'));
+})
 
 /**
  * 编译css文件
  */
 gulp.task('css', function() {
-  return gulp.src('./public/less/*.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
-    }))
-    // .pipe(minify_css())
-    .pipe(gulp.dest('./build/public/css'));
+  return gulp.src('./public/css/**/*.*')
+    .pipe(gulp.dest('./build/public/css/'));
+  // return gulp.src('./public/less/*.less')
+  //   .pipe(less({
+  //     paths: [ path.join(__dirname, 'less', 'includes') ]
+  //   }))
+  //   // .pipe(minify_css())
+  //   .pipe(gulp.dest('./build/public/css'));
 });
 
 /**
@@ -45,11 +64,17 @@ gulp.task('images', function() {
     .pipe(gulp.dest('./build/public/images/'));
 })
 
+//components
+gulp.task('components', function() {
+  gulp.src('./public/views/components/**/*.+(html|css|js)')
+    .pipe(gulp.dest('./build/public/views/components/'))
+});
+
 //templates
 gulp.task('templates', function() {
   gulp.src('./public/views/pages/**/*.html')
     .pipe(swig({defaults: { cache: false }}))
-    .pipe(gulp.dest('./views/'))
+    .pipe(gulp.dest('./build/public/views/'))
 });
 
 /**

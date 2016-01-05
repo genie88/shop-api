@@ -62,13 +62,15 @@ app.use(expressValidator());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use(serveStatic('./public'));
+app.use(serveStatic('./build/public/'));
 //app.use(express.favicon(__dirname + '/public/images/shortcut-icon.png'));
 app.use(messages());
 
-app.engine('html', swigRender);
-app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+// app.engine('html', swigRender);
+// app.set('view engine', 'html');
+
+
+// app.set('views', __dirname + '/views');
 
 require('./util/auth')(passport);
 require('./routes')(app, passport);

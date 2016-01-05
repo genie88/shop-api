@@ -2,9 +2,9 @@
 {% block content %}
 
 <!--dynamic table-->
-<link href="/js/lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
-<link href="/js/lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
-<link rel="stylesheet" href="/js/lib/data-tables/DT_bootstrap.css" />
+<link href="/lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+<link href="/lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/lib/data-tables/DT_bootstrap.css" />
 
 <div tt-controller="app/goods/index" tt-init="initList">
 <!-- page heading start-->
@@ -85,14 +85,15 @@
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="dataTables_paginate paging_bootstrap pagination">
-                                <ul>
-                                    <li class="prev disabled"><a href="#">← 上一页</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li class="next"><a href="#">下一页 → </a></li>
+                                <ul tt-repeat1="page in pages">
+                                    <!-- <li><a href="javascript:;" data-page="{{page}}">{{page}}</a></li> -->
+                                    <li class="prev disabled"><a href="javascript:;">← 上一页</a></li>
+                                    <li class="active"><a href="javascript:;">1</a></li>
+                                    <li><a href="javascript:;">2</a></li>
+                                    <li><a href="javascript:;">3</a></li>
+                                    <li><a href="javascript:;">4</a></li>
+                                    <li><a href="javascript:;">5</a></li>
+                                    <li class="next"><a href="javascript:;">下一页 → </a></li>
                                 </ul>
                             </div>
                         </div>

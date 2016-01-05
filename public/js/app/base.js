@@ -10,6 +10,7 @@ define(['jquery', 'swig'], function($, swig){
         this.$scope = {};
         this.__tplRegistry = [];
         this.__init();
+        this.__bindEvent();
     };
 
     BaseController.prototype = {
@@ -59,12 +60,21 @@ define(['jquery', 'swig'], function($, swig){
                 context = { locals: self.$scope}
                 
                 html = swig.render(tpl, context);
-                console.log(tpl, context);
+                // console.log(tpl, context);
                 //添加到模版资源注册表中
                 self.__tplRegistry[index] = tpl;
                 ele.html(html);
             })
 
+        },
+        __bindEvent: function(){
+            var self = this;
+            self.$scopeHtml.on('click', '[tt-click]', function(e){
+                var handler = $(this).attr('tt-click');
+                if(self[handler] && typeof self[handler] == 'function') {
+                    self[handler](e);
+                }
+            })
         }
     }
 
