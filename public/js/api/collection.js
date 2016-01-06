@@ -10,16 +10,16 @@ define(function(){
             var query = '',
                 first_q = true;
             if (options.queries) {
-                _.each(options.queries, function(value, key) {
-                    query = query + ((first_q ? '?' : '&') + key + '=' + value);
+                for(key in options.queries){ 
+                    query = query + ((first_q ? '?' : '&') + key + '=' + options.queries[key]);
                     first_q = false;
-                });
+                };
             }
             if (options.filters) {
                 var q = [];
-                _.each(options.filters, function(value, key) {
-                    q.push('key' + ':' + value); 
-                });
+                for(key in options.filters) {
+                    q.push(key + ':' + options.filters[key]); 
+                };
                 query = query + ((first_q ? '?' : '&') + 'q=' + q.join(','));
             }
             return query;

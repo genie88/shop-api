@@ -1,6 +1,6 @@
 define(['jquery', 'swig'], function ($, swig) {
 
-    var tpl = ' <li class="prev {% if hasFirst %}disabled{% endif %} data-page="prev"><a href="javascript:;">← 上一页</a></li>\
+    var tpl = ' <li class="prev {% if hasFirst %}disabled{% endif %}" data-page="prev"><a href="javascript:;">← 上一页</a></li>\
                 {% for page in pages %}\
                 <li class=" {% if page.current %}active {% endif %}" data-page="{{page.num}}"><a href="javascript:;">{{page.num}}</a></li>\
                 {% endfor %}\
@@ -12,11 +12,12 @@ define(['jquery', 'swig'], function ($, swig) {
         this.page = opt.page || 1;
         this.pages = [];
         this.total = opt.total || 1;
+        this.bindEvent();
     };
 
     Pager.prototype = {
         generatePages:function(){
-            var i=0, acc = 0;
+            var i=0, acc = 1;
             this.pages = [];
             if(this.total <= 6){
                 for(i=1; i<= this.total; i++){
@@ -80,20 +81,6 @@ define(['jquery', 'swig'], function ($, swig) {
             }}
             var html = swig.render(tpl, context);
             this.container.html(html);
-            $(document).trigger('PAGER_CHANGED', this.page);
-
-        },
-
-        next: function(){
-            this.page++;
-            this.page = Math.min(this.page , this.total);
-            this.render(this.page);
-        },
-
-        prev: function(){
-            this.page--;
-            this.page = Math.Max(this.page , 0);
-            this.render(this.page);
         },
 
         bindEvent: function(){
@@ -102,8 +89,16 @@ define(['jquery', 'swig'], function ($, swig) {
                 e.preventDefault();
                 var page = $(this).data('page') || '1';
                 if( !isNaN(parseInt(page))) self.render(parseInt(page));
-                else if( page == 'prev') self.prev();
-                else if( page == 'next') self.next();
+                else if( page == 'next') {
+                    self.page++;
+                    self.page = Math.min(self.page , self.total);
+                    self.render(self.page);
+                } else if( page == 'prev') {
+                    self.page--;
+                    self.page = Math.max(self.page , 1);
+                    self.render(self.page);
+                };
+                $(document).trigger('PAGER_CHANGED', self.page);
             })
         }
     }

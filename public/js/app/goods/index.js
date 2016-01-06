@@ -26,11 +26,6 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.good = json.data;
                 self.apply();
-                //var context = { locals: { items: json.data.data }}
-                //var html = swig.render(tpl, context);
-                //console.log(html);
-
-                //$('#userList tbody').html(html)
             }
         })
 
@@ -42,18 +37,30 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
     _p.initList = function(){
         var self = this;
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
-        api.goods.list({'inline-relation-depth': 1}, function(json){
-            console.log(json.data)
+        
+        self.getGoodList({}, {page: 1, page_size: 2});
+
+        $(document).on('PAGER_CHANGED', function(e, page){
+            //console.log(page);
+            self.getGoodList({}, {page: page, page_size: 2});
+        })
+    }
+
+    _p.getGoodList = function(query, filter){
+        var self = this;
+        api.goods.list({'inline-relation-depth': 1, queries: query, filters: filter}, function(json){
+            //console.log(json.data)
             if(json && json.code == 200 && json.data && json.data.data) {
                 self.$scope.goods = json.data.data;
-                self.$scope.pages = json.data.pages;
+                self.page = json.data.currentPage;
+                self.total = json.data.pages.length;
+                //self.$scope.pages = json.data.pages;
                 self.apply();
-                self.pager.render(6 , 10);
+                self.pager.render(self.page , self.total);
             }
         })
-        //self.bindEvent();
-
     }
+
 
     return (new GoodController());
 
