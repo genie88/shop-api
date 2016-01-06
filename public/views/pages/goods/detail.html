@@ -134,7 +134,9 @@
                                 <div class="blog-tags">
                                     标签 
                                     <span tt-repeat="item in good.tags">
+                                        {% raw %}
                                         <a href="#">{{item.name}}</a>
+                                        {% endraw %}
                                     </span>
                                     <div class="pull-right tag-social">
                                         <a href="#" class="btn btn-share pull-right" tt-click="testClick">Share</a>

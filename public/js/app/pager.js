@@ -2,11 +2,11 @@ define(['jquery', 'swig'], function ($, swig) {
 
     var tpl = ' <li class="prev {% if hasFirst %}disabled{% endif %} data-page="prev"><a href="javascript:;">← 上一页</a></li>\
                 {% for page in pages %}\
-                <li class=" {% if page.current %}active {% if endif %}" data-page="{{page}}"><a href="javascript:;">{{page.num}}</a></li>\
+                <li class=" {% if page.current %}active {% endif %}" data-page="{{page.num}}"><a href="javascript:;">{{page.num}}</a></li>\
                 {% endfor %}\
                 <li class="next {% if hasLast %}disabled{% endif %}" data-page="next"><a href="javascript:;">下一页 → </a></li>'
 
-    var Page = function(opt){
+    var Pager = function(opt){
         var opt = opt || {};
         this.container = opt.wrapper;
         this.page = opt.page || 1;
@@ -14,15 +14,64 @@ define(['jquery', 'swig'], function ($, swig) {
         this.total = opt.total || 1;
     };
 
-    Page.prototype = {
+    Pager.prototype = {
         generatePages:function(){
+            var i=0, acc = 0;
             this.pages = [];
-            
+            if(this.total <= 6){
+                for(i=1; i<= this.total; i++){
+                    this.pages.push({
+                        num: i,
+                        current: i == this.page
+                    })
+                }
+                return;
+            }
+            if(this.page <= 3) {
+                for(i=1; i<= 3; i++){
+                    this.pages.push({
+                        num: i,
+                        current: i == this.page
+                    })
+                }
+                acc = 3;
+            } else if(this.page > 3){
+                if(acc < this.page -3) {
+                    this.pages.push({num: 1})
+                    this.pages.push({num: '...'})
+                }
+                for(i=this.page-3; i<= this.page; i++){
+                    this.pages.push({
+                        num: i,
+                        current: i == this.page
+                    })
+                }
+                acc = this.page
+            }
+            if(this.total - this.page > 3) {
+                //this.pages.push({num: '...'})
+                for(i = acc + 1; i<= this.page + 3; i++){
+                    this.pages.push({
+                        num: i,
+                        current: i == this.page
+                    })
+                }
+                this.pages.push({num: '...'})
+                this.pages.push({num: this.total})
 
+            } else{
+                for(i = acc + 1; i<= this.total; i++){
+                    this.pages.push({
+                        num: i,
+                        current: i == this.page
+                    })
+                }
+            }
         },
 
-        render: function(page){
+        render: function(page, total){
             this.page = page;
+            total && (this.total = total);
             this.generatePages();
             var context = { locals: { 
                 pages: this.pages, 
@@ -30,7 +79,8 @@ define(['jquery', 'swig'], function ($, swig) {
                 hasLast: this.page == this.total
             }}
             var html = swig.render(tpl, context);
-            $('#userList tbody').html(html)
+            this.container.html(html);
+            $(document).trigger('PAGER_CHANGED', this.page);
 
         },
 
@@ -57,5 +107,7 @@ define(['jquery', 'swig'], function ($, swig) {
             })
         }
     }
+
+    return Pager;
 
 })

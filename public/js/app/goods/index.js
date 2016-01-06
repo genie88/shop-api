@@ -1,4 +1,4 @@
-define(['jquery', 'swig', 'ckeditor','app/base','api/index'], function ($, swig, CKEDITOR, BaseController, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], function ($, swig, CKEDITOR, Pager, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var goodId = window.location.pathname.split('/')[2];
@@ -41,12 +41,14 @@ define(['jquery', 'swig', 'ckeditor','app/base','api/index'], function ($, swig,
     //初始化用户列表页
     _p.initList = function(){
         var self = this;
+        self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
         api.goods.list({'inline-relation-depth': 1}, function(json){
             console.log(json.data)
             if(json && json.code == 200 && json.data && json.data.data) {
                 self.$scope.goods = json.data.data;
                 self.$scope.pages = json.data.pages;
                 self.apply();
+                self.pager.render(6 , 10);
             }
         })
         //self.bindEvent();
