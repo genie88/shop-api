@@ -4,6 +4,9 @@ var User = models.User;
 
 
 var util = require('../util/util.js');
+var Paginator = require('./paginator');
+var _ = require('underscore');
+var Promise = require('bluebird');
 
 module.exports = {
     /**
@@ -29,20 +32,49 @@ module.exports = {
             filter.id  = filter.user_id;
             delete filter.user_id;
         }
+
+        var page, pageSize, skip = null, limit = null, paginator = null;
+
+        page = parseInt(filter.page) || 1;
+        pageSize = parseInt(filter.page_size) || 4;
+
+        paginator = new Paginator(page, pageSize);
+
+        limit = paginator.getLimit();
+        skip = paginator.getOffset();
+
         User.forge(filter)
+            .query(function (qb) {
+                qb.limit(limit).offset(skip);
+            })
             .fetchAll({withRelated: relations, columns: columns})
             //.fetchAll()
-            .then(function (users) {
-                if (!users) {
-                    util.res(null, res, [])
-                }
-                else {
-                    util.res(null, res, users)
-                }
-            })
-            .catch(function (err) {
+            .then(function(users) {
+                return User.forge(filter)
+                .query()
+                .count()
+                .then(function (count) {
+                    count = count[0]['count(*)'];
+                    return {
+                        count: count,
+                        data: users
+                    };
+                });
+            }, function (err) {
                 var error = { code: 500, msg: err.message};
                 util.res(error, res);
+            }).then(function (result) {
+                var count = result.count;
+                var users = result.data;
+
+                paginator.setCount(count);
+                paginator.setData(users);
+
+                var ret = paginator.getPaginator();
+                //console.log(ret);
+                return  util.res(null, res, ret);
+
+                //return res.json();
             });
     },
 

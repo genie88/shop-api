@@ -1,4 +1,4 @@
-define(['jquery', 'swig', 'ckeditor','api/index', ], function ($, swig, CKEDITOR, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], function ($, swig, CKEDITOR,Pager, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var userId = window.location.pathname.split('/')[2];
@@ -9,49 +9,37 @@ define(['jquery', 'swig', 'ckeditor','api/index', ], function ($, swig, CKEDITOR
 
     }
 
-    var _p = UserController.prototype;
+    var _p = UserController.prototype = new BaseController();
+
 
     //初始化用户列表页
     _p.initList = function(){
         var self = this;
-        var tpl = '{% for item in items %}\
-                    <tr data-id="{{item.id}}">\
-                        <td><a href="/users/{{item.id}}">{{item.username}}</a></td>\
-                        <td class="hidden-phone">{{item.phone}}</td>\
-                        <td>{{item.email}} </td>\
-                        <td><span class="label label-info label-mini">{% if item.role == 2 %}用户 {% else %} 供应商{% endif %}</span></td>\
-                        <td>{{item.last_login_time}} </td>\
-                        <td><span class="label label-warning label-mini">{% if item.is_show %}显示 {% else %} 隐藏{% endif %}</span></td>\
-                        <td>\
-                            <a href="/users/{{item.id}}"><i class="fa fa-eye"></i></a>\
-                            <a href="/users/{{item.id}}/edit"><i class="fa fa-edit"></i></a>\
-                            <a href="javascript:;" data-act="deleteModule"><i class="fa fa-trash-o"></i></a>\
-                        </td>\
-                    </tr>\
-                {% endfor %}';
+        self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
+        
+        self.getUsers({}, {page: 1, page_size: 2});
 
-        api.users.list({'inline-relation-depth': 0}, function(json){
-            console.log(json.data)
-            if(json && json.code == 200 && json.data) {
-                var context = { locals: { items: json.data }}
-                var html = swig.render(tpl, context);
-                //console.log(html);
+        $(document).on('PAGER_CHANGED', function(e, page){
+            //console.log(page);
+            self.getUsers({}, {page: page, page_size: 2});
+        })
+    }
 
-                $('#userList tbody').html(html)
+    _p.getUsers = function(query, filter){
+        var self = this;
+        api.users.list({'inline-relation-depth': 1, queries: query, filters: filter}, function(json){
+            //console.log(json.data)
+            if(json && json.code == 200 && json.data && json.data.data) {
+                self.$scope.users = json.data.data;
+                self.page = json.data.currentPage;
+                self.total = json.data.pages.length;
+                //self.$scope.pages = json.data.pages;
+                self.apply();
+                self.pager.render(self.page , self.total);
             }
         })
-        self.bindEvent();
-
     }
 
-    //绑定事件
-    _p.bindEvent = function(){
-        //删除模块
-        $(document).on('click', 'a[data-act=deleteModule]', function(){
-            alert('确定要删除该用户吗?')
-        })
-    }
-
-    return new UserController();
+    return (new UserController());
 
 })

@@ -2,11 +2,11 @@
 {% block content %}
 
 <!--dynamic table-->
-<link href="/js/lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
-<link href="/js/lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
-<link rel="stylesheet" href="/js/lib/data-tables/DT_bootstrap.css" />
+<link href="/lib/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+<link href="/lib/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+<link rel="stylesheet" href="/lib/data-tables/DT_bootstrap.css" />
 
-
+<div tt-controller="app/users/index" tt-init="initList">
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
@@ -61,8 +61,22 @@
                                 <th> 操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
+                        <tbody tt-repeat="item in users">
+                        {% raw %}
+                            <tr data-id="{{item.id}}">
+                                <td><a href="/users/{{item.id}}">{{item.username}}</a></td>
+                                <td class="hidden-phone">{{item.phone}}</td>
+                                <td>{{item.email}} </td>
+                                <td><span class="label label-info label-mini">{% if item.role == 2 %}用户 {% else %} 供应商{% endif %}</span></td>
+                                <td>{{item.last_login_time}} </td>
+                                <td><span class="label label-warning label-mini">{% if item.is_show %}显示 {% else %} 隐藏{% endif %}</span></td>
+                                <td>
+                                    <a href="/users/{{item.id}}"><i class="fa fa-eye"></i></a>
+                                    <a href="/users/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:;" data-act="deleteModule"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        {% endraw %}
                         </tbody>
                     </table>
                     <hr>
@@ -86,6 +100,7 @@
             </section>
         </div>
     </div>
+</div>
 </div>
 <!--body wrapper end-->
 <!--footer section start-->
