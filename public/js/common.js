@@ -19,7 +19,8 @@ requirejs.config({
         'moment': 'calendar/moment-2.2.1',
         'ckeditor': 'ckeditor/ckeditor',
         'spinner': 'fuelux/js/spinner.min',
-        'tagsInput': 'jquery-tags-input/jquery.tagsinput'
+        'tagsInput': 'jquery-tags-input/jquery.tagsinput',
+        'isotope': 'jquery.isotope'
     },
     shim: {
         "bootstrap": ["jquery"],
@@ -76,6 +77,10 @@ requirejs.config({
         tagsInput: {
             deps: ['jquery'],
             exports: '$.fn.tagsInput'
+        },
+        isotope: {
+            deps: ['jquery'],
+            exports: '$.fn.isotope'
         }
     }
 });

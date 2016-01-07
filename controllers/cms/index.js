@@ -91,3 +91,8 @@ exports.fragmentNew = function(req, res) {
     // res.render('modules/fragment-new');
     res.sendfile('build/public/views/modules/fragment-new.html');
 }
+
+// 媒资库管理
+exports.media = function(req, res) {
+    res.sendfile('build/public/views/media/index.html');
+}

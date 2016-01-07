@@ -41,12 +41,16 @@ module.exports = function (app, passport) {
     app.get('/modules/:module_id/fragments/:id', ensureAuthenticated, indexController.fragmentDetail);
     app.get('/modules/:module_id/fragments/new', ensureAuthenticated, indexController.fragmentNew);
 
+    app.get('/media', ensureAuthenticated, indexController.media);
+
     // Auth
     app.get('/register', loginController.registerPage);
     app.post('/register', loginController.registerPost);
     app.get('/login', loginController.loginPage);
     app.post('/login', loginController.checkLogin);
     app.get('/logout', loginController.logout);
+
+
 
     // Auth Middleware
     function ensureAuthenticated(req, res, next) {
