@@ -17,7 +17,9 @@ requirejs.config({
         'raphael': 'morris-chart/raphael-min',
         'calendar': 'calendar/clndr',
         'moment': 'calendar/moment-2.2.1',
-        'ckeditor': 'ckeditor/ckeditor'
+        'ckeditor': 'ckeditor/ckeditor',
+        'spinner': 'fuelux/js/spinner.min',
+        'tagsInput': 'jquery-tags-input/jquery.tagsinput'
     },
     shim: {
         "bootstrap": ["jquery"],
@@ -66,6 +68,14 @@ requirejs.config({
         'ckeditor': {
             deps: ['jquery'],
             exports: 'window.CKEDITOR'
+        },
+        spinner: {
+            deps: ['jquery'],
+            exports: '$.fn.spinner'
+        },
+        tagsInput: {
+            deps: ['jquery'],
+            exports: '$.fn.tagsInput'
         }
     }
 });

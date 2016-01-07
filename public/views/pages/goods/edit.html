@@ -1,0 +1,246 @@
+{% extends '../layouts/default.html' %}
+{% block content %}
+<link href="/lib/iCheck/skins/flat/grey.css" rel="stylesheet">
+<link href="/lib/iCheck/skins/flat/red.css" rel="stylesheet">
+<link href="/lib/iCheck/skins/flat/green.css" rel="stylesheet">
+<link href="/lib/iCheck/skins/flat/blue.css" rel="stylesheet">
+<link href="/lib/iCheck/skins/flat/yellow.css" rel="stylesheet">
+<link href="/lib/iCheck/skins/flat/purple.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
+<link rel="stylesheet" type="text/css" href="/lib/jquery-tags-input/jquery.tagsinput.css" />
+<style>
+div.tagsinput span.tag {
+    background: #65CEA7 !important;
+    border-color: #65CEA7;
+    color: #fff;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    padding: 2px 10px;
+}
+</style>
+
+<div tt-controller="app/goods/index" tt-init="initDetail">
+    <!-- page heading start-->
+    <div class="page-heading">
+        <h3>
+        商品管理
+        </h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">商品管理</a>
+            </li>
+            <li class="active"> 编辑商品 </li>
+        </ul>
+    </div>
+    <!-- page heading end-->
+    <!--body wrapper start-->
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        编辑商品
+                    </header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">商品名称</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-book"></i>
+                                        <input type="text" class="form-control" placeholder="商品名称">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">商品品牌</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-home"></i>
+                                        <input type="text" class="form-control" placeholder="商品品牌">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">商品描述</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <textarea class="form-control" placeholder="商品描述" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">一级类目</label>
+                                <div class="col-md-2">
+                                    <select class="form-control m-bot15">
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                    </select>
+                                </div>
+                                <label class="col-md-2 col-sm-2 control-label">二级类目</label>
+                                <div class="col-md-2">
+                                    <select class="form-control m-bot15">
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                        <option>家居清洁</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                
+                            </div>
+                            <div class="form-group">
+                                <label class=" col-md-2 control-label">商品标签</label>
+                                <div class="col-md-6">
+                                    <input id="goodTags" type="text" class="tags" value="php,ios,javascript,ruby,android,kindle" />
+                                </div>
+                            </div>
+                            <div class="form-group last">
+                                <label class="control-label col-md-2">商品图片</label>
+                                <div class="col-md-6">
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
+                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="">
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
+                                    <div>
+                                        <span class="btn btn-default btn-file">
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 选择图片...</span>
+                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> 更改...</span>
+                                        <input type="file" class="default">
+                                        </span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> 删除</a>
+                                    </div>
+                                </div>
+                                <br>
+                                <span class="label label-warning">提示: 单张图片大小限制为2M</span>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label col-md-2">库存量</label>
+                            <div class="col-md-6">
+                                <div id="stockSpinner">
+                                    <div class="input-group" style="width:150px;">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-up btn-primary">
+                                            <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-down btn-warning">
+                                            <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label col-md-2">市场价</label>
+                            <div class="col-md-2">
+                                <div id="marketPriceSpinner">
+                                    <div class="input-group" style="width:150px;">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-up btn-primary">
+                                            <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-down btn-warning">
+                                            <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label col-md-2">天天价</label>
+                            <div class="col-md-2">
+                                <div id="priceSpinner">
+                                    <div class="input-group" style="width:150px;">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-up btn-primary">
+                                            <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <div class="spinner-buttons input-group-btn">
+                                            <button type="button" class="btn spinner-down btn-warning">
+                                            <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">供应商信息</label>
+                                <div class="col-md-6">
+                                    <select class="form-control m-bot15">
+                                        <option>长沙市湘华香烟批发商行</option>
+                                        <option>长沙市湘华香烟批发商行</option>
+                                        <option>长沙市湘华香烟批发商行</option>
+                                        <option>长沙市湘华香烟批发商行</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-2 control-label"></label>
+                            <div class="col-md-5">
+                                <button type="submit" class="btn btn-primary right">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<!--body wrapper end-->
+</div>
+<!--footer section start-->
+<!-- <script type="text/javascript" src="/lib/bootstrap-fileupload.min.js"></script> -->
+<script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr', 'jquery', 'bootstrap', 'iCheck', 'spinner','tagsInput', 'app/goods/index'],
+            function(modernizr, $, bootstrap, iCheck, spinner, tagsInput, goodController){
+                $(function(){
+                    $('#stockSpinner').spinner({value:10000, step: 100, min: 0, max: 99999});
+                    $('#priceSpinner').spinner({value:10.00, step: 0.01, min: 0, max: 99999 , toFixed: 2});
+                    $('#marketPriceSpinner').spinner({value:10.00, step: 0.01, min: 0, max: 99999, toFixed: 2});
+
+                    $('#goodTags').tagsInput({
+                        width: 'auto',
+                        defaultText: '添加标签',
+                        onChange: function(elem, elem_tags)
+                        {
+                            var languages = ['php','ruby','javascript'];
+                            $('.tag', elem_tags).each(function()
+                            {
+                                if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+                                    $(this).css('background-color', 'yellow');
+                            });
+                        }
+                    });
+
+                    $('.flat-green input').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+                });
+                goodController.initDetail();
+        });
+    });
+</script>
+{% endblock %}

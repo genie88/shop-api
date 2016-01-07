@@ -1,0 +1,139 @@
+{% extends '../layouts/default.html' %}
+{% block content %}
+    <link href="/lib/iCheck/skins/flat/grey.css" rel="stylesheet">
+    <link href="/lib/iCheck/skins/flat/red.css" rel="stylesheet">
+    <link href="/lib/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="/lib/iCheck/skins/flat/blue.css" rel="stylesheet">
+    <link href="/lib/iCheck/skins/flat/yellow.css" rel="stylesheet">
+    <link href="/lib/iCheck/skins/flat/purple.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
+
+<div tt-controller="app/goods/index" tt-init="initDetail">
+    <!-- page heading start-->
+    <div class="page-heading">
+        <h3>
+        用户管理
+        </h3>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">用户管理</a>
+            </li>
+            <li class="active"> 编辑用户 </li>
+        </ul>
+    </div>
+    <!-- page heading end-->
+    <!--body wrapper start-->
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-md-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        编辑用户
+                    </header>
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">用户名</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="用户名">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">邮箱</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-home"></i>
+                                        <input type="text" class="form-control" placeholder="邮箱">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">电话</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-phone"></i>
+                                        <input type="text" class="form-control" placeholder="电话">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">昵称</label>
+                                <div class="col-md-6">
+                                    <div class="iconic-input">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="昵称">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label">角色</label>
+                                <div class="col-md-2">
+                                    <div class="flat-green">
+                                        <div class="radio ">
+                                            <input tabindex="1" type="radio"  name="普通用户">
+                                            <label>普通用户 </label>
+                                        </div>
+                                    </div>
+                                    <div class="flat-green">
+                                        <div class="radio ">
+                                            <input tabindex="2" type="radio"  name="供应商">
+                                            <label>供应商 </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group last">
+                                <label class="control-label col-md-2">头像</label>
+                                <div class="col-md-6">
+                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
+                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="">
+                                    </div>
+                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
+                                    <div>
+                                        <span class="btn btn-default btn-file">
+                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 选择图片...</span>
+                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> 更改...</span>
+                                        <input type="file" class="default">
+                                        </span>
+                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> 删除</a>
+                                    </div>
+                                </div>
+                                <br>
+                                <span class="label label-warning">提示: 单张图片大小限制为2M</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 col-sm-2 control-label"></label>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary right">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<!--body wrapper end-->
+</div>
+<!--footer section start-->
+<!-- <script type="text/javascript" src="/lib/bootstrap-fileupload.min.js"></script> -->
+<script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr', 'jquery', 'bootstrap', 'iCheck', 'app/users/index'],
+            function(modernizr, $, bootstrap, iCheck, userController){
+                $(function(){
+                    $('.flat-green input').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+                });
+                userController.initDetail();
+        });
+    });
+</script>
+{% endblock %}

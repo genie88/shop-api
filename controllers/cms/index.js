@@ -15,6 +15,10 @@ exports.userDetail = function(req, res) {
     //res.render('users/detail');
     res.sendfile('build/public/views/users/detail.html');
 }
+exports.userAddOrEdit = function(req, res) {
+    //res.render('users/detail');
+    res.sendfile('build/public/views/users/edit.html');
+}
 
 //goods
 exports.category = function(req, res) {
@@ -33,6 +37,10 @@ exports.goodDetail = function(req, res) {
     // res.render('goods/detail');
     res.sendfile('build/public/views/goods/detail.html');
 }
+exports.goodAddOrEdit = function(req, res) {
+    // res.render('goods/detail');
+    res.sendfile('build/public/views/goods/edit.html');
+}
 
 //suppliers
 exports.suppliers = function(req, res) {
@@ -42,6 +50,10 @@ exports.suppliers = function(req, res) {
 exports.supplierDetail = function(req, res) {
     // res.render('suppliers/detail');
     res.sendfile('build/public/views/suppliers/detail.html');
+}
+exports.supplierAddOrEdit = function(req, res) {
+    // res.render('goods/detail');
+    res.sendfile('build/public/views/suppliers/edit.html');
 }
 
 //order
