@@ -4,6 +4,8 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
     var userId = window.location.pathname.split('/')[2];
     api = new API('http://localhost:3000/api', {});
 
+    roleMap = ['','管理员', '普通用户', '供应商'];
+
     //初始化模块控制器
     var UserController = function(){
 
@@ -11,6 +13,17 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
 
     var _p = UserController.prototype = new BaseController();
 
+    _p.initDetail = function(){
+        var self = this;
+        api.users.get(userId, {'inline-relation-depth': 1}, function(json){
+            if(json && json.code == 200 && json.data && json.data) {
+                self.$scope.user = json.data;
+                self.$scope.user.roleName = roleMap[self.$scope.user.role];
+                //console.log(self.$scope.user);
+                self.apply();
+            }
+        })
+    }
 
     //初始化用户列表页
     _p.initList = function(){

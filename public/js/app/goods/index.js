@@ -33,7 +33,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
 
 
 
-    //初始化用户列表页
+    //初始化商品列表页
     _p.initList = function(){
         var self = this;
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});

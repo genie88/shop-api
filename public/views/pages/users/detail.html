@@ -1,5 +1,6 @@
 {% extends '../layouts/default.html' %}
 {% block content %}
+<div tt-controller="app/goods/index" tt-init="initDetail">
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
@@ -9,7 +10,7 @@
         <li>
             <a href="#">用户详情</a>
         </li>
-        <li class="active"> ［商品名称］ </li>
+        <li class="active" tt-bind="user.username"> ［商品名称］ </li>
     </ul>
 </div>
 <!-- page heading end-->
@@ -32,62 +33,30 @@
                         <div class="panel-body">
                             <ul class="p-info">
                                 <li>
-                                    <div class="title">Gender</div>
-                                    <div class="desk">Male</div>
+                                    <div class="title">用户名</div>
+                                    <div class="desk" tt-bind="user.username"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Founder</div>
-                                    <div class="desk">ABC Inc.</div>
+                                    <div class="title">昵称</div>
+                                    <div class="desk" tt-bind="user.nickname"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Education</div>
-                                    <div class="desk">BSC. in CSE</div>
+                                    <div class="title">邮箱</div>
+                                    <div class="desk" tt-bind="user.email"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Project Done</div>
-                                    <div class="desk">50+</div>
+                                    <div class="title">电话</div>
+                                    <div class="desk" tt-bind="user.phone"></div>
                                 </li>
                                 <li>
-                                    <div class="title">Skills</div>
-                                    <div class="desk">HTML, CSS, JavaScript.</div>
+                                    <div class="title">角色</div>
+                                    <div class="desk" tt-bind="user.roleName"></div>
+                                </li>
+                                <li>
+                                    <div class="title">上次登录时间</div>
+                                    <div class="desk" tt-bind="user.last_login_time"></div>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel">
-                        <div class="panel-body p-states">
-                            <div class="summary pull-left">
-                                <h4>总<span>销量</span></h4>
-                                <span>Monthly Summary</span>
-                                <h3>$ 5,600</h3>
-                            </div>
-                            <div id="expense" class="chart-bar"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel">
-                        <div class="panel-body p-states green-box">
-                            <div class="summary pull-left">
-                                <h4>Product <span>refund</span></h4>
-                                <span>Monthly Summary</span>
-                                <h3>160</h3>
-                            </div>
-                            <div id="pro-refund" class="chart-bar"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="panel">
-                        <div class="panel-body p-states">
-                            <div class="summary pull-left">
-                                <h4>Total <span>Earning</span></h4>
-                                <span>Monthly Summary</span>
-                                <h3>$ 51,2600</h3>
-                            </div>
-                            <div id="expense2" class="chart-bar"></div>
                         </div>
                     </div>
                 </div>
@@ -137,6 +106,14 @@
     </div>
 
 </div>
+</div>
 <!--body wrapper end-->
 <!--footer section start-->
+<script>
+    requirejs(['/js/common.js'], function (common) {
+        requirejs(['modernizr','bootstrap', 'app/users/index'], function(a, b, userController){
+            userController.initDetail();
+        });
+    });
+</script>
 {% endblock %}
