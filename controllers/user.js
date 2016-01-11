@@ -140,7 +140,7 @@ module.exports = {
      * 新增用户信息
      * POST /users/
      */
-    add: function(){
+    add: function(req, res, next){
         //鉴权(供应商或者管理员)
         if(req.session.user.role==1){
 
@@ -149,7 +149,8 @@ module.exports = {
         //参数过滤
         var propWhiteList = ['username', 'nickname', 'email', 'phone', 'avatar', 'role'];
         var user = util.cloneProps(req.body.user, propWhiteList);
-
+        user.avatar = user.avatar || 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar';
+        
         User.forge(user)
             .save()
             .then(function (user) {
