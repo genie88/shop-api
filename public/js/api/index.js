@@ -154,7 +154,10 @@ define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 
             }
             $.ajax({
                 url: (prepend_host ? self.api_endpoint : '') + path + (options.query ? options.query : ''),
-                data: options,
+                type: options.verb,
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify(options.data),
                 success: function(res) {
                     self.processResponse(options, res, done);
                 }

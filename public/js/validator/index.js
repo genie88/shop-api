@@ -26,7 +26,7 @@ define([], function(){
 
         validate: function(model){
             var _ = this, i=0, j=0, rule, prop, type='', e, errors = [];
-            var types = ['type', 'length', 'maxLength', 'minLength', 'range', 'max', 'min', 're', 'func'];
+            var types = ['type', 'length', 'maxLength', 'minLength', 'range', 'max', 'min', 're', 'whiteList', 'func'];
 
             for(prop in _.rules){
                 var rule = _.rules[prop];
@@ -58,6 +58,9 @@ define([], function(){
                         //正则校验
                         case 're': 
                             e = regExpValidate.call(_, rule, prop);
+                        //白名单
+                        case 'whiteList': 
+                            e = whiteListValidate.call(_, rule, prop);
                         case 'func': 
                             e = customValidate.call(_, rule, prop);
                             break;
@@ -129,6 +132,18 @@ define([], function(){
 
         if (getType(rule.re).indexof('regexp') != -1 ) {
             e = ( rule.re.test(val) ) ?  { type: 'reError',  msg: msg } : null;
+        }
+        return e;
+    }
+
+    //白名单校验
+    var whiteListValidate = function(rule, prop){
+        var _ = this, e, 
+            val = _.model[prop],
+            msg = rule.msg || prop + 'invalid property';
+
+        if (getType(rule.whiteList).indexOf('array') != -1 ) {
+            e = ( rule.whiteList.indexOf(val) == -1 ) ?  { type: 'whiteListError',  msg: msg } : null;
         }
         return e;
     }

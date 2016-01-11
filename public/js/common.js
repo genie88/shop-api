@@ -20,10 +20,14 @@ requirejs.config({
         'ckeditor': 'ckeditor/ckeditor',
         'spinner': 'fuelux/js/spinner.min',
         'tagsInput': 'jquery-tags-input/jquery.tagsinput',
-        'isotope': 'jquery.isotope'
+        'isotope': 'jquery.isotope',
+        'fileupload': 'bootstrap-fileupload.min'
     },
     shim: {
         "bootstrap": ["jquery"],
+        'lodash': {
+            exports: '_'
+        },
         underscore: {
             exports: '_'
         },
@@ -81,6 +85,10 @@ requirejs.config({
         isotope: {
             deps: ['jquery'],
             exports: '$.fn.isotope'
+        },
+        'fileupload': {
+            deps: ['jquery'],
+            exports: '$.fn.fileupload'
         }
     }
 });

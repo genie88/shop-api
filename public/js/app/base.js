@@ -1,4 +1,4 @@
-define(['jquery', 'swig'], function($, swig){
+define(['jquery', 'lodash', 'swig'], function($, _, swig){
     /**
      *
      * 需要处理的指令包括 tt-controller tt-init tt-bind tt-repeat tt-show tt-src
@@ -28,13 +28,39 @@ define(['jquery', 'swig'], function($, swig){
         },
         __digest: function(){
             var self = this;
+
+            self.$scopeHtml.find("[tt-model]").each(function(index, item){
+                var ele = $(item),
+                    type = ele.eq(0).attr('type'),
+                    attrs = ele.attr('tt-model'),
+                    val = _.get(self.$scope, attrs);
+
+                switch(type){
+                    case 'text': 
+                    case 'password': 
+                    case 'email': 
+                        ele.val(val);
+                        break;
+                    case 'textarea':
+                        ele.val(val);
+                        break;
+                    case 'checkbox': 
+                        break;
+                    case 'radio': 
+                        (ele.val() == val) ? ele.attr("checked",'true') : ele.attr("checked",'false')
+                        break;
+                    case 'file':
+                        break;
+                    case 'default':
+                        break;
+                }
+            })
+
             self.$scopeHtml.find("[tt-bind]").each(function(index, item){
                 var ele = $(item),
                     val = $.extend({}, self.$scope),
-                    attrs = ele.attr('tt-bind').split('.');
-                for(var i=0; i<attrs.length; i++){
-                    val = val[attrs[i]];
-                }
+                    attrs = ele.attr('tt-bind').split('.'),
+                    val = _.get(self.$scope, attrs);
                 ele.html(val);
             })
 
@@ -74,6 +100,39 @@ define(['jquery', 'swig'], function($, swig){
                 if(self[handler] && typeof self[handler] == 'function') {
                     self[handler](e);
                 }
+            })
+
+            //监听icheck和input的输入改变事件
+            self.$scopeHtml.on('click input', '[tt-model]', function(e){
+                var val, ele = $(this),
+                    type = ele.eq(0).attr('type'),
+                    attrs = ele.attr('tt-model');
+
+                switch(type){
+                    case 'text': 
+                    case 'password': 
+                    case 'email': 
+                        val = ele.val();
+                        break;
+                    case 'textarea':
+                        val = ele.val();
+                        break;
+                    case 'checkbox': 
+                        break;
+                    case 'radio': 
+                        ele.attr("checked",'true');
+                        val = ele.val();
+                        break;
+                    case 'file':
+                        break;
+                    case 'default':
+                        break;
+                }
+
+
+                _.set(self.$scope, attrs, val);
+                //console.log(self.$scope);
+                
             })
         }
     }

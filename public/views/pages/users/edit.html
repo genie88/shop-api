@@ -1,14 +1,8 @@
 {% extends '../layouts/default.html' %}
 {% block content %}
-    <link href="/lib/iCheck/skins/flat/grey.css" rel="stylesheet">
-    <link href="/lib/iCheck/skins/flat/red.css" rel="stylesheet">
-    <link href="/lib/iCheck/skins/flat/green.css" rel="stylesheet">
-    <link href="/lib/iCheck/skins/flat/blue.css" rel="stylesheet">
-    <link href="/lib/iCheck/skins/flat/yellow.css" rel="stylesheet">
-    <link href="/lib/iCheck/skins/flat/purple.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
 
-<div tt-controller="app/goods/index" tt-init="initDetail">
+<div tt-controller="app/goods/index" tt-init="initEdit">
     <!-- page heading start-->
     <div class="page-heading">
         <h3>
@@ -37,7 +31,7 @@
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-user"></i>
-                                        <input type="text" class="form-control" placeholder="用户名">
+                                        <input type="text" class="form-control" placeholder="用户名" tt-model="user.username">
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +40,7 @@
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-home"></i>
-                                        <input type="text" class="form-control" placeholder="邮箱">
+                                        <input type="text" class="form-control" placeholder="邮箱" tt-model="user.email">
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +49,7 @@
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-phone"></i>
-                                        <input type="text" class="form-control" placeholder="电话">
+                                        <input type="text" class="form-control" placeholder="电话" tt-model="user.phone">
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +58,7 @@
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-user"></i>
-                                        <input type="text" class="form-control" placeholder="昵称">
+                                        <input type="text" class="form-control" placeholder="昵称" tt-model="user.nickname">
                                     </div>
                                 </div>
                             </div>
@@ -73,13 +67,15 @@
                                 <div class="col-md-2">
                                     <div class="flat-green">
                                         <div class="radio ">
-                                            <input tabindex="1" type="radio"  name="普通用户">
+                                            <input tabindex="1" type="radio"  name="角色" tt-model="user.role" value="2">
                                             <label>普通用户 </label>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="flat-green">
                                         <div class="radio ">
-                                            <input tabindex="2" type="radio"  name="供应商">
+                                            <input tabindex="2" type="radio"  name="角色"  tt-model="user.role" value="3">
                                             <label>供应商 </label>
                                         </div>
                                     </div>
@@ -90,14 +86,14 @@
                                 <div class="col-md-6">
                                     <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
                                     <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="">
+                                        <img src="" tt-src="user.avatar" alt="">
                                     </div>
                                     <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
                                     <div>
                                         <span class="btn btn-default btn-file">
                                         <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 选择图片...</span>
                                         <span class="fileupload-exists"><i class="fa fa-undo"></i> 更改...</span>
-                                        <input type="file" class="default">
+                                        <input type="file" class="default" tt-model="user.avatar">
                                         </span>
                                         <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> 删除</a>
                                     </div>
@@ -109,7 +105,7 @@
                         <div class="form-group">
                             <label class="col-md-2 col-sm-2 control-label"></label>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary right">提交</button>
+                                <button class="btn btn-primary right" tt-click="updateUser">提交</button>
                             </div>
                         </div>
                     </form>
@@ -124,15 +120,15 @@
 <!-- <script type="text/javascript" src="/lib/bootstrap-fileupload.min.js"></script> -->
 <script>
     requirejs(['/js/common.js'], function (common) {
-        requirejs(['modernizr', 'jquery', 'bootstrap', 'iCheck', 'app/users/index'],
-            function(modernizr, $, bootstrap, iCheck, userController){
-                $(function(){
-                    $('.flat-green input').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
-                    });
-                });
-                userController.initDetail();
+        requirejs(['modernizr', 'jquery', 'bootstrap', 'iCheck', 'fileupload', 'app/users/index'],
+            function(modernizr, $, bootstrap, iCheck, fileUpload, userController){
+                // $(function(){
+                //     $('.flat-green input').iCheck({
+                //         checkboxClass: 'icheckbox_flat-green',
+                //         radioClass: 'iradio_flat-green'
+                //     });
+                // });
+                userController.initEdit();
         });
     });
 </script>

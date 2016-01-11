@@ -1,4 +1,5 @@
-define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], function ($, swig, CKEDITOR,Pager, BaseController, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'api/index'], 
+    function ($, swig, CKEDITOR,Pager, upload, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var userId = window.location.pathname.split('/')[2];
@@ -25,6 +26,37 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
         })
     }
 
+    _p.initEdit = function(){
+        var self = this;
+        userId && api.users.get(userId, {'inline-relation-depth': 0}, function(json){
+            if(json && json.code == 200 && json.data && json.data) {
+                self.$scope.user = json.data;
+                self.$scope.user.roleName = roleMap[self.$scope.user.role];
+                self.$scope.user.avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar';
+                //console.log(self.$scope.user);
+                self.apply();
+            }
+        })
+
+
+    }
+
+    _p.updateUser = function(e){
+        var self = this;
+        console.log(self.$scope.user);
+
+        if(userId) {
+            //编辑已有用户信息
+            api.users.update(userId, self.$scope.user, function(json){
+                console.log(json);
+            });
+        } else {
+            //新增用户信息
+
+        }
+        e.preventDefault();
+    }
+
     //初始化用户列表页
     _p.initList = function(){
         var self = this;
@@ -34,13 +66,13 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
 
         $(document).on('PAGER_CHANGED', function(e, page){
             //console.log(page);
-            self.getUsers({}, {page: page, page_size: 2});
+            self.getUsers({'inline-relation-depth': 1}, {page: page, page_size: 2});
         })
     }
 
     _p.getUsers = function(query, filter){
         var self = this;
-        api.users.list({'inline-relation-depth': 1, queries: query, filters: filter}, function(json){
+        api.users.list({queries: query, filters: filter}, function(json){
             //console.log(json.data)
             if(json && json.code == 200 && json.data && json.data.data) {
                 self.$scope.users = json.data.data;
