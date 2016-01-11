@@ -47,8 +47,14 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
 
         if(userId) {
             //编辑已有用户信息
-            api.users.update(userId, self.$scope.user, function(json){
+            var data = $.extend({}, self.$scope.user);
+            api.users.update(userId, {user: data}, function(json){
                 console.log(json);
+                if(json && json.code == 200){
+                    alert('更新成功');
+                } else {
+                    console.log(json.msg);
+                }
             });
         } else {
             //新增用户信息

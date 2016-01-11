@@ -33,6 +33,14 @@ module.exports = {
             })
         }
     },
+
+    cloneProps: function(obj, props){
+        var clonie = {};
+        for(var i=0; i< props.length; i++){
+            clonie[props[i]] = obj[props[i]];
+        }
+        return clonie;
+    },
     
     camelize: function(attrs) {
       return _.reduce(attrs, function(memo, val, key) {

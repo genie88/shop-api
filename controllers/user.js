@@ -120,8 +120,20 @@ module.exports = {
      * PUT /users/:user_id
      * 
      */
-    update: function(){
-
+    update: function(req, res, next){
+        //参数过滤
+        var propWhiteList = ['username', 'nickname', 'email', 'phone', 'avatar', 'role'];
+        var user = util.cloneProps(req.body.user, propWhiteList);
+        console.log(user);
+        new User({id: req.params.user_id})
+            .save(user, {patch: true})
+            .then(function (user) {
+                util.res(null, res, {});
+            })
+            .catch(function (err) {
+                var error = { code: 500, msg: err.message};
+                util.res(error, res);
+            }); 
     },
 
     /**
@@ -135,7 +147,8 @@ module.exports = {
         }
 
         //参数过滤
-        var user = req.body.user
+        var propWhiteList = ['username', 'nickname', 'email', 'phone', 'avatar', 'role'];
+        var user = util.cloneProps(req.body.user, propWhiteList);
 
         User.forge(user)
             .save()
