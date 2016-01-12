@@ -1,50 +1,71 @@
-define(['jquery', 'bootstrap'], function($, bootstrap) {
-    var tpl = '<div class="modal fade" id="{{dialogID}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
+define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
+    var tpl = '<div class="modal fade {{klass}}" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
                 <div class="modal-dialog">\
                     <div class="modal-content">\
                         <div class="modal-header">\
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>\
                             <h4 class="modal-title">{{title}}</h4>\
                         </div>\
-                        <div class="modal-body">{{contentHTML}}</div>\
+                        <div class="modal-body">{{content}}</div>\
                         <div class="modal-footer">\
-                            <button type="button" class="btn btn-danger">确定</button>\
-                            <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>\
+                            {% for btn in btns%}\
+                            <button  {% if btn.dismiss %} data-dismiss="modal" {% endif %} type="button" class="btn {{btn.klass}}">{{btn.text}}</button>\
+                            {% endfor %}\
                         </div>\
                     </div>\
                 </div>\
             </div>';
 
-    var Dialog = function(opt){
+    var defaults = {
+        title: '',
+        klass: '',
+        content: '',
+        btns: [
+            {klass: 'btn-danger', text: '确定', callback: null},
+            {klass: 'btn-default',text: '取消', callback: null, dismiss: true}
+        ]
+    }
+
+    var Dialog = function(data, opt){
         this.opt = opt || {};
-        this.init(opt);
+        this.data = $.extend(defaults, data);
+        !this.data.id && (this.data.id = 'dialog-' + Math.ceil(Math.random()*100000) );
+        this.id = this.data.id;
         this.__bindEvents();
     }
 
 
     Dialog.prototype = {
-        //初始化
-        init: function(opt){
-            return this;
-        },
-
         //渲染
-        render: function(scope){
-
+        render: function(data){
+            this.data = $.extend(defaults, data);
+            var dialog = swig.render(tpl, {locals: this.data});
+            $('#'+this.id) && $('#'+this.id).length > 0 && $('#'+this.id).remove()
+            $('body').append(dialog);
+            return this;
         },
 
         //展示
-        show: function(options){
-            //检查是否已经添加到document当中
-
-            //显示
-            $('#'+this.modalId).modal(options);
+        show: function(data){
+            this.render(data);
+            $('#'+this.id).modal(this.opt);
             return this;
+        },
+
+        hide: function(){
+            $('#'+this.id).modal('hide');
         },
 
         //绑定事件
         __bindEvents: function(){
-
+            var self = this;
+            $(document).on('click', '#'+self.id +' .modal-footer .btn', function(e){
+                var index = $(this).index();
+                if (self.data && self.data.btns && self.data.btns[index]) {
+                    //self.data.btns[index].dismiss && $('#'+self.id).modal({show: false});
+                    self.data.btns[index].callback && self.data.btns[index].callback.call(self, e);
+                }
+            })
         },
 
         //销毁

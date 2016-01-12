@@ -1,11 +1,12 @@
-define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'api/index'], 
-    function ($, swig, CKEDITOR,Pager, upload, BaseController, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/base', 'api/index'], 
+    function ($, swig, CKEDITOR,Pager, upload, Dialog, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var userId = parseInt(window.location.pathname.split('/')[2]);
     api = new API('http://localhost:3000/api', {});
 
-    roleMap = ['','管理员', '普通用户', '供应商'];
+    var roleMap = ['','管理员', '普通用户', '供应商'];
+    var tobeDeleteUserId = '';
 
     //初始化模块控制器
     var UserController = function(){
@@ -87,10 +88,26 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
     }
 
     //删除用户
-    _p.deleteUser = function(e){
-        var userId = $(this).parents('tr').data('id');
-        $('#myModal2').modal({})
-        userId && api.users.del(userId, function(json){
+    _p.deleteUserDialog = function(e){
+        var self = this;
+        tobeDeleteUserId = $(this).parents('tr').data('id');
+
+        var dialog = new Dialog({
+            title: '删除用户',
+            content:  '确定要删除该用户吗? 删除后将无法恢复.',
+            btns: [
+                {klass: 'btn-danger', text: '确定', callback: function(){
+                    this.hide();
+                    _p.deleteUser();
+                }},
+                {klass: 'btn-default',text: '取消', callback: null, dismiss: true}
+            ]
+        });
+        dialog.show();
+    }
+
+    _p.deleteUser = function(){
+        tobeDeleteUserId && api.users.del(tobeDeleteUserId, function(json){
             console.log(json);
             if(json && json.code == 200){
                 alert('删除用户成功');

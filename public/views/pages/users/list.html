@@ -73,7 +73,7 @@
                                 <td>
                                     <a href="/users/{{item.id}}"><i class="fa fa-eye"></i></a>
                                     <a href="/users/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:;" tt-click="deleteUser"><i class="fa fa-trash-o"></i></a>
+                                    <a href="javascript:;" tt-click="deleteUserDialog"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                         {% endraw %}
@@ -102,27 +102,6 @@
     </div>
 </div>
 </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">标题</h4>
-            </div>
-            <div class="modal-body">
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">确定</button>
-                <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- modal -->
 
 <!--body wrapper end-->
 <!--footer section start-->
