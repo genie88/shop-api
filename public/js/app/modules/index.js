@@ -15,7 +15,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     var _p = ModuleController.prototype = new BaseController();
 
     //初始化模块详情页
-    _p.initDetailPage = function(){
+    _p.initDetail = function(){
         var self = this;
         var tpl = '{% for item in items %}\
                         <tr>\
@@ -41,7 +41,6 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                $('#fragmentsList tbody').html(html)
            }
         })
-        self.bindEvent();
 
     }
 
