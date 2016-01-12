@@ -1,5 +1,7 @@
 {% extends '../layouts/default.html' %}
 {% block content %}
+
+<div tt-controller="app/modules/index" tt-init="initList">
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
@@ -52,10 +54,38 @@
                                 <th> 操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
+                        <tbody tt-repeat="item in modules">
+                        {% raw %}
+                            <tr data-id="{{item.id}}"><td><a href="/modules/{{item.id}}">{{item.name}}</a></td>
+                                <td class="hidden-phone">{{item.type}}</td>
+                                <td>{{item.sort}} </td>
+                                <td><span class="label label-warning label-mini">{{item.is_show}}</span></td>
+                                <td>
+                                    <a href="/modules/{{item.id}}"><i class="fa fa-eye"></i></a>
+                                    <a href="/modules/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
+                                    <a href="javascript:;" data-act="deleteModule"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        {% endraw %}    
                         </tbody>
                     </table>
+
+                    <hr>
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <div class="dataTables_paginate paging_bootstrap pagination">
+                                <ul>
+                                    <li class="prev disabled"><a href="#">← 上一页</a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li class="next"><a href="#">下一页 → </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -66,8 +96,9 @@
 <script>
 requirejs(['/js/common.js'], function (common) {
     requirejs(['modernizr','bootstrap', 'app/modules/index'], function(a, b, moduleController){
-        moduleController.initListPage();
+        moduleController.initList();
     });
 });
 </script>
+</div>
 {% endblock %}
