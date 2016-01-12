@@ -98,7 +98,7 @@ define(['jquery', 'lodash', 'swig'], function($, _, swig){
             self.$scopeHtml.on('click', '[tt-click]', function(e){
                 var handler = $(this).attr('tt-click');
                 if(self[handler] && typeof self[handler] == 'function') {
-                    self[handler](e);
+                    self[handler].call(this, e);
                 }
             })
 

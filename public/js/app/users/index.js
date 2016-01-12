@@ -48,7 +48,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
         if(userId) {
             //编辑已有用户信息
             var data = $.extend({}, self.$scope.user);
-            
+
             api.users.update(userId, {user: data}, function(json){
                 console.log(json);
                 if(json && json.code == 200){
@@ -84,6 +84,18 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
             //console.log(page);
             self.getUsers({'inline-relation-depth': 1}, {page: page, page_size: 2});
         })
+    }
+
+    _p.deleteUser = function(e){
+        var userId = $(this).parents('tr').data('id');
+        userId && api.users.del(userId, function(json){
+            console.log(json);
+            if(json && json.code == 200){
+                alert('删除用户成功');
+            } else {
+                console.log(json.msg);
+            }
+        });
     }
 
     _p.getUsers = function(query, filter){

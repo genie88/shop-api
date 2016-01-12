@@ -150,7 +150,7 @@ module.exports = {
         var propWhiteList = ['username', 'nickname', 'email', 'phone', 'avatar', 'role'];
         var user = util.cloneProps(req.body.user, propWhiteList);
         user.avatar = user.avatar || 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar';
-        
+
         User.forge(user)
             .save()
             .then(function (user) {
@@ -166,7 +166,7 @@ module.exports = {
      * 删除用户信息
      * DELETE /users/:user_id
      */
-    del: function(){
+    del: function(req, res , next){
         User.forge({id: req.params.user_id})
             .fetch({require: true})
             .then(function (user) {
