@@ -86,8 +86,10 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
         })
     }
 
+    //删除用户
     _p.deleteUser = function(e){
         var userId = $(this).parents('tr').data('id');
+        $('#myModal2').modal({})
         userId && api.users.del(userId, function(json){
             console.log(json);
             if(json && json.code == 200){
@@ -98,6 +100,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload',  'app/base', 'a
         });
     }
 
+    //获取用户列表
     _p.getUsers = function(query, filter){
         var self = this;
         api.users.list({queries: query, filters: filter}, function(json){

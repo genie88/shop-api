@@ -35,9 +35,9 @@
                 <div class="panel-body">
                     <div class="clearfix">
                         <div class="btn-group">
-                            <button id="editable-sample_new" class="btn btn-primary">
+                            <a class="btn btn-primary" href="/users/new">
                             新增用户 <i class="fa fa-plus"></i>
-                            </button>
+                            </a>
                         </div>
                         <div class="btn-group pull-right">
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">更多 <i class="fa fa-angle-down"></i>
@@ -102,11 +102,33 @@
     </div>
 </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">标题</h4>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">确定</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal -->
+
 <!--body wrapper end-->
 <!--footer section start-->
 <script>
     requirejs(['/js/common.js'], function (common) {
-        requirejs(['modernizr','bootstrap', 'app/users/index'], function(a, b, userController){
+        requirejs(['modernizr','bootstrap', 'app/users/index'], function(modernizr, bootstrap, userController){
             userController.initList();
         });
     });
