@@ -77,19 +77,19 @@ exports.moduleDetail = function(req, res) {
 }
 exports.moduleNew = function(req, res) {
     // res.render('modules/new');
-    res.sendfile('build/public/views/modules/new.html');
+    res.sendfile('build/public/views/modules/edit.html');
 }
 exports.fragments = function(req, res) {
     // res.render('modules/fragment-list');
-    res.sendfile('build/public/views/modules/fragment-list.html');
+    res.sendfile('build/public/views/fragment/list.html');
 }
 exports.fragmentDetail = function(req, res) {
     // res.render('modules/fragment-detail');
-    res.sendfile('build/public/views/modules/fragment-detail.html');
+    res.sendfile('build/public/views/fragment/detail.html');
 }
 exports.fragmentNew = function(req, res) {
     // res.render('modules/fragment-new');
-    res.sendfile('build/public/views/modules/fragment-new.html');
+    res.sendfile('build/public/views/fragment/edit.html');
 }
 
 // 媒资库管理

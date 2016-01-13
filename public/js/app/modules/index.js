@@ -6,6 +6,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     window.api = new API('http://localhost:3000/api', {});
 
     var propEditor;
+    var propDefine;
 
 
     //初始化模块控制器
@@ -25,15 +26,13 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         api.modules.get(moduleId, {}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.module = json.data;
-                //console.log(self.$scope.module.ext1);
-                var props = null;
                 try {
-                    props = JSON.parse(self.$scope.module.ext1); 
+                    propDefine = JSON.parse(self.$scope.module.ext1); 
                 } catch(e){
-                    
+
                 }
                 
-                propEditor = new PropEditor(props, {wrap: $('#propEditor tbody')});
+                propEditor = new PropEditor(propDefine, {wrap: $('#propEditor tbody')});
                 
                 self.getFragments({}, {page: 1, page_size: 5});
                 self.apply();
@@ -71,12 +70,50 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     }
 
 
+    /***************************************  模块新增／编辑  **********/
+    _p.initEdit = function(){
+        var self = this;
+        moduleId && api.modules.get(moduleId, {'inline-relation-depth': 0}, function(json){
+            if(json && json.code == 200 && json.data && json.data) {
+                self.$scope.module = json.data;
+                self.apply();
+            }
+        })
+    }
+
+    _p.updateModule = function(e, self){
+        if(moduleId) {
+            //编辑已有模块
+            var data = $.extend({}, self.$scope.module);
+
+            api.modules.update(moduleId, {module: data}, function(json){
+                //console.log(json);
+                if(json && json.code == 200){
+                    alert('更新成功');
+                } else {
+                    console.log(json.msg);
+                }
+            });
+        } else {
+            //新增模块
+            var data = $.extend({}, self.$scope.module);
+            api.modules.create({module: data}, function(json){
+                //console.log(json);
+                if(json && json.code == 200){
+                    alert('添加模块成功');
+                } else {
+                    console.log(json.msg);
+                }
+            });
+
+        }
+        e.preventDefault();
+    }
 
 
 
 
-
-
+    /***************************************  模块列表页  **********/
 
     _p.getModules = function(query, filter){
         var self = this;
