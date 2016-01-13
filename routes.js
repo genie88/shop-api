@@ -34,6 +34,7 @@ module.exports = function (app, passport) {
 
     app.get('/modules', ensureAuthenticated, indexController.modules);
     app.get('/modules/new', ensureAuthenticated, indexController.moduleNew);
+    app.get('/modules/:id/edit', ensureAuthenticated, indexController.moduleNew);
     app.get('/modules/:id', ensureAuthenticated, indexController.moduleDetail);
 
 

@@ -30,9 +30,9 @@
                 <div class="panel-body">
                     <div class="clearfix">
                         <div class="btn-group">
-                            <button data-act="addModule" class="btn btn-primary">
+                            <a data-act="addModule" class="btn btn-primary" href="/modules/new">
                             添加版块 <i class="fa fa-plus"></i>
-                            </button>
+                            </a>
                         </div>
                         <div class="btn-group pull-right">
                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">工具 <i class="fa fa-angle-down"></i>
@@ -63,7 +63,7 @@
                                 <td>
                                     <a href="/modules/{{item.id}}"><i class="fa fa-eye"></i></a>
                                     <a href="/modules/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:;" data-act="deleteModule"><i class="fa fa-trash-o"></i></a>
+                                    <a href="javascript:;" tt-click="deleteModuleDialog"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                         {% endraw %}    

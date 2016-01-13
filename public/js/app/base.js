@@ -117,6 +117,7 @@ define(['jquery', 'lodash', 'swig'], function($, _, swig){
                         val = ele.val();
                         break;
                     case 'checkbox': 
+                        val = (ele.val() == 'on');
                         break;
                     case 'radio': 
                         ele.attr("checked",'true');
