@@ -115,7 +115,7 @@ module.exports = {
     update: function(req, res, next){
         //参数过滤
         var module = req.body.module
-        CmsModule.where({id: req.params.cms_module_id})
+        new CmsModule({id: req.params.cms_module_id})
             .save(module, {patch: true})
             .then(function (module) {
                 util.res(null, res, {});
