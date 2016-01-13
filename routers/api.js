@@ -74,16 +74,17 @@ apiRouter.delete('/users/:user_id', userController.del)
 
 //modules
 apiRouter.get('/modules', CmsModuleController.queryAll)
-apiRouter.get('/modules/:module_id', CmsModuleController.findOne)
-apiRouter.put('/modules/:module_id', CmsModuleController.update)
+apiRouter.get('/modules/:cms_module_id', CmsModuleController.findOne)
+apiRouter.put('/modules/:cms_module_id', CmsModuleController.update)
 apiRouter.post('/modules', CmsModuleController.add)
-apiRouter.delete('/modules/:module_id', CmsModuleController.del)
+apiRouter.delete('/modules/:cms_module_id', CmsModuleController.del)
 
 //fragments
+apiRouter.get('/modules/:cms_module_id/fragments', CmsFragmentController.queryAll)
 apiRouter.get('/fragments', CmsFragmentController.queryAll)
-apiRouter.get('/fragments/:fragment_id', CmsFragmentController.findOne)
-apiRouter.put('/fragments/:fragment_id', CmsFragmentController.update)
+apiRouter.get('/fragments/:cms_fragment_id', CmsFragmentController.findOne)
+apiRouter.put('/fragments/:cms_fragment_id', CmsFragmentController.update)
 apiRouter.post('/fragments', CmsFragmentController.add)
-apiRouter.delete('/fragments/:fragment_id', CmsFragmentController.del)
+apiRouter.delete('/fragments/:cms_fragment_id', CmsFragmentController.del)
 
 module.exports = apiRouter;

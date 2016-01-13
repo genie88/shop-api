@@ -29,7 +29,7 @@ define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 
         this.fragments = new Fragments(this);
         this.modules = new Modules(this);
 
-        this.initializeGenericCollections();
+        //this.initializeGenericCollections();
         this.initialize();
     };
 

@@ -4,11 +4,15 @@ var CmsFragment = models.CmsFragment;
 
 
 var util = require('../util/util.js');
+var Paginator = require('./paginator');
+var _ = require('underscore');
+var Promise = require('bluebird');
 
 module.exports = {
     /**
      * 查询Category参数
      * GET /fragments
+     * GET modules/cms_module_id/fragments
      * page=1
      * limit=30,
      * sort= update,create
@@ -24,24 +28,50 @@ module.exports = {
             relations = ['module']
         }
 
-        if (filter.fragment_id) {
-            filter.id  = filter.fragment_id;
-            delete filter.fragment_id;
+        if (filter.cms_fragment_id) {
+            filter.id  = filter.cms_fragment_id;
+            delete filter.cms_fragment_id;
         }
+
+        var page, pageSize, skip = null, limit = null, paginator = null;
+
+        page = parseInt(filter.page) || 1;
+        pageSize = parseInt(filter.page_size) || 4;
+
+        paginator = new Paginator(page, pageSize);
+
+        limit = paginator.getLimit();
+        skip = paginator.getOffset();
+
         CmsFragment.forge(filter)
-            .fetchAll({withRelated: relations})
-            //.fetchAll()
-            .then(function (fragments) {
-                if (!fragments) {
-                    util.res(null, res, [])
-                }
-                else {
-                    util.res(null, res, fragments)
-                }
+            .query(function (qb) {
+                qb.where(filter).limit(limit).offset(skip);
             })
-            .catch(function (err) {
+            .fetchAll({withRelated: relations})
+            .then(function(fragments) {
+                return CmsFragment.forge()
+                .where(filter)
+                .query()
+                .count()
+                .then(function (count) {
+                    count = count[0]['count(*)'];
+                    return {
+                        count: count,
+                        data: fragments
+                    };
+                });
+            }, function (err) {
                 var error = { code: 500, msg: err.message};
                 util.res(error, res);
+            }).then(function (result) {
+                var count = result.count;
+                var fragments = result.data;
+
+                paginator.setCount(count);
+                paginator.setData(fragments);
+
+                var ret = paginator.getPaginator();
+                return  util.res(null, res, ret);
             });
     },
 
@@ -59,9 +89,9 @@ module.exports = {
             relations = ['module']
         }
 
-        if (filter.fragment_id) {
-            filter.id  = filter.fragment_id;
-            delete filter.fragment_id;
+        if (filter.cms_fragment_id) {
+            filter.id  = filter.cms_fragment_id;
+            delete filter.cms_fragment_id;
         }
         CmsFragment.forge(filter)
             .fetch({withRelated: relations})
@@ -87,7 +117,7 @@ module.exports = {
     update: function(req, res, next){
         //参数过滤
         var fragment = req.body.fragment
-        CmsFragment.where({id: req.params.fragment_id})
+        CmsFragment.where({id: req.params.cms_fragment_id})
             .save(fragment, {patch: true})
             .then(function (fragment) {
                 util.res(null, res, {});
@@ -122,7 +152,7 @@ module.exports = {
      * DELETE /fragments/:id
      */
     del: function(req, res, next){
-        CmsFragment.forge({id: req.params.fragment_id})
+        CmsFragment.forge({id: req.params.cms_fragment_id})
             .fetch({require: true})
             .then(function (fragment) {
                 //鉴权
