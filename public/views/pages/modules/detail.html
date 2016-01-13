@@ -1,11 +1,10 @@
 {% extends '../layouts/default.html' %}
-
 {% block content %}
 <div tt-controller="app/modules/index" tt-init="initDetail">
     <!-- page heading start-->
     <div class="page-heading">
         <h3>
-            内容管理
+        内容管理
         </h3>
         <ul class="breadcrumb">
             <li>
@@ -15,33 +14,30 @@
         </ul>
     </div>
     <!-- page heading end-->
-
     <!--body wrapper start-->
     <div class="wrapper">
-
-
         <div class="row">
             <div class="col-md-12">
                 <section class="panel">
-                        <header class="panel-heading custom-tab ">
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="#home" data-toggle="tab">内容列表</a>
-                                </li>
-                                <li class="">
-                                    <a href="#about" data-toggle="tab">字段定义</a>
-                                </li>
-                            </ul>
-                        </header>
-                        <div class="panel-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="home">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <section class="panel">
-                                                <div class="panel-body" id="fragmentsList">
-                                                    <table class="table  table-hover general-table">
-                                                        <thead>
+                    <header class="panel-heading custom-tab ">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">内容列表</a>
+                            </li>
+                            <li class="">
+                                <a href="#about" data-toggle="tab">字段定义</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="home">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <section class="panel">
+                                            <div class="panel-body" id="fragmentsList">
+                                                <table class="table  table-hover general-table">
+                                                    <thead>
                                                         <tr>
                                                             <th> 名称</th>
                                                             <th> 链接</th>
@@ -49,8 +45,8 @@
                                                             <th> 显示/隐藏</th>
                                                             <th> 操作</th>
                                                         </tr>
-                                                        </thead>
-                                                        <tbody tt-repeat="item in fragments">
+                                                    </thead>
+                                                    <tbody tt-repeat="item in fragments">
                                                         {% raw %}
                                                         <tr>
                                                             <td><a href="/modules/{{item.cms_module_id}}/fragments/{{item.id}}">{{item.title}}</a></td>
@@ -64,75 +60,98 @@
                                                             </td>
                                                         </tr>
                                                         {% endraw %}
-                                                        </tbody>
-                                                    </table>
-                                                    <hr>
-                                                    <div class="row-fluid">
-                                                        <div class="span6">
-                                                            <div class="dataTables_paginate paging_bootstrap pagination">
-                                                                <ul></ul>
-                                                            </div>
-                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <hr>
+                                                <div class="row-fluid">
+                                                    <div class="span6">
+                                                        <div class="dataTables_paginate paging_bootstrap pagination">
+                                                        <ul></ul>
                                                     </div>
                                                 </div>
-                                            </section>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </section>
                                 </div>
-                                <div class="tab-pane" id="about">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <section class="panel">
-                                               
-                                                <div class="panel-body">
-                                                    <div class="form">
-                                                        <form action="#">
-                                                            <div class="form-group">
-                                                                <label for="fragment-title">名称</label>
-                                                                <input type="text" class="form-control" id="fragment-title" placeholder="标题">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="fragment-subtitle">链接</label>
-                                                                <input type="text" class="form-control" id="fragment-subtitle" placeholder="副标题">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="fragment-ext1">ext1</label>
-                                                                <input type="text" class="form-control" id="fragment-ext1" placeholder="ext1">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="fragment-ext2">ext2</label>
-                                                                <input type="text" class="form-control" id="fragment-ext2" placeholder="ext2">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="fragment-ext3">ext3</label>
-                                                                <input type="text" class="form-control" id="fragment-ext3" placeholder="ext3">
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </div>
-                    </section>
-            </div>
+                        <div class="tab-pane" id="about">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <section class="panel">
+                                        <div class="panel-body">
+                                            <table class="table  table-hover general-table" id="userList">
+                                                <thead>
+                                                    <tr>
+                                                        <th> 属性名</th>
+                                                        <th> 别名</th>
+                                                        <th> 类型</th>
+                                                        <th> 校验</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>title</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="别名" tt-model="user.username">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control m-bot15">
+                                                                <option value="text">单行文本</option>
+                                                                <option value="mtext">多行文本</option>
+                                                                <option value="link">超链接</option>
+                                                                <option value="image">图片</option>
+                                                                <option value="number">数字</option>
+                                                                <option value="date">日期</option>
+                                                                <option value="boolean">布尔值</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="校验">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>subtitle</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="别名" tt-model="user.username">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control m-bot15">
+                                                                <option value="text">单行文本</option>
+                                                                <option value="mtext">多行文本</option>
+                                                                <option value="link">超链接</option>
+                                                                <option value="image">图片</option>
+                                                                <option value="number">数字</option>
+                                                                <option value="date">日期</option>
+                                                                <option value="boolean">布尔值</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="校验">
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>   
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        
-
-       
     </div>
-    <!--body wrapper end-->
-
-    <!--footer section start-->
-    <script>
+</div>
+<!--body wrapper end-->
+<!--footer section start-->
+<script>
     requirejs(['/js/common.js'], function (common) {
         requirejs(['modernizr','bootstrap', 'app/modules/index'], function(a, b, moduleController){
             moduleController.initDetail();
         });
     });
-    </script>
+</script>
 </div>
 {% endblock %}
