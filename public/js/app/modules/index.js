@@ -121,7 +121,12 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     }
 
     _p.addNewItem = function(){
-        fragmentEditor.show();
+        if( $('#'+ fragmentEditor.id).length > 0){
+            $('#'+ fragmentEditor.id).modal('show');
+        } else {
+            fragmentEditor.show();
+        }
+        
     }
 
 

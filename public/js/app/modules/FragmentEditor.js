@@ -1,4 +1,4 @@
-define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
+define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap, CKEDITOR) {
     var tpl = '<div class="modal fade {{klass}}" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
                 <div class="modal-dialog" style="width: 900px;">\
                     <div class="modal-content">\
@@ -15,6 +15,8 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
                 </div>\
             </div>';
 
+    var ckeditors = [];
+
     var Editor = function(propDef, opt){
         this.opt = opt || {};
         this.propDef = propDef || {};
@@ -26,7 +28,7 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
         var html = '', val = (fragment) ? fragment[prop.key] : '';
         html = '<div class="form-group">\
                     <label class="col-md-2 col-sm-2 control-label">' + prop.label + '</label>\
-                    <div class="col-md-6">\
+                    <div class="col-md-9">\
                         <div class="iconic-input">';
         switch(prop.type) {
             case 'number':
@@ -34,7 +36,8 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
                 html += '<input type="text" class="form-control" placeholder="' + prop.label +'" value="' + val +'">';
                 break;
             case 'mtext': 
-                html += '<input type="text" class="form-control" placeholder="' + prop.label +'" value="' + val +'">';
+                ckeditors.push("ckeditor-" + prop.key);
+                html += '<textarea class="form-control ckeditor" name="ckeditor-'+ prop.key + '" rows="3">' + val + '</textarea>';
                 break;
             case 'link':
                  html += '<input type="text" class="form-control" placeholder="' + prop.label +'" value="' + val +'">';
@@ -44,6 +47,9 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
                 break;
             case 'boolean':
                 html += '<input type="checkbox"' + (val? 'checked': '') +'></input>';
+                break;
+            case 'date':
+                html += '<input size="16" type="text" value="' + val + '" readonly="" class="form_datetime form-control">';
                 break;
             default:
                 html += '<input type="text" class="form-control" placeholder="' + prop.label +'" value="' + val +'">';
@@ -99,12 +105,27 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
             var data = {
                 id: this.id,
                 title: fragment ? '编辑项目': '新增项目',
-                content: this.build(fragment)
+                content: ''
             };
             var dialog = swig.render(tpl, {locals: data});
-            $('#'+this.id) && $('#'+this.id).length > 0 && $('#'+this.id).remove()
-            $('body').append(dialog);
+            if( $('#'+this.id).length == 0){
+                $('body').append(dialog);
+            } 
+
             $('#'+this.id).find('.modal-body').html(this.build(fragment));
+            //初始化编辑器实例
+            for(var i=0; i< ckeditors.length; i++){
+                if (CKEDITOR.instances[ckeditors[i]]) {
+                    CKEDITOR.instances[ckeditors[i]].destroy();
+                }
+                CKEDITOR.replace(ckeditors[i]);
+            }
+
+            
+
+            
+           
+
             return this;
         },
 
@@ -124,6 +145,8 @@ define(['jquery', 'swig', 'bootstrap'], function($, swig, bootstrap) {
             var self = this;
             $(document).on('click', '#'+self.id +' .modal-footer .btn', function(e){
                 var index = $(this).index();
+                var editor_data = CKEDITOR.instances[ckeditors[0]].getData();  
+                console.log(editor_data)
                 
             })
         },
