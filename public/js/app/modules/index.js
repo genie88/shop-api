@@ -1,5 +1,5 @@
-define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/base','app/modules/propEditor', 'api/index'], 
-    function ($, swig, CKEDITOR,Pager, upload, Dialog, BaseController, PropEditor, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/base','app/modules/propEditor', 'app/modules/FragmentEditor', 'api/index'], 
+    function ($, swig, CKEDITOR,Pager, upload, Dialog, BaseController, PropEditor, FragmentEditor, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var moduleId = parseInt(window.location.pathname.split('/')[2]);
@@ -9,6 +9,8 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     var propEditor;
     var propDefine;
+
+    var fragmentEditor;
 
 
     //初始化模块控制器
@@ -33,9 +35,9 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 } catch(e){
 
                 }
-                
+
                 propEditor = new PropEditor(propDefine, {wrap: $('#propEditor tbody')});
-                
+                fragmentEditor = new FragmentEditor(propDefine, {});
                 self.getFragments({}, {page: 1, page_size: 5});
                 self.apply();
             }
@@ -56,19 +58,70 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
             }
         })
     }
+    var fragmentSimpleViewer = function(prop, fragment){
+        var html = '';
+        switch(prop.type) {
+            case 'number':
+            case 'text': 
+                html = fragment[prop.key];
+                break;
+            case 'mtext': 
+                html = fragment[prop.key];
+                break;
+            case 'link':
+                html = '<a href="' + fragment[prop.key] + '" target="_blank">' + fragment[prop.key] +'</a>';
+                break;
+            case 'image':
+                html = '<img src="' + fragment[prop.key]+ '" height="50"></img>';
+                break;
+            case 'boolean':
+                html = '<input type="checkbox"' + (fragment[prop.key]? 'checked': '') +'disabled ></input>';
+                break;
+            default:
+                html = fragment[prop.key];
+                break;
+        }
+        return html;
+    };
 
     _p.getFragments = function(query, filter){
         var self = this;
         api.modules.fragments(moduleId).list({}, function(json){
             //console.log(json.data)
             if(json && json.code == 200 && json.data) {
-                self.$scope.fragments = json.data.data;
+                var fragments = json.data.data;
+                self.$scope.fragments = fragments;
+                //模块列表头部
+                var thead = '', tbody='';
+                for(var i=0; i< propDefine.length; i++){
+                    thead += '<th>' + propDefine[i].label + '</th>';
+                }
+                for(var i=0; i< fragments.length; i++){
+                    tbody += '<tr>';
+                    for(var j=0; j< propDefine.length; j++){
+                        tbody += '<td>' + fragmentSimpleViewer(propDefine[j], fragments[i]) + '</td>'
+                    }
+                    tbody += '<td><a href="/modules/{{item.id}}"><i class="fa fa-eye"></i></a>\
+                                    <a href="/modules/{{item.id}}/edit"><i class="fa fa-edit"></i></a>\
+                                    <a href="javascript:;" tt-click="deleteFragmentDialog"><i class="fa fa-trash-o"></i></a>\
+                                </td></tr>';
+                }
+               // console.log(tbody)
+
+                thead = '<tr>'+thead + '<th>操作</th></tr>';
+                $('#fragmentsList thead').html(thead);
+                $('#fragmentsList tbody').html(tbody);
+
                 self.page = json.data.currentPage;
                 self.total = json.data.pages.length;
                 self.apply();
                 self.pager.render(self.page , self.total);
             }
         })
+    }
+
+    _p.addNewItem = function(){
+        fragmentEditor.show();
     }
 
 

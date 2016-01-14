@@ -1,77 +1,81 @@
 {% extends '../layouts/default.html' %}
-
 {% block content %}
+<div tt-controller="app/modules/index" tt-init="initEdit">
     <!-- page heading start-->
     <div class="page-heading">
         <h3>
-            活动版块
+        内容管理
         </h3>
         <ul class="breadcrumb">
             <li>
-                <a href="#">项目管理</a>
+                <a href="#">新增模块</a>
             </li>
-            <li class="active"> 编辑项目 </li>
+            <li class="active"> 新增模块 </li>
         </ul>
     </div>
     <!-- page heading end-->
-
     <!--body wrapper start-->
     <div class="wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        内容
+                        新增模块
                         <span class="tools pull-right">
-                            <a class="fa fa-chevron-down" href="javascript:;"></a>
-                            <a class="fa fa-times" href="javascript:;"></a>
-                         </span>
+                        <a class="fa fa-chevron-down" href="javascript:;"></a>
+                        <a class="fa fa-times" href="javascript:;"></a>
+                        </span>
                     </header>
                     <div class="panel-body">
                         <div class="form">
-                            <form action="#">
+                            <form class="form-horizontal">
                                 <div class="form-group">
-                                    <label for="fragment-title">标题</label>
-                                    <input type="text" class="form-control" id="fragment-title" placeholder="标题">
-                                </div>
-                                <div class="form-group">
-                                    <label for="fragment-subtitle">副标题</label>
-                                    <input type="text" class="form-control" id="fragment-subtitle" placeholder="副标题">
-                                </div>
-                                <div class="form-group">
-                                    <label for="fragment-abstract">摘要</label>
-                                    <div class="col-sm-12">
-                                        <textarea class="form-control ckeditor" name="editor1" rows="6"></textarea>
+                                    <label class="col-md-2 col-sm-2 control-label">板块名称</label>
+                                    <div class="col-md-6">
+                                        <div class="iconic-input">
+                                            <i class="fa fa-book"></i>
+                                            <input type="text" class="form-control" placeholder="板块名称, 例如首页幻灯片，招聘模块" tt-model="module.name">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fragment-content">内容</label>
-                                    <div class="col-sm-12">
-                                        <textarea class="form-control ckeditor" name="editor1" rows="6"></textarea>
+                                    <label class="col-md-2 col-sm-2 control-label">板块类型</label>
+                                    <div class="col-md-6">
+                                        <div class="iconic-input">
+                                            <i class="fa fa-leaf"></i>
+                                            <input type="text" class="form-control" placeholder="板块类型, 板块的识别名字，用字母或者数字表示" tt-model="module.type">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fragment-ext1">ext1</label>
-                                    <input type="text" class="form-control" id="fragment-ext1" placeholder="ext1">
+                                    <label class="col-md-2 col-sm-2 control-label">显示/隐藏</label>
+                                    <div class="col-md-2">
+                                        <div class="iconic-input">
+                                            <input tabindex="1" type="checkbox"  name="显示" tt-model="module.is_show">
+                                            <label>显示 </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fragment-ext2">ext2</label>
-                                    <input type="text" class="form-control" id="fragment-ext2" placeholder="ext2">
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label"></label>
+                                <div class="col-md-6">
+                                    <a class="btn btn-primary right" tt-click="updateModule">确定</a>
                                 </div>
-                                <div class="form-group">
-                                    <label for="fragment-ext3">ext3</label>
-                                    <input type="text" class="form-control" id="fragment-ext3" placeholder="ext3">
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </div>
     </div>
     <!--body wrapper end-->
-
     <!--footer section start-->
-
+    <script>
+        requirejs(['/js/common.js'], function (common) {
+            requirejs(['modernizr','bootstrap', 'app/modules/index'], function(a, b, moduleController){
+                moduleController.initEdit();
+            });
+        });
+    </script>
+</div>
 {% endblock %}
-<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>

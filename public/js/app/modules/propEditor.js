@@ -11,13 +11,13 @@ define(['jquery', 'swig'], function ($, swig) {
                             <option value="image"  {% if prop.type == "image" %}selected {% endif %}>图片</option>\
                             <option value="number" {% if prop.type == "number" %}selected {% endif %}>数字</option>\
                             <option value="date"   {% if prop.type == "date" %}selected {% endif %}>日期</option>\
-                            <option value="boolean {% if prop.type == "boolean" %}selected {% endif %}">布尔值</option>\
+                            <option value="boolean" {% if prop.type == "boolean" %}selected {% endif %}">布尔值</option>\
                         </select>\
                     </td>\
                     <td data-prop="validate"><input type="text" class="form-control" placeholder="校验"å></td>\
                 </tr>{% endfor %}';
 
-    //支持的类型包括 date/color/text/mtext/image/number/link/
+    //支持的类型包括 date/color/text/mtext/image/number/link/bool
     var o = [
         {key: 'title', label:'标题', type: 'text', validator: {}},
         {key: 'subtitle', label:'图片', type: 'image', validator: {}},
@@ -56,6 +56,8 @@ define(['jquery', 'swig'], function ($, swig) {
                 }
                 props.push(prop);
             })
+
+            console.log(props)
 
             return JSON.stringify(props);
         },

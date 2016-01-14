@@ -81,15 +81,15 @@ exports.moduleNew = function(req, res) {
 }
 exports.fragments = function(req, res) {
     // res.render('modules/fragment-list');
-    res.sendfile('build/public/views/fragment/list.html');
+    res.sendfile('build/public/views/fragments/list.html');
 }
 exports.fragmentDetail = function(req, res) {
     // res.render('modules/fragment-detail');
-    res.sendfile('build/public/views/fragment/detail.html');
+    res.sendfile('build/public/views/fragments/detail.html');
 }
 exports.fragmentNew = function(req, res) {
     // res.render('modules/fragment-new');
-    res.sendfile('build/public/views/fragment/edit.html');
+    res.sendfile('build/public/views/fragments/edit.html');
 }
 
 // 媒资库管理

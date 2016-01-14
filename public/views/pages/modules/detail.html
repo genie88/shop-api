@@ -37,31 +37,14 @@
                                         <section class="panel">
                                             <div class="panel-body" id="fragmentsList">
                                                 <table class="table  table-hover general-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> 名称</th>
-                                                            <th> 链接</th>
-                                                            <th> 排序</th>
-                                                            <th> 显示/隐藏</th>
-                                                            <th> 操作</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody tt-repeat="item in fragments">
-                                                        {% raw %}
-                                                        <tr>
-                                                            <td><a href="/modules/{{item.cms_module_id}}/fragments/{{item.id}}">{{item.title}}</a></td>
-                                                            <td class="hidden-phone">{{item.ext1}}</td>
-                                                            <td>{{item.created}} </td>
-                                                            <td><span class="label label-success label-mini">显示</span></td>
-                                                            <td>
-                                                                <a href="#"><i class="fa fa-eye"></i></a>
-                                                                <a href="#"><i class="fa fa-edit"></i></a>
-                                                                <a href="#"><i class="fa fa-trash-o"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        {% endraw %}
-                                                    </tbody>
+                                                    <thead></thead>
+                                                    <tbody></tbody>
                                                 </table>
+                                                <p>
+                                                    <button class="btn btn-info" type="button" tt-click="addNewItem">
+                                                        <i class="fa fa-plus"></i> 新增项目
+                                                    </button>
+                                                </p>
                                                 <hr>
                                                 <div class="row-fluid">
                                                     <div class="span6">
