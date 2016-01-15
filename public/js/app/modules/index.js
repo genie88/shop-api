@@ -37,7 +37,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 }
 
                 propEditor = new PropEditor(propDefine, {wrap: $('#propEditor tbody')});
-                fragmentEditor = new FragmentEditor(propDefine, {});
+                fragmentEditor = new FragmentEditor(propDefine, {moduleId: moduleId});
                 self.getFragments({}, {page: 1, page_size: 5});
                 self.apply();
             }
@@ -102,7 +102,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                         tbody += '<td>' + fragmentSimpleViewer(propDefine[j], fragments[i]) + '</td>'
                     }
                     tbody += '<td><a href="/modules/{{item.id}}"><i class="fa fa-eye"></i></a>\
-                                    <a href="/modules/{{item.id}}/edit"><i class="fa fa-edit"></i></a>\
+                                    <a href="javascript:;" tt-click="editFragment"><i class="fa fa-edit"></i></a>\
                                     <a href="javascript:;" tt-click="deleteFragmentDialog"><i class="fa fa-trash-o"></i></a>\
                                 </td></tr>';
                 }

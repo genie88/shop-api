@@ -1,4 +1,4 @@
-define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap, CKEDITOR) {
+define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'], function($, swig, bootstrap, CKEDITOR, datetimepicker, API) {
     var tpl = '<div class="modal fade {{klass}}" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">\
                 <div class="modal-dialog" style="width: 900px;">\
                     <div class="modal-content">\
@@ -19,6 +19,7 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
 
     var Editor = function(propDef, opt){
         this.opt = opt || {};
+        this.moduleId = opt.moduleId;
         this.propDef = propDef || {};
         this.id = 'dialog-' + Math.ceil(Math.random()*100000);
         this.__bindEvents();
@@ -26,7 +27,7 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
 
     var editor = function(prop, fragment){
         var html = '', val = (fragment) ? fragment[prop.key] : '';
-        html = '<div class="form-group">\
+        html = '<div class="form-group" data-key="' + prop.key +'">\
                     <label class="col-md-2 col-sm-2 control-label">' + prop.label + '</label>\
                     <div class="col-md-9">\
                         <div class="iconic-input">';
@@ -59,33 +60,41 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
         return html;
     };
 
-    var viewer = function(prop, fragment){
-        var html = '', val = (fragment) ? fragment[prop.key] : '';
+    var getPropValue = function(prop){
+        var val, item = $('.form-group[data-key=' + prop.key + ']');
         switch(prop.type) {
             case 'number':
             case 'text': 
-                html = val;
+                val = item.find('input').val();
                 break;
             case 'mtext': 
-                html = val;
+                rawHTML = CKEDITOR.instances["ckeditor-" + prop.key] 
+                            && CKEDITOR.instances["ckeditor-" + prop.key].getData();
+                val = encodeURIComponent(rawHTML);
                 break;
             case 'link':
-                html = '<a href="' + val + '" target="_blank">' + val +'</a>';
+                val = item.find('input').val();
                 break;
             case 'image':
-                html = '<img src="' + val + '" height="50"></img>';
+                val = item.find('input').val();
                 break;
             case 'boolean':
-                html = '<input type="checkbox"' + (val? 'checked': '') +'disabled ></input>';
+                val = item.find('checkbox').val();
+                break;
+            case 'date':
+                val = item.find('input').val();
                 break;
             default:
-                html = val;
+                val = item.find('input').val();
                 break;
         }
-        return html;
+        return val;
     };
 
-
+    //加载所需的css文件
+    var loadCss = function (){
+        $("head").append("<link rel='stylesheet' type='text/css' href='/lib/bootstrap-datetimepicker/css/datetimepicker-custom.css' />");
+    }
 
 
     Editor.prototype = {
@@ -93,7 +102,7 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
             var html = '', ele = '';
             html = '<form class="form-horizontal" role="form">';
             for(var i=0; i< this.propDef.length; i++){
-                ele = !isEdit ? editor(this.propDef[i], fragment) : viewer(this.propDef[i], fragment);
+                ele = editor(this.propDef[i], fragment);
                 html += ele
             }
             html += '</form>';
@@ -101,38 +110,35 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
         },
 
         //渲染
-        render: function(fragment){
-            var data = {
-                id: this.id,
-                title: fragment ? '编辑项目': '新增项目',
-                content: ''
-            };
-            var dialog = swig.render(tpl, {locals: data});
-            if( $('#'+this.id).length == 0){
-                $('body').append(dialog);
-            } 
-
-            $('#'+this.id).find('.modal-body').html(this.build(fragment));
-            //初始化编辑器实例
-            for(var i=0; i< ckeditors.length; i++){
-                if (CKEDITOR.instances[ckeditors[i]]) {
-                    CKEDITOR.instances[ckeditors[i]].destroy();
-                }
-                CKEDITOR.replace(ckeditors[i]);
-            }
-
-            
-
-            
-           
-
-            return this;
-        },
-
-        //展示
         show: function(fragment, isEdit){
-            this.render(fragment, isEdit);
-            $('#'+this.id).modal(this.opt);
+            if( $('#'+ this.id).length > 0){
+                $('#'+ this.id).modal('show');
+            } else {
+                loadCss();
+                var data = {
+                    id: this.id,
+                    title: fragment ? '编辑项目': '新增项目',
+                    content: ''
+                };
+                var dialog = swig.render(tpl, {locals: data});
+                if( $('#'+this.id).length == 0){
+                    $('body').append(dialog);
+                } 
+
+                $('#'+this.id).find('.modal-body').html(this.build(fragment, isEdit));
+                //初始化编辑器实例
+                for(var i=0; i< ckeditors.length; i++){
+                    if (CKEDITOR.instances[ckeditors[i]]) {
+                        CKEDITOR.instances[ckeditors[i]].destroy();
+                    }
+                    CKEDITOR.replace(ckeditors[i]);
+                }
+                //初始化datetime picker
+                //$(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+
+                $('#'+this.id).modal(this.opt);
+
+            }
             return this;
         },
 
@@ -144,16 +150,28 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor'], function($, swig, bootstrap,
         __bindEvents: function(){
             var self = this;
             $(document).on('click', '#'+self.id +' .modal-footer .btn', function(e){
-                var index = $(this).index();
-                var editor_data = CKEDITOR.instances[ckeditors[0]].getData();  
-                console.log(editor_data)
-                
+                var fragment = {}, index = $(this).index();
+                for(var i=0; i< self.propDef.length; i++){
+                    fragment[self.propDef[i].key] = getPropValue(self.propDef[i]);
+                }
+                // console.log(fragment);
+                fragment['cms_module_id'] = self.moduleId;
+                api.fragments.create({fragment: fragment}, function(json){
+                    if(json && json.data) {
+                        console.log('新增项目成功')
+                    }
+                });
             })
         },
 
         //销毁
         destory: function(){
-
+            $('#'+this.id).remove();
+            for(var i=0; i< ckeditors.length; i++){
+                if (CKEDITOR.instances[ckeditors[i]]) {
+                    CKEDITOR.instances[ckeditors[i]].destroy();
+                }
+            }
         }
     }
 
