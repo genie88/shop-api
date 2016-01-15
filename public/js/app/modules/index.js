@@ -6,6 +6,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     window.api = new API('http://localhost:3000/api', {});
 
     var tobeDeleteModuleId = '';
+    var tobeDeleteFragmentId = '';
 
     var propEditor;
     var propDefine;
@@ -97,7 +98,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                     thead += '<th>' + propDefine[i].label + '</th>';
                 }
                 for(var i=0; i< fragments.length; i++){
-                    tbody += '<tr>';
+                    tbody += '<tr data-id="'+ fragments[i].id +'" >';
                     for(var j=0; j< propDefine.length; j++){
                         tbody += '<td>' + fragmentSimpleViewer(propDefine[j], fragments[i]) + '</td>'
                     }
@@ -127,6 +128,36 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
             fragmentEditor.show();
         }
         
+    }
+
+    //删除fragment
+    _p.deleteFragmentDialog = function(e){
+        var self = this;
+        tobeDeleteFragmentId = $(this).parents('tr').data('id');
+
+        var dialog = new Dialog({
+            title: '删除项目',
+            content:  '确定要删除该项目吗? 删除后将无法恢复.',
+            btns: [
+                {klass: 'btn-danger', text: '确定', callback: function(){
+                    this.hide();
+                    _p.deleteFragment();
+                }},
+                {klass: 'btn-default',text: '取消', callback: null, dismiss: true}
+            ]
+        });
+        dialog.show();
+    }
+
+    _p.deleteFragment = function(){
+        tobeDeleteFragmentId && api.fragments.del(tobeDeleteFragmentId, function(json){
+            //console.log(json);
+            if(json && json.code == 200){
+                //alert('删除模块成功');
+            } else {
+                console.log(json.msg);
+            }
+        });
     }
 
 
