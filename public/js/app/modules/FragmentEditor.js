@@ -60,6 +60,11 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
         return html;
     };
 
+    var setPropValue = function(prop, val){
+        var item = $('.form-group[data-key=' + prop.key + ']');
+        item.find('input').val(val);
+    };
+
     var getPropValue = function(prop){
         var val, item = $('.form-group[data-key=' + prop.key + ']');
         switch(prop.type) {
@@ -111,7 +116,12 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
 
         //渲染
         show: function(fragment, isEdit){
+            var self = this;
             if( $('#'+ this.id).length > 0){
+                //根据fragment进行赋值
+                for(var i=0; i< self.propDef.length; i++){
+                    fragment && setPropValue(self.propDef[i], fragment[self.propDef[i].key]);
+                }
                 $('#'+ this.id).modal('show');
             } else {
                 loadCss();

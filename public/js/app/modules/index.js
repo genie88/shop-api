@@ -121,13 +121,18 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         })
     }
 
+    //编辑项目
+    _p.editFragment = function(e, self){
+        var row = $(this).parents('tr'), 
+            index = row.index(),
+            fragment = self.$scope.fragments[index];
+
+        fragmentEditor.show(fragment, true);
+    }
+
+    //新建空白项目
     _p.addNewItem = function(){
-        if( $('#'+ fragmentEditor.id).length > 0){
-            $('#'+ fragmentEditor.id).modal('show');
-        } else {
-            fragmentEditor.show();
-        }
-        
+        fragmentEditor.show();
     }
 
     //删除fragment
