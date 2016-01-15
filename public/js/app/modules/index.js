@@ -154,6 +154,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
             //console.log(json);
             if(json && json.code == 200){
                 //alert('删除模块成功');
+                window.location.reload();
             } else {
                 console.log(json.msg);
             }

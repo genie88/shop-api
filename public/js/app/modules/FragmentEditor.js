@@ -8,8 +8,8 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
                         </div>\
                         <div class="modal-body">{{content}}</div>\
                         <div class="modal-footer">\
-                            <button data-dismiss="modal" type="button" class="btn btn-info">保存</button>\
-                            <button type="button" class="btn btn-default">取消</button>\
+                            <button data-dismiss="modal" type="button" class="btn btn-info" tt-click="saveFragment">保存</button>\
+                            <button type="button" class="btn btn-default" tt-click="hideDialog">取消</button>\
                         </div>\
                     </div>\
                 </div>\
@@ -146,22 +146,35 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
             $('#'+this.id).modal('hide');
         },
 
+        hideDialog: function(e, self){
+            self.hide();
+        },
+
+        saveFragment: function(e, self){
+            var fragment = {}, index = $(this).index();
+            for(var i=0; i< self.propDef.length; i++){
+                fragment[self.propDef[i].key] = getPropValue(self.propDef[i]);
+            }
+            // console.log(fragment);
+            fragment['cms_module_id'] = self.moduleId;
+            api.fragments.create({fragment: fragment}, function(json){
+                if(json && json.data) {
+                    window.location.reload();
+                }
+            });
+            e.preventDefault();
+
+        },
+
         //绑定事件
         __bindEvents: function(){
             var self = this;
-            $(document).on('click', '#'+self.id +' .modal-footer .btn', function(e){
-                var fragment = {}, index = $(this).index();
-                for(var i=0; i< self.propDef.length; i++){
-                    fragment[self.propDef[i].key] = getPropValue(self.propDef[i]);
+            $(document).on('click', '[tt-click]', function(e){
+                var handler = $(this).attr('tt-click');
+                if(self[handler] && typeof self[handler] == 'function') {
+                    self[handler].call(this, e, self);
                 }
-                // console.log(fragment);
-                fragment['cms_module_id'] = self.moduleId;
-                api.fragments.create({fragment: fragment}, function(json){
-                    if(json && json.data) {
-                        console.log('新增项目成功')
-                    }
-                });
-            })
+            });
         },
 
         //销毁
