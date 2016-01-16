@@ -16,7 +16,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initDetail = function(){
         var self = this;
-        api.orders.get(userId, {'inline-relation-depth': 1}, function(json){
+        api.orders.get(orderId, {'inline-relation-depth': 1}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.order = json.data;
                 self.apply();
