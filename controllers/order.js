@@ -7,6 +7,9 @@ var util = require('../util/util.js');
 var Promise = require('bluebird');
 var Bookshelf = require('bookshelf').mysqlAuth;
 
+var Paginator = require('./paginator');
+var _ = require('underscore');
+
 module.exports = {
     /**
      * 查询参数
@@ -30,20 +33,44 @@ module.exports = {
             relations = ['details.good.supplier']
         }
 
-        Order.where(filter)
-            .fetchAll({withRelated: relations})
-            //.fetchAll()
-            .then(function (orders) {
-                if (!orders) {
-                    util.res(null, res, [])
-                }
-                else {
-                    util.res(null, res, orders)
-                }
+        var page, pageSize, skip = null, limit = null, paginator = null;
+
+        page = parseInt(filter.page) || 1;
+        pageSize = parseInt(filter.page_size) || 4;
+
+        paginator = new Paginator(page, pageSize);
+
+        limit = paginator.getLimit();
+        skip = paginator.getOffset();
+
+        Order.forge(filter)
+            .query(function (qb) {
+                qb.limit(limit).offset(skip);
             })
-            .catch(function (err) {
+            .fetchAll({withRelated: relations})
+            .then(function(orders) {
+                return Order.forge(filter)
+                .query()
+                .count()
+                .then(function (count) {
+                    count = count[0]['count(*)'];
+                    return {
+                        count: count,
+                        data: orders
+                    };
+                });
+            }, function (err) {
                 var error = { code: 500, msg: err.message};
                 util.res(error, res);
+            }).then(function (result) {
+                var count = result.count;
+                var orders = result.data;
+
+                paginator.setCount(count);
+                paginator.setData(orders);
+
+                var ret = paginator.getPaginator();
+                return  util.res(null, res, ret);
             });
     },
 
@@ -71,7 +98,7 @@ module.exports = {
             relations = ['details.good.supplier']
         }
 
-        Order.where(filter)
+        Order.forge(filter)
             .fetch({withRelated: relations})
             //.fetchAll()
             .then(function (order) {
