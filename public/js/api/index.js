@@ -1,7 +1,7 @@
 define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 'api/order','api/address', 
-        'api/cart', 'api/coupon', 'api/cart', 'api/spec'], 
+        'api/cart', 'api/store', 'api/coupon', 'api/cart', 'api/spec'], 
     function(Collection, Modules, Fragments, Goods, Users, Orders, Addresses, 
-        Carts, Coupons, Cats, Specs){
+        Carts, Stores, Coupons, Cats, Specs){
 
     var generic_collections = ['goods', 'users', 'carts', 'addresses', 'orders', 'fragments', 
             'modules', 'coupons', 'cats', 'specs', 'stores'];
@@ -22,6 +22,7 @@ define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 
         this.orders = new Orders(this);
         this.addresses = new Addresses(this);
         this.carts = new Carts(this);
+        this.stores = new Stores(this);
         this.coupons = new Coupons(this);
         this.cats = new Cats(this);
         this.specs = new Specs(this);

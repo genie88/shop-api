@@ -4,6 +4,9 @@ var Store = models.Store;
 
 
 var util = require('../util/util.js');
+var Paginator = require('./paginator');
+var _ = require('underscore');
+var Promise = require('bluebird');
 
 module.exports = {
     /**
@@ -29,19 +32,45 @@ module.exports = {
             filter.id  = filter.store_id;
             delete filter.store_id;
         }
+
+        var page, pageSize, skip = null, limit = null, paginator = null;
+
+        page = parseInt(filter.page) || 1;
+        pageSize = parseInt(filter.page_size) || 4;
+
+        paginator = new Paginator(page, pageSize);
+
+        limit = paginator.getLimit();
+        skip = paginator.getOffset();
+
         Store.forge(filter)
-            .fetchAll({withRelated: relations})
-            .then(function (stores) {
-                if (!stores) {
-                    util.res(null, res, [])
-                }
-                else {
-                    util.res(null, res, stores)
-                }
+            .query(function (qb) {
+                qb.limit(limit).offset(skip);
             })
-            .catch(function (err) {
+            .fetchAll({withRelated: relations})
+            .then(function(stores) {
+                return Store.forge(filter)
+                .query()
+                .count()
+                .then(function (count) {
+                    count = count[0]['count(*)'];
+                    return {
+                        count: count,
+                        data: stores
+                    };
+                });
+            }, function (err) {
                 var error = { code: 500, msg: err.message};
                 util.res(error, res);
+            }).then(function (result) {
+                var count = result.count;
+                var stores = result.data;
+
+                paginator.setCount(count);
+                paginator.setData(stores);
+
+                var ret = paginator.getPaginator();
+                return  util.res(null, res, ret);
             });
     },
 
