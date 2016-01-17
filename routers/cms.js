@@ -3,6 +3,7 @@ var cmsRouter = express.Router();
 
 var cmsFragmentController = require('../controllers/cms_fragment.js');
 var cmsModuleController = require('../controllers/cms_module.js');
+var uploadController = require('../controllers/upload.js');
 
 //modules
 cmsRouter.get('/modules', cmsModuleController.queryAll)
@@ -17,5 +18,8 @@ cmsRouter.get('/fragments/:fragment_id', cmsFragmentController.findOne)
 cmsRouter.put('/fragments/:fragment_id', cmsFragmentController.update) //admin
 cmsRouter.post('/fragments', cmsFragmentController.add) //admin
 cmsRouter.delete('/fragments/:fragment_id', cmsFragmentController.del) //admin
+
+//upload
+cmsRouter.post('/upload', uploadController.upload) //admin
 
 module.exports = cmsRouter;

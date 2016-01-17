@@ -23,6 +23,8 @@
     "express-mysql-session": "^0.4.3",
     "express-session": "^1.12.1",
     "express-validator": "^2.10.0",
+    "formidable": "^1.0.17",
+    "fs-extra": "^0.26.4",
     "knex": "^0.8.6",
     "mysql": "^2.6.2",
     "oauth2-server": "^2.4.1",
