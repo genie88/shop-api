@@ -21,7 +21,7 @@ requirejs.config({
         'spinner': 'fuelux/js/spinner.min',
         'tagsInput': 'jquery-tags-input/jquery.tagsinput',
         'isotope': 'jquery.isotope',
-        'fileupload': 'bootstrap-fileupload.min',
+        'fileupload': 'bootstrap-fileinput/fileinput',
         'datetimepicker': 'bootstrap-timepicker/js/bootstrap-timepicker'
     },
     shim: {
@@ -89,7 +89,7 @@ requirejs.config({
         },
         'fileupload': {
             deps: ['jquery'],
-            exports: '$.fn.fileupload'
+            exports: '$.fn.fileinput'
         },
         'datetimepicker': {
             deps: ['jquery', "jquery-ui", "bootstrap"],

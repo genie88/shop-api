@@ -44,14 +44,41 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     }
 
     _p.initUploader = function(){
+    //     $("#avatar").fileinput({
+    //     initialPreview: [
+    //         '<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" class="file-preview-image" alt="The Moon" title="The Moon">'
+    //     ],
+    //     overwriteInitial: true,
+    //     initialCaption: ""
+    // });
+
         $("#avatar").fileinput({
-        initialPreview: [
-            '<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/631px-FullMoon2010.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
-            '<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Earth_Eastern_Hemisphere.jpg/600px-Earth_Eastern_Hemisphere.jpg" class="file-preview-image" alt="The Earth" title="The Earth">'
-        ],
-        overwriteInitial: true,
-        initialCaption: "The Moon and the Earth"
-    });
+            overwriteInitial: true,
+            maxFileSize: 5000,
+            showClose: false,
+            showCaption: false,
+            browseLabel: '选择',
+            removeLabel: '删除',
+            browseIcon: '<i class="fa fa-folder-open"></i>',
+            removeIcon: '<i class="fa fa-trash-o"></i>',
+            removeTitle: 'Cancel or reset changes',
+            elErrorContainer: '#avatar .error-tips',
+            msgErrorClass: 'alert alert-block alert-danger',
+            defaultPreviewContent: '<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="头像" style="width:160px">',
+            layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+
+
+        $("#input-repl-2").fileinput({
+            uploadUrl: "/cms/upload",
+            autoReplace: true,
+            maxFileCount: 5,
+            browseIcon: '<i class="fa fa-folder-open"></i>',
+            removeIcon: '<i class="fa fa-trash-o"></i>',
+            uploadIcon: '<i class="fa fa-upload"></i>',
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
     }
 
     _p.updateUser = function(e, self){
