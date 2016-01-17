@@ -29,6 +29,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initEdit = function(){
         var self = this;
+        self.initUploader();
         userId && api.users.get(userId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.user = json.data;
@@ -42,8 +43,19 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     }
 
-    _p.updateUser = function(e){
-        var self = this;
+    _p.initUploader = function(){
+        $("#avatar").fileinput({
+        initialPreview: [
+            '<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/631px-FullMoon2010.jpg" class="file-preview-image" alt="The Moon" title="The Moon">',
+            '<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Earth_Eastern_Hemisphere.jpg/600px-Earth_Eastern_Hemisphere.jpg" class="file-preview-image" alt="The Earth" title="The Earth">'
+        ],
+        overwriteInitial: true,
+        initialCaption: "The Moon and the Earth"
+    });
+    }
+
+    _p.updateUser = function(e, self){
+        //var self = this;
         console.log(self.$scope.user);
 
         if(userId) {

@@ -25,7 +25,7 @@ module.exports = {
 
 	        //Formidable changes the name of the uploaded file
 	        //Rename the file to its original name
-	        fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
+	        fs.rename(files.fileUploaded.path, './upload/'+files.fileUploaded.name, function(err) {
 	        if (err)
 	            throw err;
 	          	console.log('renamed complete');  
