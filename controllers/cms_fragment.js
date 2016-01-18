@@ -117,7 +117,7 @@ module.exports = {
     update: function(req, res, next){
         //参数过滤
         var fragment = req.body.fragment
-        CmsFragment.where({id: req.params.cms_fragment_id})
+        new CmsFragment({id: req.params.cms_fragment_id})
             .save(fragment, {patch: true})
             .then(function (fragment) {
                 util.res(null, res, {});

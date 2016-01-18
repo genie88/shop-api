@@ -38,6 +38,7 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
                 break;
             case 'mtext': 
                 ckeditors.push("ckeditor-" + prop.key);
+                val = decodeURIComponent(val);
                 html += '<textarea class="form-control ckeditor" name="ckeditor-'+ prop.key + '" rows="3">' + val + '</textarea>';
                 break;
             case 'link':
@@ -62,7 +63,24 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
 
     var setPropValue = function(prop, val){
         var item = $('.form-group[data-key=' + prop.key + ']');
-        item.find('input').val(val);
+        switch(prop.type) {
+            case 'number':
+            case 'text': 
+            case 'link':
+            case 'image':
+            case 'boolean':
+            case 'date':
+                item.find('input').val(val);
+                break;
+            case 'mtext': 
+                var rawHTML = decodeURIComponent(val);
+                CKEDITOR.instances["ckeditor-" + prop.key] 
+                    && CKEDITOR.instances["ckeditor-" + prop.key].setData(rawHTML);
+                break;
+            default:
+                item.find('input').val(val);
+                break;
+        }
     };
 
     var getPropValue = function(prop){
@@ -103,7 +121,7 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
 
 
     Editor.prototype = {
-        build: function(fragment, isEdit){
+        build: function(fragment){
             var html = '', ele = '';
             html = '<form class="form-horizontal" role="form">';
             for(var i=0; i< this.propDef.length; i++){
@@ -115,13 +133,28 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
         },
 
         //渲染
-        show: function(fragment, isEdit){
+        show: function(fragment){
             var self = this;
+
+            //判断是否是编辑Fragment还是新建Fragment
+            self.isEdit = !!fragment;
+            if(self.isEdit) {
+                self.fragmentId = fragment.id;
+            }
+
             if( $('#'+ this.id).length > 0){
                 //根据fragment进行赋值
-                for(var i=0; i< self.propDef.length; i++){
-                    fragment && setPropValue(self.propDef[i], fragment[self.propDef[i].key]);
+                if (self.isEdit) {
+                    for(var i=0; i< self.propDef.length; i++){
+                        setPropValue(self.propDef[i], fragment[self.propDef[i].key]);
+                    }
+                } else {
+                    //清除已有内容
+                    for(var i=0; i< self.propDef.length; i++){
+                        setPropValue(self.propDef[i], '');
+                    }
                 }
+
                 $('#'+ this.id).modal('show');
             } else {
                 loadCss();
@@ -130,12 +163,15 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
                     title: fragment ? '编辑项目': '新增项目',
                     content: ''
                 };
+
+
+
                 var dialog = swig.render(tpl, {locals: data});
                 if( $('#'+this.id).length == 0){
                     $('body').append(dialog);
                 } 
 
-                $('#'+this.id).find('.modal-body').html(this.build(fragment, isEdit));
+                $('#'+this.id).find('.modal-body').html(this.build(fragment));
                 //初始化编辑器实例
                 for(var i=0; i< ckeditors.length; i++){
                     if (CKEDITOR.instances[ckeditors[i]]) {
@@ -167,11 +203,21 @@ define(['jquery', 'swig', 'bootstrap', 'ckeditor', 'datetimepicker', 'api/index'
             }
             // console.log(fragment);
             fragment['cms_module_id'] = self.moduleId;
-            api.fragments.create({fragment: fragment}, function(json){
-                if(json && json.data) {
-                    window.location.reload();
-                }
-            });
+            if(self.isEdit) {
+                api.fragments.update(self.fragmentId, {fragment: fragment}, function(json){
+                    //console.log(json)
+                    if(json && json.data) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                api.fragments.create({fragment: fragment}, function(json){
+                    if(json && json.data) {
+                        window.location.reload();
+                    }
+                });
+            }
+            
             e.preventDefault();
 
         },

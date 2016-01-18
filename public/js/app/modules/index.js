@@ -67,7 +67,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 html = fragment[prop.key];
                 break;
             case 'mtext': 
-                html = fragment[prop.key];
+                html = $(decodeURIComponent(fragment[prop.key])).text().slice(0, 36) + '...' ;
                 break;
             case 'link':
                 html = '<a href="' + fragment[prop.key] + '" target="_blank">' + fragment[prop.key] +'</a>';
