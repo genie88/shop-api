@@ -29,62 +29,65 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initEdit = function(){
         var self = this;
+        self.uploader = $("#avatar");
         self.initUploader();
         userId && api.users.get(userId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.user = json.data;
                 self.$scope.user.roleName = roleMap[self.$scope.user.role];
-                self.$scope.user.avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar';
+                //self.$scope.user.avatar = 'http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar';
                 //console.log(self.$scope.user);
+                initPortrait(userId, self.$scope.user.avatar)
                 self.apply();
             }
         })
+    }
 
-
+    //初始化图像信息
+    function initPortrait(id, imageurl) {
+        //重要，需要更新控件的附加参数内容，以及图片初始化显示
+        $("#avatar").fileinput('refresh', {
+            uploadExtraData: { id: id, type: '用户头像'},
+            initialPreview: [
+                "<img src='" + imageurl + "' class='file-preview-image' alt='用户头像' title='用户头像'>",
+            ],
+        });
     }
 
     _p.initUploader = function(){
-    //     $("#avatar").fileinput({
-    //     initialPreview: [
-    //         '<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" class="file-preview-image" alt="The Moon" title="The Moon">'
-    //     ],
-    //     overwriteInitial: true,
-    //     initialCaption: ""
-    // });
-
+        var self = this;
         $("#avatar").fileinput({
+            uploadUrl: "/cms/upload?type=user&dir=avatar",
             overwriteInitial: true,
-            maxFileSize: 5000,
+            maxFileSize: 1500,
             showClose: false,
             showCaption: false,
-            browseLabel: '选择',
-            removeLabel: '删除',
-            browseIcon: '<i class="fa fa-folder-open"></i>',
-            removeIcon: '<i class="fa fa-trash-o"></i>',
-            removeTitle: 'Cancel or reset changes',
-            elErrorContainer: '#avatar .error-tips',
             msgErrorClass: 'alert alert-block alert-danger',
             defaultPreviewContent: '<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="头像" style="width:160px">',
             layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
-            allowedFileExtensions: ["jpg", "png", "gif"]
-        });
-
-
-        $("#input-repl-2").fileinput({
-            uploadUrl: "/cms/upload",
-            autoReplace: true,
-            maxFileCount: 5,
-            browseIcon: '<i class="fa fa-folder-open"></i>',
-            removeIcon: '<i class="fa fa-trash-o"></i>',
-            uploadIcon: '<i class="fa fa-upload"></i>',
             allowedFileExtensions: ["jpg", "png", "gif"]
         });
     }
 
     _p.updateUser = function(e, self){
         //var self = this;
-        console.log(self.$scope.user);
+        //console.log(self.$scope.user);
+        $("#avatar").on("fileuploaded", function(event, data, previewId, index){
+            //console.log(event, data);
+            var res = data.response;
+            if(res && res.data && res.data.path){
+                self.$scope.user.avatar = window.location.origin +  data.response.data.path;
+            }
+            console.log(self.$scope.user);
+            self.updateUserInfo();
+        })
+        //上传头像
+        $("#avatar").fileinput('upload');
+        e.preventDefault();
+    }
 
+    _p.updateUserInfo = function(){
+        var self = this;
         if(userId) {
             //编辑已有用户信息
             var data = $.extend({}, self.$scope.user);
@@ -104,13 +107,13 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 console.log(json);
                 if(json && json.code == 200){
                     alert('添加用户成功');
+                    var uid = json.data.id;
                 } else {
                     console.log(json.msg);
                 }
             });
 
         }
-        e.preventDefault();
     }
 
     //初始化用户列表页
