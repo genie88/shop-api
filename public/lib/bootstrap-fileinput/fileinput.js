@@ -273,16 +273,16 @@
         '   <span class="{previewFileIconClass}">{previewFileIcon}</span>\n' +
         '</div>';
     defaultFileActionSettings = {
-        removeIcon: '<i class="glyphicon glyphicon-trash text-danger"></i>',
+        removeIcon: '<i class="fa fa-trash-o text-danger"></i>',
         removeClass: 'btn btn-xs btn-default',
         removeTitle: 'Remove file',
-        uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
+        uploadIcon: '<i class="fa fa-upload text-info"></i>',
         uploadClass: 'btn btn-xs btn-default',
         uploadTitle: 'Upload file',
-        indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning"></i>',
-        indicatorSuccess: '<i class="glyphicon glyphicon-ok-sign text-success"></i>',
-        indicatorError: '<i class="glyphicon glyphicon-exclamation-sign text-danger"></i>',
-        indicatorLoading: '<i class="glyphicon glyphicon-hand-up text-muted"></i>',
+        indicatorNew: '<i class="fa fa-thumbs-o-down text-warning"></i>',
+        indicatorSuccess: '<i class="fa fa-check-circle text-success"></i>',
+        indicatorError: '<i class="fa fa-exclamation-circle text-danger"></i>',
+        indicatorLoading: '<i class="fa fa-spinner text-muted"></i>',
         indicatorNewTitle: 'Not uploaded yet',
         indicatorSuccessTitle: 'Uploaded',
         indicatorErrorTitle: 'Upload Error',
@@ -311,7 +311,7 @@
         '    </div>\n' +
         '</div>';
     tClose = '<div class="close fileinput-remove">&times;</div>\n';
-    tIcon = '<span class="glyphicon glyphicon-file kv-caption-icon"></span>';
+    tIcon = '<span class="fa fa-file kv-caption-icon"></span>';
     tCaption = '<div tabindex="500" class="form-control file-caption {class}">\n' +
         '   <div class="file-caption-name"></div>\n' +
         '</div>\n';
@@ -2590,18 +2590,18 @@
         customPreviewTags: {},
         previewSettings: defaultPreviewSettings,
         fileTypeSettings: defaultFileTypeSettings,
-        previewFileIcon: '<i class="glyphicon glyphicon-file"></i>',
+        previewFileIcon: '<i class="fa fa-file"></i>',
         previewFileIconClass: 'file-icon-4x',
         previewFileIconSettings: {},
         previewFileExtSettings: {},
         buttonLabelClass: 'hidden-xs',
-        browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+        browseIcon: '<i class="fa fa-folder-open"></i>',
         browseClass: 'btn btn-primary',
-        removeIcon: '<i class="glyphicon glyphicon-trash"></i>',
+        removeIcon: '<i class="fa fa-trash"></i>',
         removeClass: 'btn btn-default',
-        cancelIcon: '<i class="glyphicon glyphicon-ban-circle"></i>',
+        cancelIcon: '<i class="fa fa-ban"></i>',
         cancelClass: 'btn btn-default',
-        uploadIcon: '<i class="glyphicon glyphicon-upload"></i>',
+        uploadIcon: '<i class="fa fa-upload"></i>',
         uploadClass: 'btn btn-default',
         uploadUrl: null,
         uploadAsync: true,
@@ -2619,13 +2619,13 @@
         maxFileCount: 0,
         validateInitialCount: false,
         msgValidationErrorClass: 'text-danger',
-        msgValidationErrorIcon: '<i class="glyphicon glyphicon-exclamation-sign"></i> ',
+        msgValidationErrorIcon: '<i class="fa fa-exclamation-circle"></i> ',
         msgErrorClass: 'file-error-message',
         progressThumbClass: "progress-bar progress-bar-success progress-bar-striped active",
         progressClass: "progress-bar progress-bar-success progress-bar-striped active",
         progressCompleteClass: "progress-bar progress-bar-success",
         previewFileType: 'image',
-        zoomIndicator: '<i class="glyphicon glyphicon-zoom-in"></i>',
+        zoomIndicator: '<i class="fa fa-search"></i>',
         elCaptionContainer: null,
         elCaptionText: null,
         elPreviewContainer: null,
@@ -2644,44 +2644,55 @@
         showAjaxErrorDetails: true
     };
 
-    $.fn.fileinputLocales.en = {
-        fileSingle: 'file',
-        filePlural: 'files',
-        browseLabel: 'Browse &hellip;',
-        removeLabel: 'Remove',
-        removeTitle: 'Clear selected files',
-        cancelLabel: 'Cancel',
-        cancelTitle: 'Abort ongoing upload',
-        uploadLabel: 'Upload',
-        uploadTitle: 'Upload selected files',
-        msgZoomTitle: 'View details',
-        msgZoomModalHeading: 'Detailed Preview',
-        msgSizeTooLarge: 'File "{name}" (<b>{size} KB</b>) exceeds maximum allowed upload size of <b>{maxSize} KB</b>.',
-        msgFilesTooLess: 'You must select at least <b>{n}</b> {files} to upload.',
-        msgFilesTooMany: 'Number of files selected for upload <b>({n})</b> exceeds maximum allowed limit of <b>{m}</b>.',
-        msgFileNotFound: 'File "{name}" not found!',
-        msgFileSecured: 'Security restrictions prevent reading the file "{name}".',
-        msgFileNotReadable: 'File "{name}" is not readable.',
-        msgFilePreviewAborted: 'File preview aborted for "{name}".',
-        msgFilePreviewError: 'An error occurred while reading the file "{name}".',
-        msgInvalidFileType: 'Invalid type for file "{name}". Only "{types}" files are supported.',
-        msgInvalidFileExtension: 'Invalid extension for file "{name}". Only "{extensions}" files are supported.',
-        msgUploadAborted: 'The file upload was aborted',
-        msgValidationError: 'File Upload Error',
-        msgLoading: 'Loading file {index} of {files} &hellip;',
-        msgProgress: 'Loading file {index} of {files} - {name} - {percent}% completed.',
-        msgSelected: '{n} {files} selected',
-        msgFoldersNotAllowed: 'Drag & drop files only! {n} folder(s) dropped were skipped.',
-        msgImageWidthSmall: 'Width of image file "{name}" must be at least {size} px.',
-        msgImageHeightSmall: 'Height of image file "{name}" must be at least {size} px.',
-        msgImageWidthLarge: 'Width of image file "{name}" cannot exceed {size} px.',
-        msgImageHeightLarge: 'Height of image file "{name}" cannot exceed {size} px.',
-        msgImageResizeError: 'Could not get the image dimensions to resize.',
-        msgImageResizeException: 'Error while resizing the image.<pre>{errors}</pre>',
-        dropZoneTitle: 'Drag & drop files here &hellip;'
+    $.fn.fileinputLocales['zh'] = {
+        fileSingle: '文件',
+        filePlural: '多个文件',
+        browseLabel: '选择 &hellip;',
+        removeLabel: '移除',
+        removeTitle: '清除选中文件',
+        cancelLabel: '取消',
+        cancelTitle: '取消进行中的上传',
+        uploadLabel: '上传',
+        uploadTitle: '上传选中文件',
+        msgZoomTitle: '查看详情',
+        msgZoomModalHeading: '详细预览',
+        msgSizeTooLarge: '文件 "{name}" (<b>{size} KB</b>) 超过了允许大小 <b>{maxSize} KB</b>.',
+        msgFilesTooLess: '你必须选择最少 <b>{n}</b> {files} 来上传. ',
+        msgFilesTooMany: '选择的上传文件个数 <b>({n})</b> 超出最大文件的限制个数 <b>{m}</b>.',
+        msgFileNotFound: '文件 "{name}" 未找到!',
+        msgFileSecured: '安全限制，为了防止读取文件 "{name}".',
+        msgFileNotReadable: '文件 "{name}" 不可读.',
+        msgFilePreviewAborted: '取消 "{name}" 的预览.',
+        msgFilePreviewError: '读取 "{name}" 时出现了一个错误.',
+        msgInvalidFileType: '不正确的类型 "{name}". 只支持 "{types}" 类型的文件.',
+        msgInvalidFileExtension: '不正确的文件扩展名 "{name}". 只支持 "{extensions}" 的文件扩展名.',
+        msgUploadAborted: '该文件上传被中止',
+        msgValidationError: '文件上传错误',
+        msgLoading: '加载第 {index} 文件 共 {files} &hellip;',
+        msgProgress: '加载第 {index} 文件 共 {files} - {name} - {percent}% 完成.',
+        msgSelected: '{n} {files} 选中',
+        msgFoldersNotAllowed: '只支持拖拽文件! 跳过 {n} 拖拽的文件夹.',
+        msgImageWidthSmall: '宽度的图像文件的"{name}"的必须是至少{size}像素.',
+        msgImageHeightSmall: '图像文件的"{name}"的高度必须至少为{size}像素.',
+        msgImageWidthLarge: '宽度的图像文件"{name}"不能超过{size}像素.',
+        msgImageHeightLarge: '图像文件"{name}"的高度不能超过{size}像素.',
+        msgImageResizeError: '无法获取的图像尺寸调整。',
+        msgImageResizeException: '错误而调整图像大小。<pre>{errors}</pre>',
+        dropZoneTitle: '拖拽文件到这里 &hellip;',
+        slugCallback: function(text) {
+            return text ? text.split(/(\\|\/)/g).pop().replace(/[^\w\u4e00-\u9fa5\-.\\\/ ]+/g, '') : '';
+        },
+        fileActionSettings: {
+            removeTitle: '删除文件',
+            uploadTitle: '上传文件',
+            indicatorNewTitle: '没有上传',
+            indicatorSuccessTitle: '上传',
+            indicatorErrorTitle: '上传错误',
+            indicatorLoadingTitle: '上传 ...'
+        }
     };
 
-    $.extend($.fn.fileinput.defaults, $.fn.fileinputLocales.en);
+    $.extend($.fn.fileinput.defaults, $.fn.fileinputLocales.zh);
 
     $.fn.fileinput.Constructor = FileInput;
 
