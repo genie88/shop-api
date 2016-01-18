@@ -2597,7 +2597,7 @@
         buttonLabelClass: 'hidden-xs',
         browseIcon: '<i class="fa fa-folder-open"></i>',
         browseClass: 'btn btn-primary',
-        removeIcon: '<i class="fa fa-trash"></i>',
+        removeIcon: '<i class="fa fa-trash-o"></i>',
         removeClass: 'btn btn-default',
         cancelIcon: '<i class="fa fa-ban"></i>',
         cancelClass: 'btn btn-default',

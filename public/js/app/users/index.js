@@ -60,6 +60,8 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
             uploadUrl: "/cms/upload?type=user&dir=avatar",
             overwriteInitial: true,
             maxFileSize: 1500,
+            autoReplace: true,
+            maxFileCount: 1,
             showClose: false,
             showCaption: false,
             msgErrorClass: 'alert alert-block alert-danger',
