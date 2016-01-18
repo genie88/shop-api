@@ -1,6 +1,7 @@
 {% extends '../layouts/default.html' %}
 {% block content %}
-<link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
+<link rel="stylesheet" type="text/css" href="/lib/bootstrap-fileinput/fileinput.css" />
+<style>.file-thumbnail-footer {display: none;}</style>
 
 <div tt-controller="app/suppliers/index" tt-init="initEdit">
     <!-- page heading start-->
@@ -93,30 +94,17 @@
                             <div class="form-group last">
                                 <label class="control-label col-md-2">供应商LOGO</label>
                                 <div class="col-md-6">
-                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
-                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="" tt-src="user.avatar" alt="">
-                                    </div>
-                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
-                                    <div>
-                                        <span class="btn btn-default btn-file">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 选择图片...</span>
-                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> 更改...</span>
-                                        <input type="file" class="default" tt-model="user.avatar">
-                                        </span>
-                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> 删除</a>
-                                    </div>
+                                    <input id="supplierLogo" name="files" type="file">  
                                 </div>
-                                <br>
-                                <span class="label label-warning">提示: 单张图片大小限制为2M</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-2 control-label"></label>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary right" tt-click="updateSupplier">提交</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-2 col-sm-2 control-label"></label>
-                            <div class="col-md-6">
-                                <button class="btn btn-primary right" tt-click="updateUser">提交</button>
-                            </div>
-                        </div>
+                        
                     </form>
                 </div>
             </section>

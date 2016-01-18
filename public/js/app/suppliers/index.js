@@ -26,18 +26,64 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initEdit = function(){
         var self = this;
-        $(document).trigger('nav.change', 'supplier.new')
+        $(document).trigger('nav.change', 'supplier.new');
+        self.initUploader();
         supplierId && api.stores.get(supplierId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.supplier = json.data;
+                initPortrait('', self.$scope.supplier.logo);
                 self.apply();
             }
         })
-
-
     }
 
-    _p.updateSupplier= function(e){
+
+    //初始化图像信息
+    function initPortrait(id, imageurl) {
+        //重要，需要更新控件的附加参数内容，以及图片初始化显示
+        $("#supplierLogo").fileinput('refresh', {
+            uploadExtraData: { id: id, type: 'logo'},
+            initialPreview: [
+                "<img src='" + imageurl + "' class='file-preview-image' alt='logo' title='logo'>",
+            ],
+        });
+    }
+
+    _p.initUploader = function(){
+        var self = this;
+        $("#supplierLogo").fileinput({
+            uploadUrl: "/cms/upload?type=supplier&dir=supplier",
+            overwriteInitial: true,
+            maxFileSize: 1500,
+            autoReplace: true,
+            maxFileCount: 1,
+            showClose: false,
+            showCaption: false,
+            msgErrorClass: 'alert alert-block alert-danger',
+            defaultPreviewContent: '<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=logo" alt="logo" style="width:160px">',
+            layoutTemplates: {main2: '{preview} ' + ' {remove} {browse}'},
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+    }
+
+    _p.updateSupplier = function(e, self){
+        //var self = this;
+        //console.log(self.$scope.user);
+        $("#supplierLogo").on("fileuploaded", function(event, data, previewId, index){
+            //console.log(event, data);
+            var res = data.response;
+            if(res && res.data && res.data.path){
+                self.$scope.supplier.logo = window.location.origin +  data.response.data.path;
+            }
+            console.log(self.$scope.supplier);
+            self.updateSupplierInfo();
+        })
+        //上传logo
+        $("#supplierLogo").fileinput('upload');
+        e.preventDefault();
+    }
+
+    _p.updateSupplierInfo= function(){
         var self = this;
         console.log(self.$scope.supplier);
 
