@@ -20,7 +20,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
     //初始化商品详情信息
     _p.initDetail = function(){
         var self = this;
-
+        $(document).trigger('nav.change', 'good.list')
         api.goods.get(goodId, {'inline-relation-depth': 1}, function(json){
             console.log(json.data)
             if(json && json.code == 200 && json.data && json.data) {
@@ -39,6 +39,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'app/base', 'api/index'], fun
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
         
         self.getGoodList({}, {page: 1, page_size: 2});
+        $(document).trigger('nav.change', 'good.list')
 
         $(document).on('PAGER_CHANGED', function(e, page){
             //console.log(page);

@@ -24,7 +24,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     //初始化模块详情页
     _p.initDetail = function(){
         var self = this;
-
+        $(document).trigger('nav.change', 'cms.list')
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
 
         //获取模块字段含义
@@ -170,6 +170,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     /***************************************  模块新增／编辑  **********/
     _p.initEdit = function(){
         var self = this;
+        $(document).trigger('nav.change', 'cms.new')
         moduleId && api.modules.get(moduleId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.module = json.data;
@@ -258,6 +259,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     //初始化模块列表页
     _p.initList = function(){
         var self = this;
+        $(document).trigger('nav.change', 'cms.list')
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
         self.getModules({}, {page: 1, page_size: 5});
         $(document).on('PAGER_CHANGED', function(e, page){

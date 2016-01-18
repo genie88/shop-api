@@ -15,6 +15,15 @@ define(function (require) {
     }
 
 
+
+    $(document).on('nav.change', function(e, data){
+        var menu = data.split('.')[0] || '', submenu = data.split('.')[1] || '';
+        //console.log(menu, submenu);
+        var current = $('#sideNav > li[data-menu=' + menu +']');
+        current.addClass('active').siblings().removeClass('active');
+        current.find('li[data-submenu=' + submenu + ']').addClass('active');
+    })
+
      // Toggle Left Menu
     jQuery('.menu-list > a').click(function() {
        

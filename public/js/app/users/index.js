@@ -10,7 +10,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     //初始化模块控制器
     var UserController = function(){
-
+        $(document).trigger('nav.change', 'user.list')
     }
 
     var _p = UserController.prototype = new BaseController();

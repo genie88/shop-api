@@ -16,6 +16,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initDetail = function(){
         var self = this;
+        $(document).trigger('nav.change', 'order.list')
         api.orders.get(orderId, {'inline-relation-depth': 1}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.order = json.data;
@@ -26,6 +27,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initEdit = function(){
         var self = this;
+        $(document).trigger('nav.change', 'order.new')
         orderId && api.orders.get(orderId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.order = json.data;
@@ -74,7 +76,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 0, page: 1});
         
         self.getOrders({}, {page: 1, page_size: 5});
-
+        $(document).trigger('nav.change', 'order.list')
         $(document).on('PAGER_CHANGED', function(e, page){
             //console.log(page);
             self.getOrders({'inline-relation-depth': 1}, {page: page, page_size: 2});

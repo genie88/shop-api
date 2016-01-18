@@ -26,6 +26,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initEdit = function(){
         var self = this;
+        $(document).trigger('nav.change', 'supplier.new')
         supplierId && api.stores.get(supplierId, {'inline-relation-depth': 0}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.supplier = json.data;
@@ -74,7 +75,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         self.pager = new Pager({wrapper: $('.pagination ul'), total: 8, page: 2});
         
         self.getSuppliers({}, {page: 1, page_size: 2});
-
+        $(document).trigger('nav.change', 'supplier.list')
         $(document).on('PAGER_CHANGED', function(e, page){
             //console.log(page);
             self.getSuppliers({'inline-relation-depth': 1}, {page: page, page_size: 2});

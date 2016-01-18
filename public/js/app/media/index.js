@@ -93,7 +93,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     _p.initList = function(){
         var self = this;
         self.pager = new Pager({wrapper: $('.pagination'), total: 8, page: 1});
-        
+        $(document).trigger('nav.change', 'media.lib')
         self.getMediaList({page: 1, pageSize: 16, force: ''});
         self.initUploader();
         $(document).on('PAGER_CHANGED', function(e, page){
