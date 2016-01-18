@@ -21,5 +21,6 @@ cmsRouter.delete('/fragments/:fragment_id', cmsFragmentController.del) //admin
 
 //upload
 cmsRouter.post('/upload', uploadController.upload) //admin
+cmsRouter.get('/media/list', uploadController.list) //admin
 
 module.exports = cmsRouter;

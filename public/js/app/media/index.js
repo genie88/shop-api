@@ -18,7 +18,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     _p.initUploader = function(){
 
         $("#input-repl-2").fileinput({
-            uploadUrl: "/cms/upload",
+            uploadUrl: "/cms/upload?type=media",
             autoReplace: true,
             maxFileCount: 5,
             previewFileIconSettings: {
@@ -63,28 +63,48 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         });
     }
 
+    _p.getMediaList = function(opt){
+        var self = this;
+        $.getJSON('/cms/media/list?page=' + opt.page + '&pageSize='+ opt.pageSize + '&force='+opt.force, function(json){
+            // self.$scope.media = [
+            //     {type: 'images', path: '/images/gallery/image1.jpg', preview: '/images/gallery/image1.jpg', name:'image1.jpg' },
+            //     {type: 'images', path: '/images/gallery/image2.jpg', preview: '/images/gallery/image2.jpg', name:'image2.jpg' },
+            //     {type: 'images', path: '/images/gallery/image3.jpg', preview: '/images/gallery/image3.jpg', name:'image3.jpg' },
+            //     {type: 'docs', path: '/images/gallery/image1.jpg', preview: '/images/gallery/image1.jpg', name:'image1.jpg' },
+            //     {type: 'audio', path: '/images/gallery/image2.jpg', preview: '/images/gallery/image2.jpg', name:'image2.jpg' }
+            // ];
+            self.$scope.media = json.data.data;
+            self.apply();
+            var $container = $('#gallery');
+            $container.isotope({
+                itemSelector: '.item',
+                animationOptions: {
+                    duration: 750,
+                    easing: 'linear',
+                    queue: false
+                }
+            });
+
+            self.pager.render(opt.page , json.data.total);
+        })
+    }
 
     //初始化用户列表页
     _p.initList = function(){
         var self = this;
-        self.pager = new Pager({wrapper: $('.pagination'), total: 8, page: 2});
+        self.pager = new Pager({wrapper: $('.pagination'), total: 8, page: 1});
         
-        //self.getUsers({}, {page: 1, page_size: 2});
-        self.$scope.media = [
-            {type: 'images', path: '/images/gallery/image1.jpg', preview: '/images/gallery/image1.jpg', name:'image1.jpg' },
-            {type: 'images', path: '/images/gallery/image2.jpg', preview: '/images/gallery/image2.jpg', name:'image2.jpg' },
-            {type: 'images', path: '/images/gallery/image3.jpg', preview: '/images/gallery/image3.jpg', name:'image3.jpg' },
-            {type: 'docs', path: '/images/gallery/image1.jpg', preview: '/images/gallery/image1.jpg', name:'image1.jpg' },
-            {type: 'audio', path: '/images/gallery/image2.jpg', preview: '/images/gallery/image2.jpg', name:'image2.jpg' }
-        ]
-        self.apply();
+        self.getMediaList({page: 1, pageSize: 16, force: ''});
         self.initUploader();
-        self.pager.render(1 , 1);
-
         $(document).on('PAGER_CHANGED', function(e, page){
-            //console.log(page);
-            self.getUsers({'inline-relation-depth': 1}, {page: page, page_size: 2});
+            self.getMediaList({page: page, pageSize: 16, force: ''});
         })
+
+         $('#filters a').click(function() {
+            var selector = $(this).attr('data-filter');
+            $('#gallery').isotope({filter: selector});
+            return false;
+        });
     }
 
     //删除文件

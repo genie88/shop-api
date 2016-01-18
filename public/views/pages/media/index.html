@@ -42,12 +42,12 @@
                             <a href="#myModal" data-toggle="modal" type="button" class="btn btn-primary btn-sm"><i class="fa fa-upload"></i> 上传</a>
                         </div>
                         <div id="gallery" class="media-gal isotope" tt-repeat="item in media">
-                            {% raw%}
+                            {% raw %}
                                 <div class="{{item.type}} item  isotope-item">
                                     <img src="{{item.preview}}" alt="{{item.name}}" data-path="{{item.path}}">
                                     <p>{{item.name}} </p>
                                 </div>
-                            {% endraw%}   
+                            {% endraw %}   
                         </div>
                         <div class="col-md-12 text-center clearfix">
                             <ul class="pagination"></ul>
@@ -82,22 +82,10 @@
         requirejs(['modernizr','bootstrap', 'isotope', 'app/media/index'], function(a, b, isotope, mediaController){
             mediaController.initList();
             $(function() {
-                var $container = $('#gallery');
-                $container.isotope({
-                    itemSelector: '.item',
-                    animationOptions: {
-                        duration: 750,
-                        easing: 'linear',
-                        queue: false
-                    }
-                });
+                
 
                 // filter items when filter link is clicked
-                $('#filters a').click(function() {
-                    var selector = $(this).attr('data-filter');
-                    $container.isotope({filter: selector});
-                    return false;
-                });
+               
             });
         });
     });
