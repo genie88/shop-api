@@ -6,8 +6,11 @@
 <link href="/lib/iCheck/skins/flat/blue.css" rel="stylesheet">
 <link href="/lib/iCheck/skins/flat/yellow.css" rel="stylesheet">
 <link href="/lib/iCheck/skins/flat/purple.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/css/bootstrap-fileupload.min.css" />
 <link rel="stylesheet" type="text/css" href="/lib/jquery-tags-input/jquery.tagsinput.css" />
+
+<link rel="stylesheet" type="text/css" href="/lib/bootstrap-fileinput/fileinput.css" />
+<style>.file-thumbnail-footer {display: none;}</style>
+
 <style>
 div.tagsinput span.tag {
     background: #65CEA7 !important;
@@ -19,7 +22,7 @@ div.tagsinput span.tag {
 }
 </style>
 
-<div tt-controller="app/goods/index" tt-init="initDetail">
+<div tt-controller="app/goods/index" tt-init="initEdit">
     <!-- page heading start-->
     <div class="page-heading">
         <h3>
@@ -48,7 +51,7 @@ div.tagsinput span.tag {
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-book"></i>
-                                        <input type="text" class="form-control" placeholder="商品名称">
+                                        <input type="text" class="form-control" placeholder="商品名称" tt-model="good.name">
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +60,7 @@ div.tagsinput span.tag {
                                 <div class="col-md-6">
                                     <div class="iconic-input">
                                         <i class="fa fa-home"></i>
-                                        <input type="text" class="form-control" placeholder="商品品牌">
+                                        <input type="text" class="form-control" placeholder="商品品牌" tt-model="good.brand_name">
                                     </div>
                                 </div>
                             </div>
@@ -66,60 +69,45 @@ div.tagsinput span.tag {
                                 <label class="col-md-2 col-sm-2 control-label">商品描述</label>
                                 <div class="col-md-6">
                                     <div class="iconic-input">
-                                        <textarea class="form-control" placeholder="商品描述" rows="5"></textarea>
+                                        <textarea class="form-control" placeholder="商品描述" rows="5" tt-model="good.description"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-2 control-label">一级类目</label>
                                 <div class="col-md-2">
-                                    <select class="form-control m-bot15">
+                                    <input type="text" class="form-control" placeholder="一级类目" tt-model="good.cat_id" disabled>
+                                    <!-- <select class="form-control m-bot15" tt-model="good.cat_id">
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <label class="col-md-2 col-sm-2 control-label">二级类目</label>
                                 <div class="col-md-2">
-                                    <select class="form-control m-bot15">
+                                    <input type="text" class="form-control" placeholder="二级类目" tt-model="good.spec_id" disabled>
+                                    <!-- <select class="form-control m-bot15" tt-model="good.spec_id">
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
                                         <option>家居清洁</option>
-                                    </select>
+                                    </select> -->
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                
                             </div>
                             <div class="form-group">
                                 <label class=" col-md-2 control-label">商品标签</label>
                                 <div class="col-md-6">
-                                    <input id="goodTags" type="text" class="tags" value="php,ios,javascript,ruby,android,kindle" />
+                                    <input id="goodTags" type="text" class="tags" value="php,ios,javascript,ruby,android,kindle" tt-model="good.allTags"/>
                                 </div>
                             </div>
                             <div class="form-group last">
                                 <label class="control-label col-md-2">商品图片</label>
                                 <div class="col-md-6">
-                                    <div class="fileupload fileupload-new" data-provides="fileupload"><input type="hidden">
-                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=avatar" alt="">
-                                    </div>
-                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
-                                    <div>
-                                        <span class="btn btn-default btn-file">
-                                        <span class="fileupload-new"><i class="fa fa-paper-clip"></i> 选择图片...</span>
-                                        <span class="fileupload-exists"><i class="fa fa-undo"></i> 更改...</span>
-                                        <input type="file" class="default">
-                                        </span>
-                                        <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload"><i class="fa fa-trash"></i> 删除</a>
-                                    </div>
-                                </div>
-                                <br>
-                                <span class="label label-warning">提示: 单张图片大小限制为2M</span>
+                                    <input id="goodImage" name="files" type="file">   
+                                </div> 
                             </div>
-                        </div>
+
                         <div class="form-group ">
                             <label class="control-label col-md-2">库存量</label>
                             <div class="col-md-6">
@@ -130,7 +118,7 @@ div.tagsinput span.tag {
                                             <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <input type="text" class="spinner-input form-control" maxlength="9" tt-model="good.stock">
                                         <div class="spinner-buttons input-group-btn">
                                             <button type="button" class="btn spinner-down btn-warning">
                                             <i class="fa fa-minus"></i>
@@ -150,7 +138,7 @@ div.tagsinput span.tag {
                                             <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <input type="text" class="spinner-input form-control" maxlength="9" tt-model="good.market_price">
                                         <div class="spinner-buttons input-group-btn">
                                             <button type="button" class="btn spinner-down btn-warning">
                                             <i class="fa fa-minus"></i>
@@ -171,7 +159,7 @@ div.tagsinput span.tag {
                                             <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" class="spinner-input form-control" maxlength="9">
+                                        <input type="text" class="spinner-input form-control" maxlength="9" tt-model="good.price">
                                         <div class="spinner-buttons input-group-btn">
                                             <button type="button" class="btn spinner-down btn-warning">
                                             <i class="fa fa-minus"></i>
@@ -185,12 +173,13 @@ div.tagsinput span.tag {
                         <div class="form-group">
                                 <label class="col-md-2 col-sm-2 control-label">供应商信息</label>
                                 <div class="col-md-6">
-                                    <select class="form-control m-bot15">
+                                    <input type="text" class="form-control" placeholder="供应商信息" tt-model="good.store_id" disabled>
+                                    <!-- <select class="form-control m-bot15" tt-model="good.supplier_id">
                                         <option>长沙市湘华香烟批发商行</option>
                                         <option>长沙市湘华香烟批发商行</option>
                                         <option>长沙市湘华香烟批发商行</option>
                                         <option>长沙市湘华香烟批发商行</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 
                             </div>
@@ -198,7 +187,7 @@ div.tagsinput span.tag {
                         <div class="form-group">
                             <label class="col-md-2 col-sm-2 control-label"></label>
                             <div class="col-md-5">
-                                <button type="submit" class="btn btn-primary right">提交</button>
+                                <span class="btn btn-primary right" tt-click="updateGood">提交</span>
                             </div>
                         </div>
                     </form>
@@ -213,8 +202,8 @@ div.tagsinput span.tag {
 <!-- <script type="text/javascript" src="/lib/bootstrap-fileupload.min.js"></script> -->
 <script>
     requirejs(['/js/common.js'], function (common) {
-        requirejs(['modernizr', 'jquery', 'bootstrap', 'iCheck', 'spinner','tagsInput', 'app/goods/index'],
-            function(modernizr, $, bootstrap, iCheck, spinner, tagsInput, goodController){
+        requirejs(['modernizr', 'jquery', 'bootstrap', 'spinner','tagsInput', 'app/goods/index'],
+            function(modernizr, $, bootstrap, spinner, tagsInput, goodController){
                 $(function(){
                     $('#stockSpinner').spinner({value:10000, step: 100, min: 0, max: 99999});
                     $('#priceSpinner').spinner({value:10.00, step: 0.01, min: 0, max: 99999 , toFixed: 2});
@@ -233,13 +222,8 @@ div.tagsinput span.tag {
                             });
                         }
                     });
-
-                    $('.flat-green input').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
-                    });
                 });
-                goodController.initDetail();
+                goodController.initEdit();
         });
     });
 </script>
