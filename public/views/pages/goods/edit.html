@@ -67,38 +67,22 @@ div.tagsinput span.tag {
                             
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-2 control-label">商品描述</label>
-                                <div class="col-md-6">
+                                <div class="col-md-9">
                                     <div class="iconic-input">
-                                        <textarea class="form-control" placeholder="商品描述" rows="5" tt-model="good.description"></textarea>
+                                        <textarea class="form-control" placeholder="商品描述" rows="5"  name="ckeditor-desc"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-2 col-sm-2 control-label">一级类目</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="一级类目" tt-model="good.cat_id" disabled>
-                                    <!-- <select class="form-control m-bot15" tt-model="good.cat_id">
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                    </select> -->
-                                </div>
-                                <label class="col-md-2 col-sm-2 control-label">二级类目</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" placeholder="二级类目" tt-model="good.spec_id" disabled>
-                                    <!-- <select class="form-control m-bot15" tt-model="good.spec_id">
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                        <option>家居清洁</option>
-                                    </select> -->
+                                <label class="col-md-2 col-sm-2 control-label">选择分类</label>
+                                <div class="col-md-6"  id="catSelector">
+                                    <input type="text" class="form-control" placeholder="选择分类" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class=" col-md-2 control-label">商品标签</label>
                                 <div class="col-md-6">
-                                    <input id="goodTags" type="text" class="tags" value="php,ios,javascript,ruby,android,kindle" tt-model="good.allTags"/>
+                                    <input id="goodTags" type="text" class="tags" value=""/>
                                 </div>
                             </div>
                             <div class="form-group last">
@@ -173,7 +157,7 @@ div.tagsinput span.tag {
                         <div class="form-group">
                                 <label class="col-md-2 col-sm-2 control-label">供应商信息</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="供应商信息" tt-model="good.store_id" disabled>
+                                    <input type="text" class="form-control" placeholder="供应商信息"disabled>
                                     <!-- <select class="form-control m-bot15" tt-model="good.supplier_id">
                                         <option>长沙市湘华香烟批发商行</option>
                                         <option>长沙市湘华香烟批发商行</option>
@@ -209,19 +193,19 @@ div.tagsinput span.tag {
                     $('#priceSpinner').spinner({value:10.00, step: 0.01, min: 0, max: 99999 , toFixed: 2});
                     $('#marketPriceSpinner').spinner({value:10.00, step: 0.01, min: 0, max: 99999, toFixed: 2});
 
-                    $('#goodTags').tagsInput({
-                        width: 'auto',
-                        defaultText: '添加标签',
-                        onChange: function(elem, elem_tags)
-                        {
-                            var languages = ['php','ruby','javascript'];
-                            $('.tag', elem_tags).each(function()
-                            {
-                                if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
-                                    $(this).css('background-color', 'yellow');
-                            });
-                        }
-                    });
+                    // $('#goodTags').tagsInput({
+                    //     width: 'auto',
+                    //     defaultText: '添加标签',
+                    //     onChange: function(elem, elem_tags)
+                    //     {
+                    //         var languages = ['php','ruby','javascript'];
+                    //         $('.tag', elem_tags).each(function()
+                    //         {
+                    //             if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+                    //                 $(this).css('background-color', 'yellow');
+                    //         });
+                    //     }
+                    // });
                 });
                 goodController.initEdit();
         });

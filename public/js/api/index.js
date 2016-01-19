@@ -1,5 +1,5 @@
 define(['api/collection', 'api/module', 'api/fragment', 'api/good', 'api/user', 'api/order','api/address', 
-        'api/cart', 'api/store', 'api/coupon', 'api/cart', 'api/spec'], 
+        'api/cart', 'api/store', 'api/coupon', 'api/cat', 'api/spec'], 
     function(Collection, Modules, Fragments, Goods, Users, Orders, Addresses, 
         Carts, Stores, Coupons, Cats, Specs){
 

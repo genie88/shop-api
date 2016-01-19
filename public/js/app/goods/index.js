@@ -1,5 +1,5 @@
-define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/base', 'api/index'], 
-        function ($, swig, CKEDITOR,Pager, upload, Dialog, BaseController, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/goods/catSelector', 'app/base', 'api/index'], 
+        function ($, swig, CKEDITOR,Pager, upload, Dialog, CatSelector, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var goodId = parseInt(window.location.pathname.split('/')[2]);
@@ -17,10 +17,36 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         var self = this;
         self.uploader = $("#goodImage");
         self.initUploader();
+        self.$scope.tags = [];
         $(document).trigger('nav.change', 'good.new')
+
+        CKEDITOR.replace('ckeditor-desc');
+
+        self.catSelector = new CatSelector({
+            wrap: $('#catSelector'),
+            data: {cat_id: 13,  cat_name: '日化百货', spec_id: 1, spec_name: '家居清洁'},
+            callback: function(info){
+                //console.log(info);
+            }
+        })
+
         goodId && api.goods.get(goodId, {queries: {'inline-relation-depth': 1}}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.good = json.data;
+
+                //初始化标签编辑器
+                for(var i=0; i< self.$scope.good.tags.length; i++){
+                    self.$scope.tags.push(self.$scope.good.tags[i].name);
+                }
+                self.$scope.allTags = self.$scope.tags.join(',');
+                $('#goodTags').val(self.$scope.allTags);
+                $('#goodTags').tagsInput({width: 'auto',defaultText: '添加标签'});
+
+                //初始化富文本编辑器
+                var rawHTML = decodeURIComponent(self.$scope.good.description);
+                CKEDITOR.instances['ckeditor-desc'] 
+                    && CKEDITOR.instances['ckeditor-desc'].setData(rawHTML);
+
                 initPortrait(goodId, self.$scope.good.default_image);
                 self.apply();
             }
