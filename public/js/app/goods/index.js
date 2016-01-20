@@ -32,7 +32,19 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 }
                 self.$scope.allTags = self.$scope.tags.join(',');
                 $('#goodTags').val(self.$scope.allTags);
-                $('#goodTags').tagsInput({width: 'auto',defaultText: '添加标签'});
+                $('#goodTags').tagsInput({
+                    width: 'auto',
+                    defaultText: '添加标签',
+                    onAddTag: function(tag){
+                        self.$scope.tags.push(tag);
+                    },
+                    onRemoveTag: function(tag){
+                        var find = self.$scope.tags.indexOf(tag);
+                        if( find != -1){
+                            self.$scope.tags.splice(find, 1);
+                        }
+                    }
+                });
 
                 //初始化富文本编辑器
                 var rawHTML = decodeURIComponent(self.$scope.good.description);
@@ -102,9 +114,12 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     }
 
     _p.updateGood = function(e, self){
+        //获取CKEDITOR信息
         self.$scope.good.description = CKEDITOR.instances['ckeditor-desc'] ? CKEDITOR.instances['ckeditor-desc'].getData() : '';
+        //获取TagInput信息
 
         console.log(self.$scope.good);
+        console.log(self.$scope.tags);
         if( !$("#goodImage").parents('.file-input').hasClass('file-input-ajax-new') ){
             $("#goodImage").on("fileuploaded", function(event, data, previewId, index){
                 var res = data.response;
@@ -128,7 +143,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
             //编辑已有商品信息
             var data = $.extend({}, self.$scope.good);
 
-            api.goods.update(goodId, {good: data}, function(json){
+            api.goods.update(goodId, {good: data, tag: self.$scope.tags}, function(json){
                 console.log(json);
                 if(json && json.code == 200){
                     alert('更新成功');
