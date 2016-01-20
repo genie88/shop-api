@@ -1,5 +1,5 @@
-define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/goods/catSelector', 'app/base', 'api/index'], 
-        function ($, swig, CKEDITOR,Pager, upload, Dialog, CatSelector, BaseController, API) {
+define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/index', 'app/goods/catSelector', 'app/goods/storeSelector', 'app/base', 'api/index'], 
+        function ($, swig, CKEDITOR,Pager, upload, Dialog, CatSelector, StoreSelector, BaseController, API) {
     var jQuery = $;
     //console.log(CKEDITOR)
     var goodId = parseInt(window.location.pathname.split('/')[2]);
@@ -22,14 +22,6 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
         CKEDITOR.replace('ckeditor-desc');
 
-        self.catSelector = new CatSelector({
-            wrap: $('#catSelector'),
-            data: {cat_id: 13,  cat_name: '日化百货', spec_id: 1, spec_name: '家居清洁'},
-            callback: function(info){
-                //console.log(info);
-            }
-        })
-
         goodId && api.goods.get(goodId, {queries: {'inline-relation-depth': 1}}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.good = json.data;
@@ -46,6 +38,34 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 var rawHTML = decodeURIComponent(self.$scope.good.description);
                 CKEDITOR.instances['ckeditor-desc'] 
                     && CKEDITOR.instances['ckeditor-desc'].setData(rawHTML);
+
+                //初始化商品品类选择器
+                //console.log(self.$scope.good)
+                self.catSelector = new CatSelector({
+                    wrap: $('#catSelector'),
+                    data: {
+                        cat_id: self.$scope.good.cat.id,  
+                        cat_name: self.$scope.good.cat.cat_name, 
+                        spec_id: self.$scope.good.spec.id, 
+                        spec_name: self.$scope.good.spec.spec_name
+                    },
+                    callback: function(info){
+                        self.$scope.good.cat_id = info.cat_id;
+                        self.$scope.good.spec_id = info.spec_id;
+                    }
+                })
+
+                //初始化供应商选择器
+                self.storeSelector = new StoreSelector({
+                    wrap: $('#storeSelector'),
+                    data: {
+                        id: self.$scope.good.supplier.id,  
+                        name: self.$scope.good.supplier.name
+                    },
+                    callback: function(info){
+                        self.$scope.good.store_id = info.id;
+                    }
+                })
 
                 initPortrait(goodId, self.$scope.good.default_image);
                 self.apply();
@@ -82,23 +102,30 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
     }
 
     _p.updateGood = function(e, self){
-        $("#goodImage").on("fileuploaded", function(event, data, previewId, index){
-            var res = data.response;
-            if(res && res.data && res.data.path){
-                self.$scope.good.default_image = window.location.origin +  data.response.data.path;
-            }
-            console.log(self.$scope.good);
+        self.$scope.good.description = CKEDITOR.instances['ckeditor-desc'] ? CKEDITOR.instances['ckeditor-desc'].getData() : '';
+
+        console.log(self.$scope.good);
+        if( !$("#goodImage").parents('.file-input').hasClass('file-input-ajax-new') ){
+            $("#goodImage").on("fileuploaded", function(event, data, previewId, index){
+                var res = data.response;
+                if(res && res.data && res.data.path){
+                    self.$scope.good.default_image = window.location.origin +  data.response.data.path;
+                }
+                self.updateGoodInfo();
+            })
+            //上传商品图片
+            $("#goodImage").fileinput('upload');
+        } else {
             //self.updateGoodInfo();
-        })
-        //上传商品图片
-        $("#goodImage").fileinput('upload');
+        }
+        
         e.preventDefault();
     }
 
     _p.updateGoodInfo = function(){
         var self = this;
         if(goodId) {
-            //编辑已有用户信息
+            //编辑已有商品信息
             var data = $.extend({}, self.$scope.good);
 
             api.goods.update(goodId, {good: data}, function(json){
@@ -110,7 +137,7 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
                 }
             });
         } else {
-            //新增用户信息
+            //新增商品信息
             var data = $.extend({}, self.$scope.good);
             api.goods.create({good: data}, function(json){
                 console.log(json);
