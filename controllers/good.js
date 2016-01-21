@@ -206,13 +206,17 @@ module.exports = {
      */
     update: function(req, res, next){
         var filter = util.param(req);
-        var good = req.body.good;
+        var whiteList = ['name', 'brand_name', 'cat_id', 'spec_id', 'default_image', 'description',
+            'hot', 'market_price', 'price', 'store_id', 'stock', 'type', 'unit']
+        var good = util.cloneProps(req.body.good, whiteList);
+
+        console.log(good)
         var tags = req.body.tags;
 
         //鉴权(管理员才有权限使用该接口)
         if(true){ //req.session && req.session.user && req.session.user.role==1
             //参数过滤
-            Good.where({id: req.params.good_id})
+            new Good({id: req.params.good_id})
                 .save(good, {patch: true})
                 .then(function (good) {
                     //继续存储tags内容

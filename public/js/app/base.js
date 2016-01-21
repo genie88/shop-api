@@ -59,8 +59,12 @@ define(['jquery', 'lodash', 'swig'], function($, _, swig){
             self.$scopeHtml.find("[tt-bind]").each(function(index, item){
                 var ele = $(item),
                     val = $.extend({}, self.$scope),
-                    attrs = ele.attr('tt-bind').split('.'),
+                    rawAttr = ele.attr('tt-bind').split('|'),
+                    attrs = rawAttr[0].split('.'),
+                    filter = (rawAttr.length > 2)? rawAttr[1] : '',
                     val = _.get(self.$scope, attrs);
+
+                filter && self[filter] &&  (val = self[filter].call(self, val));
                 ele.html(val);
             })
 

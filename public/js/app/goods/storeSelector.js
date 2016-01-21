@@ -35,7 +35,7 @@ define(['jquery', 'swig', 'bootstrap', 'api/index'],
 
         self.wrap.on('click', function(){
             self.show();
-            self.getData();
+            self.getData('');
         });
         
     }
@@ -92,13 +92,12 @@ define(['jquery', 'swig', 'bootstrap', 'api/index'],
         __bindEvents: function(){
             var self = this;
             $('#'+ self.id).on('input', 'input', function(e){
-                console.log($(this).val());
                 self.getData($(this).val())
             });
 
             $('#'+ self.id).on('click', '.modal-footer button', function(e){
                 self.data = {
-                    id: $('#' + self.id).find('select').val(),
+                    id: $('#' + self.id).find('select').val()[0],
                     name: $('#' + self.id).find('select').find("option:selected").text(),
                 }
                 if($(this).index() == 0 ){

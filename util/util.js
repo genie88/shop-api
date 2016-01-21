@@ -27,6 +27,7 @@ module.exports = {
      *
      **/
     parseSort: function(sort){
+        if( typeof sort !== 'string') return '';
         var rules = sort.split('|');
         rules = _.map(rules, function(rule){
             if (rule.substr(0, 1) == '-') {
