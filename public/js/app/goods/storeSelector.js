@@ -53,7 +53,7 @@ define(['jquery', 'swig', 'bootstrap', 'api/index'],
             var self = this;
             self.api.stores.list({
                 queries: {'inline-relation-depth': 0}, 
-                filters: {keyword: keyword, page: 1, page_size: 200}
+                filters: {like: keyword, page: 1, page_size: 200}
             }, function(json){
                 var stores = (json && json.data && json.data.data) ? json.data.data : [];
                 self.generateOptions(stores);

@@ -43,8 +43,12 @@ module.exports = {
         limit = paginator.getLimit();
         skip = paginator.getOffset();
 
+        var like = filter.like;
+        filter.like && (delete filter.like);
+
         Store.forge(filter)
             .query(function (qb) {
+                if(like) {qb = qb.where('name', 'like', '%' + like + '%');}
                 qb.limit(limit).offset(skip);
             })
             .fetchAll({withRelated: relations})
