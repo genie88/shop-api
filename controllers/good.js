@@ -98,13 +98,25 @@ module.exports = {
             limit = paginator.getLimit();
             skip = paginator.getOffset();
 
-        var like = filter.like;
-        filter.like && (delete filter.like);
+        var like = filter.like, sort = util.parseSort(filter.sort);
 
-        Good.forge(filter)
+        var trasher = ['like', 'page', 'page_size', 'sort']
+        _.each(trasher, function(key){
+            filter[key] && (delete filter[key])
+        })
+        //filter.like && (delete filter.like);
+        //console.log(sort)
+
+        Good.forge()
             .query(function (qb) {
-                if(like) {qb = qb.where('name', 'like', '%' + like + '%').orWhere('description', 'like', '%' + like + '%');}
-                qb.limit(limit).offset(skip);
+                if(like) { 
+                    qb = qb.where('name', 'like', '%' + like + '%')
+                        .orWhere('description', 'like', '%' + like + '%');
+                }
+                if(sort){
+                    qb = qb.orderByRaw(sort);
+                }
+                qb.where(filter).limit(limit).offset(skip);
             })
             .fetchAll({withRelated: relations})
             .then(function(goods) {

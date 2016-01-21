@@ -1,3 +1,5 @@
+var _ = require('underscore');
+
 module.exports = {
     param: function(req){
         var params={}, queries=[], query, key;
@@ -17,6 +19,23 @@ module.exports = {
             }
         }
         return params;
+    },
+
+    /**
+     * -: 降序排序标记，升序排序标记
+     * orderby: -price|sales|create_time
+     *
+     **/
+    parseSort: function(sort){
+        var rules = sort.split('|');
+        rules = _.map(rules, function(rule){
+            if (rule.substr(0, 1) == '-') {
+                return rule.substr(1, rule.length) + ' DESC'
+            } else {
+                return rule + ' ASC'
+            }
+        })
+        return rules.join(', ');
     },
 
     res: function(error, res, data){
