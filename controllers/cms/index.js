@@ -25,6 +25,11 @@ exports.category = function(req, res) {
     //res.render('goods/category');
     res.sendfile('build/public/views/goods/category.html');
 }
+exports.categoryDetail = function(req, res) {
+    //res.render('goods/category');
+    res.sendfile('build/public/views/goods/spec.html');
+}
+
 exports.tags = function(req, res) {
     //res.render('goods/tags');
     res.sendfile('build/public/views/goods/tags.html');

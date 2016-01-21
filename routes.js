@@ -18,7 +18,8 @@ module.exports = function (app, passport) {
     //goods
     app.get('/goods/:id/edit/', ensureAuthenticated, indexController.goodAddOrEdit);
     app.get('/goods/new/', ensureAuthenticated, indexController.goodAddOrEdit);
-    app.get('/category', ensureAuthenticated, indexController.category);
+    app.get('/cats', ensureAuthenticated, indexController.category);
+    app.get('/cats/:id', ensureAuthenticated, indexController.categoryDetail);
     app.get('/goods', ensureAuthenticated, indexController.goods);
     app.get('/goods/:id', ensureAuthenticated, indexController.goodDetail);
 

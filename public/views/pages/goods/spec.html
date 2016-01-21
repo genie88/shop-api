@@ -16,7 +16,7 @@
         <li>
             <a href="#">商品管理</a>
         </li>
-        <li class="active"> 商品类目 </li>
+        <li class="active"> 商品二级类目 </li>
     </ul>
 </div>
 <!-- page heading end-->
@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             <section class="panel">
                 <header class="panel-heading">
-                    商品类目
+                    商品二级类目
                     <span class="tools pull-right">
                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                     <a href="javascript:;" class="fa fa-times"></a>
@@ -36,7 +36,7 @@
                     <div class="clearfix">
                         <div class="btn-group">
                             <button id="editable-sample_new" class="btn btn-primary">
-                            新增类目 <i class="fa fa-plus"></i>
+                            新增 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                         <div class="btn-group pull-right">
@@ -53,23 +53,23 @@
                         <thead>
                             <tr>
                                 <th> 名称</th>
-                                <th> 父节点</th>
+                                <th> 一级目录</th>
                                 <th> 排序</th>
                                 <th> 显示/隐藏</th>
                                 <th> 操作</th>
                             </tr>
                         </thead>
-                        <tbody tt-repeat="item in cats">
+                        <tbody tt-repeat="item in cat.specs">
                         {% raw %}
                             <tr data-id="{{item.id}}">
-                                <td><a href="/cats/{{item.id}}">{{item.cat_name}}</a></td>
-                                <td>{{item.parent_id}} </td>
+                                <td>{{item.spec_name}}</td>
+                                <td>{{cat.cat_name}} </td>
                                 <td>{{item.sort}} </td>
                                 <td>{{item.is_show}}</td>
                                 <td>
                                     <a href="/cats/{{item.id}}"><i class="fa fa-eye"></i></a>
                                     <a href="/cats/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
-                                    <a href="javascript:;" tt-click="deleteCatDialog"><i class="fa fa-trash-o"></i></a>
+                                    <a href="javascript:;" tt-click="deleteSpecDialog"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>  
                         {% endraw %}
@@ -94,7 +94,7 @@
 <script>
     requirejs(['/js/common.js'], function (common) {
         requirejs(['modernizr','bootstrap', 'app/cats/index'], function(a, b, catController){
-            catController.initList();
+            catController.initDetail();
         });
     });
 </script>
