@@ -16,12 +16,39 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
 
     _p.initDetail = function(){
         var self = this;
-        $(document).trigger('nav.change', 'order.list')
+        $(document).trigger('nav.change', 'good.cat')
         api.cats.get(catId, {queries: {'inline-relation-depth': 1}}, function(json){
             if(json && json.code == 200 && json.data && json.data) {
                 self.$scope.cat = json.data;
                 self.apply();
             }
+        })
+    }
+
+    //编辑spec信息
+    _p.editSpec = function(e, self){
+        var tpl = '<tr><td><input type="text" placeholder="名称"/> </td>\
+                   <td><input type="text" disabled/ value="' + self.$scope.cat.cat_name+ '"> </td>\
+                   <td><input type="text" placeholder="排序"/> </td>\
+                   <td><input type="checkbox"/> <label for="">显示/隐藏</label> </td>\
+                   <td><span class="btn btn-success btn-sm" tt-click="addSpec"><i class="fa fa-plus"></i> 添加属性</span> </td></tr>';
+        $('#userList tbody').append(tpl);
+    };
+
+    _p.addSpec = function(e, self){
+        var $row = $(this).parents('tr'),
+            spec = {
+                spec_name: $row.find('input').eq(0).val(),
+                sort: $row.find('input').eq(2).val(),
+                is_show: $row.find('input').eq(3).is(':checked'),
+                cat_id: self.$scope.cat.id
+            }
+        api.specs.create({spec: spec}, function(json){
+                if(json && json.code == 200){
+                    alert('更新成功');
+                } else {
+                    console.log(json.msg);
+                }
         })
     }
 

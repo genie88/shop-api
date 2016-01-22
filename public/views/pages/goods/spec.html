@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             <section class="panel">
                 <header class="panel-heading">
-                    商品二级类目
+                    <span tt-bind="cat.cat_name"></span>
                     <span class="tools pull-right">
                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                     <a href="javascript:;" class="fa fa-times"></a>
@@ -35,7 +35,7 @@
                 <div class="panel-body">
                     <div class="clearfix">
                         <div class="btn-group">
-                            <button id="editable-sample_new" class="btn btn-primary">
+                            <button id="editable-sample_new" class="btn btn-primary" tt-click="editSpec">
                             新增 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -68,7 +68,7 @@
                                 <td>{{item.is_show}}</td>
                                 <td>
                                     <a href="/cats/{{item.id}}"><i class="fa fa-eye"></i></a>
-                                    <a href="/cats/{{item.id}}/edit"><i class="fa fa-edit"></i></a>
+                                    <a href="/cats/{{item.id}}/edit" tt-click="editSpec"><i class="fa fa-edit"></i></a>
                                     <a href="javascript:;" tt-click="deleteSpecDialog"><i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>  
