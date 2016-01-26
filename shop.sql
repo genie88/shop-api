@@ -492,3 +492,49 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2016-01-19 13:06:23
+
+/** OAuth2 相关数据表 **/
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `client_id` varchar(255) NOT NULL DEFAULT '',
+  `refresh_token` varchar(255) NOT NULL DEFAULT '',
+  `expires` timestamp,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `client_id` varchar(255) NOT NULL DEFAULT '',
+  `access_token` varchar(255) NOT NULL DEFAULT '',
+  `expires` timestamp,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `oauth_clients` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `client_id` varchar(255) NOT NULL DEFAULT '',
+  `client_secret` varchar(255) NOT NULL DEFAULT '',
+  `redirect_uri` varchar(255) NOT NULL DEFAULT '',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+INSERT INTO oauth_clients(client_id, client_secret, redirect_uri) VALUES("s6BhdRkqt3", "gX1fBat3bV", ""); 
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `client_id` varchar(255) NOT NULL DEFAULT '',
+  `auth_code` varchar(255) NOT NULL DEFAULT '',
+  `expires` timestamp,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+

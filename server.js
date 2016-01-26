@@ -43,6 +43,7 @@ var app = express();
 Bookshelf.mysqlAuth = Bookshelf(knex);
 Bookshelf.mysqlAuth.plugin('registry');
 
+oauth = require('./models/oauth'),
 
 app.use(cookieParser('halsisiHHh445JjO0'));
 
@@ -77,8 +78,8 @@ require('./routes')(app, passport);
 
 //API入口需要进行oauth2认证
 app.oauth = oauthserver({
-  model: {}, // See below for specification 
-  grants: ['password'],
+  model: oauth, // See below for specification 
+  grants: ['password', 'refresh_token'],
   debug: true
 });
 app.all('/oauth/token', app.oauth.grant());

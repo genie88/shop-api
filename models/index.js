@@ -14,6 +14,23 @@ var GoodTag = require('../models/good_tag.js');
 var CmsFragment = require('../models/cms_fragment.js');
 var CmsModule = require('../models/cms_module.js');
 
+
+//oauth2 models
+var Bookshelf = require('bookshelf').mysqlAuth;
+OAuthRefreshToken = Bookshelf.model('OAuthRefreshToken', Bookshelf.Model.extend({
+    tableName: 'oauth_refresh_tokens'
+}));
+OAuthAccessToken = Bookshelf.model('OAuthAccessToken', Bookshelf.Model.extend({
+    tableName: 'oauth_access_tokens'
+}));
+OAuthClient = Bookshelf.model('OAuthClient', Bookshelf.Model.extend({
+    tableName: 'oauth_clients'
+}));
+OAuthAuthCode = Bookshelf.model('OAuthCode', Bookshelf.Model.extend({
+    tableName: 'oauth_auth_codes'
+}));
+
+
 module.exports = {
 	Address: Address,
 	Cat: Cat,
@@ -28,5 +45,11 @@ module.exports = {
 	Tag: Tag,
 	GoodTag: GoodTag,
 	CmsFragment: CmsFragment,
-	CmsModule: CmsModule
+	CmsModule: CmsModule,
+
+	//oauth models
+	OAuthAccessToken: OAuthAccessToken,
+	OAuthRefreshToken: OAuthRefreshToken,
+	OAuthClient: OAuthClient,
+	OAuthAuthCode: OAuthAuthCode
 }

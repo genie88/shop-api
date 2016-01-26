@@ -1,76 +1,65 @@
-/**
-var OAuthAccessTokensSchema = new Schema({
-  accessToken: { type: String, required: true, unique: true },
-  clientId: String,
-  userId: { type: String, required: true },
-  expires: Date
-});
+var crypto = require('crypto'),
+    models = require('../models');
 
-var OAuthRefreshTokensSchema = new Schema({
-  refreshToken: { type: String, required: true, unique: true },
-  clientId: String,
-  userId: { type: String, required: true },
-  expires: Date
-});
-
-var OAuthClientsSchema = new Schema({
-  clientId: String,
-  clientSecret: String,
-  redirectUri: String
-});
-
-**/
-
-var Bookshelf = require('bookshelf').mysqlAuth;
-
-var OAuthAccessToken = Bookshelf.Model.extend({
-    tableName: 'oauth_access_tokens'
-});
-var OAuthRefreshToken = Bookshelf.Model.extend({
-    tableName: 'oauth_refresh_tokens'
-});
-var OAuthClient = Bookshelf.Model.extend({
-    tableName: 'oauth_clients'
-});
-
-Bookshelf.model('OAuthRefreshToken', OAuthRefreshToken);
-Bookshelf.model('OAuthAccessToken', OAuthAccessToken);
-Bookshelf.model('OAuthClient', OAuthClient);
+var User = models.User,
+    OAuthAccessToken = models.OAuthAccessToken,
+    OAuthRefreshToken = models.OAuthRefreshToken,
+    OAuthClient = models.OAuthClient,
+    OAuthAuthCode = models.OAuthAuthCode;
 
 var oauth = {
 
     /**** Always Required ****/
     getAccessToken: function(bearerToken, callback) {
-        OAuthAccessTokensModel.findOne({ accessToken: bearerToken }, callback);
+        OAuthAccessToken
+            .where({access_token: bearerToken})
+            .fetch()
+            .then(function(result){
+                callback(null, result)
+            })
+            .catch(function (err) {
+                callback(err)
+            });
     },
 
     /**** Always Required ****/
     saveAccessToken: function(token, clientId, expires, userId, callback) {
-      var fields = {
-        clientId: clientId,
-        userId: userId,
+      var accessToken = {
+        client_id: clientId,
+        user_id: userId,
         expires: expires
       };
-      OAuthAccessTokensModel.update({ accessToken: token }, fields, { upsert: true }, function(err) {
-        if (err) {
-          console.error(err);
-        }
 
-        callback(err);
-      });
+      new OAuthAccessToken({access_token: token})
+            .save(accessToken)
+            .then(function(result){
+                callback(null, result)
+            })
+            .catch(function (err) {
+                callback(err)
+            });
     },
 
     /**** Always Required ****/
     getClient: function(clientId, clientSecret, callback){
-        var params = { clientId: clientId };
+        var params = { client_id: clientId };
         if (clientSecret != null) {
-            params.clientSecret = clientSecret;
+            params.client_secret = clientSecret;
         }
-        OAuthClientsModel.findOne(params, callback);
+        console.log(clientId, clientSecret)
+        OAuthClient
+            .where(params)
+            .fetch()
+            .then(function(result){
+                callback(null, result)
+            })
+            .catch(function (err) {
+                callback(err)
+            });
     },
     /**** Always Required ****/
     grantTypeAllowed: function (clientId, grantType, callback) {
-        var authorizedClientIds = ['web', 'app'];
+        var authorizedClientIds = ['s6BhdRkqt3', 'app'];
         if (grantType === 'password' || grantType === 'authorization_code') {
             return callback(false, authorizedClientIds.indexOf(clientId) >= 0);
         }
@@ -80,58 +69,94 @@ var oauth = {
     /****Required for [password] grant type ***/
     getUser: function(username, password, callback) {
       //校验用户名和密码是否正确
-      OAuthUsersModel.authenticate(username, password, function(err, user) {
-        if (err || !user) return callback(err);
-        callback(null, user.username);
+      new User({username: username}).fetch({require: true}).then(function(user) {
+          var sa = user.get('salt');
+          var pw = user.get('password');
+          var upw = crypto.createHmac('sha1', sa).update(password).digest('hex');
+          if(upw == pw) {
+              return callback(null, user.get('id'));
+          }
+          return callback({'message': 'Invalid password'});
+      }, function(error) {
+          return callback({'message': 'Unknown user'});
       });
-    }),
+
+    },
 
     /****Required for [refresh_token] grant type ***/
     getRefreshToken:  function(refreshToken, callback) {
-      OAuthRefreshTokensModel.findOne({ refreshToken: refreshToken }, function(err, token) {
-        // node-oauth2-server defaults to .user or { id: userId }, but { id: userId} doesn't work
-        // This is in node-oauth2-server/lib/grant.js on line 256
-        if (token) {
-          token.user = token.userId;
-        }
-        callback(err, token);
-      });
+      OAuthRefreshToken
+          .where({refresh_token: refreshToken})
+          .fetch()
+          .then(function(token){
+              // node-oauth2-server defaults to .user or { id: userId }, but { id: userId} doesn't work
+              // This is in node-oauth2-server/lib/grant.js on line 256
+              if (token) {
+                token.user = token.user_id;
+              }
+              callback(null, token)
+          })
+          .catch(function (err) {
+              callback(err)
+          });
     },
+
     /****Required for [refresh_token] grant type ***/
     saveRefreshToken: function(token, clientId, expires, userId, callback) {
       if (userId.id) {
         userId = userId.id;
       }
 
-      var refreshToken = new OAuthRefreshTokensModel({
-        refreshToken: token,
-        clientId: clientId,
-        userId: userId,
+      var refreshToken = {
+        refresh_token: token,
+        client_id: clientId,
+        user_id: userId,
         expires: expires
-      });
+      };
 
-      refreshToken.save(callback);
+      new OAuthRefreshToken()
+            .save(refreshToken)
+            .then(function(result){
+                callback(null, result)
+            })
+            .catch(function (err) {
+                //console.log(err);
+                callback(err)
+                //callback(null, {})
+            });
     },
 
     /****Required for [authorization_code] grant type ***/
     getAuthCode:  function(authCode, callback) {
-        OAuthAuthCodeModel.findOne({ authCode: authCode }, callback);
+        OAuthAuthCode
+            .where({ auth_code: authCode })
+            .fetch()
+            .then(function(result){
+                callback(null, result)
+            })
+            .catch(function (err) {
+                callback(err)
+            });
+
     },
+
     /****Required for [authorization_code] grant type ***/
     saveAuthCode: function(code, clientId, expires, userId, callback) {
         var fields = {
-            clientId: clientId,
-            userId: userId,
+            client_id: clientId,
+            user_id: userId,
             expires: expires
         };
 
-        OAuthAuthCodeModel.update({ authCode: code }, fields, { upsert: true }, function(err) {
-            if (err) {
-              console.error(err);
-            }
-            callback(err);
-        });
+        new OAuthAuthCode({auth_code: code})
+              .save(fields)
+              .then(function(result){
+                  callback(null, result)
+              })
+              .catch(function (err) {
+                  callback(err)
+              });
     }
 }
 
-module.exports = auth;
+module.exports = oauth;
