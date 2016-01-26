@@ -25,6 +25,34 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         })
     }
 
+    //编辑cat信息
+    _p.editCat = function(e, self){
+        var tpl = '<tr><td><input type="text" placeholder="名称"/> </td>\
+                   <td><input type="text" value="" placeholder="父节点"> </td>\
+                   <td><input type="text" placeholder="排序"/> </td>\
+                   <td><input type="checkbox"/> <label for="">显示/隐藏</label> </td>\
+                   <td><span class="btn btn-success btn-sm" tt-click="addCat"><i class="fa fa-plus"></i> 添加分类</span> </td></tr>';
+        $('#userList tbody').append(tpl);
+    };
+
+    _p.addCat = function(e, self){
+        var $row = $(this).parents('tr'),
+            cat = {
+                cat_name: $row.find('input').eq(0).val(),
+                parent_id: $row.find('input').eq(1).val(),
+                sort: $row.find('input').eq(2).val(),
+                is_show: $row.find('input').eq(3).is(':checked'),
+            }
+        api.cats.create({cat: cat}, function(json){
+                if(json && json.code == 200){
+                    alert('更新成功');
+                } else {
+                    console.log(json.msg);
+                }
+        })
+    }
+
+
     //编辑spec信息
     _p.editSpec = function(e, self){
         var tpl = '<tr><td><input type="text" placeholder="名称"/> </td>\
@@ -109,18 +137,18 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         })
     }
 
-    //删除订单
-    _p.deleteOrderDialog = function(e){
+    //删除cat
+    _p.deleteCatDialog = function(e){
         var self = this;
-        tobeDeleteUserId = $(this).parents('tr').data('id');
+        tobeDeleteCatId = $(this).parents('tr').data('id');
 
         var dialog = new Dialog({
             title: '删除用户',
-            content:  '确定要删除该订单吗? 删除后将无法恢复.',
+            content:  '确定要删除该分类吗? 删除后将无法恢复.',
             btns: [
                 {klass: 'btn-danger', text: '确定', callback: function(){
                     this.hide();
-                    _p.deleteOrder();
+                    _p.deleteCat();
                 }},
                 {klass: 'btn-default',text: '取消', callback: null, dismiss: true}
             ]
@@ -128,11 +156,11 @@ define(['jquery', 'swig', 'ckeditor', 'app/pager', 'fileupload', 'comp/dialog/in
         dialog.show();
     }
 
-    _p.deleteOrder = function(){
-        tobeDeleteOrderId && api.orders.del(tobeDeleteOrderId, function(json){
+    _p.deleteCat = function(){
+        tobeDeleteCatId && api.cats.del(tobeDeleteCatId, function(json){
             console.log(json);
             if(json && json.code == 200){
-                alert('删除Order成功');
+                alert('删除分类成功');
             } else {
                 console.log(json.msg);
             }
