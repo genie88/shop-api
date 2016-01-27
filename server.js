@@ -87,7 +87,7 @@ var apiRouter = require('./routers/api');
 var cmsRouter = require('./routers/cms');
 app.use('/api/v1', apiRouter);
 app.use('/cms', cmsRouter);
-//app.use('/api', app.oauth.authorise(), apiRouter);
+app.use('/api', app.oauth.authorise(), apiRouter);
 app.use(app.oauth.errorHandler());
 
 app.listen(process.env.PORT || 3000);

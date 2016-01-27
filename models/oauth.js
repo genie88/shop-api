@@ -15,7 +15,14 @@ var oauth = {
             .where({access_token: bearerToken})
             .fetch()
             .then(function(result){
-                callback(null, result)
+                var token = {
+                    id: result.get('id'),
+                    userId: result.get('user_id'),
+                    clientId: result.get('client_id'),
+                    accessToken: result.get('access_token'),
+                    expires: new Date(result.get('expires'))
+                }
+                callback(null, token)
             })
             .catch(function (err) {
                 callback(err)
@@ -88,13 +95,15 @@ var oauth = {
       OAuthRefreshToken
           .where({refresh_token: refreshToken})
           .fetch()
-          .then(function(token){
-              // node-oauth2-server defaults to .user or { id: userId }, but { id: userId} doesn't work
-              // This is in node-oauth2-server/lib/grant.js on line 256
-              if (token) {
-                token.user = token.user_id;
-              }
-              callback(null, token)
+          .then(function(result){
+                var token = {
+                    id: result.get('id'),
+                    userId: result.get('user_id'),
+                    clientId: result.get('client_id'),
+                    refreshToken: result.get('refresh_token'),
+                    expires: new Date(result.get('expires'))
+                }
+                callback(null, token)
           })
           .catch(function (err) {
               callback(err)
@@ -132,7 +141,13 @@ var oauth = {
             .where({ auth_code: authCode })
             .fetch()
             .then(function(result){
-                callback(null, result)
+                callback(null, {
+                    id: result.get('id'),
+                    userId: result.get('user_id'),
+                    clientId: result.get('client_id'),
+                    authCode: result.get('auth_code'),
+                    expires: new Date(result.get('expires'))
+                })
             })
             .catch(function (err) {
                 callback(err)
